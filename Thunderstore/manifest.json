@@ -1,0 +1,14 @@
+﻿{
+	"author": "HDeDeDe",
+	"name": "ChunkyMode",
+	"version_number": "0.1.0",
+	"website_url": "",
+	"description": "A difficulty aimed at bringing Eclipse level challenges while maintaining vanilla gameplay.",
+	"dependencies": [
+		"bbepis-BepInExPack-5.4.2108",
+		"RiskofThunder-HookGenPatcher-1.2.3",
+		"RiskofThunder-R2API_Language-1.0.1",
+		"RiskofThunder-R2API_Difficulty-1.1.2",
+		"RiskofThunder-R2API_RecalculateStats-1.4.0"
+	]
+}
