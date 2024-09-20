@@ -5,6 +5,7 @@
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>ChunkyMode</RootNamespace>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
 	</PropertyGroup>
 
 	<ItemGroup>
