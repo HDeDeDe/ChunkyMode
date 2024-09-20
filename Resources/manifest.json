@@ -1,7 +1,7 @@
 ﻿{
 	"author": "HDeDeDe",
 	"name": "ChunkyMode",
-	"version_number": "0.1.0",
+	"version_number": "0.1.1",
 	"website_url": "https://github.com/HDeDeDe/ChunkyMode",
 	"description": "A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.",
 	"dependencies": [

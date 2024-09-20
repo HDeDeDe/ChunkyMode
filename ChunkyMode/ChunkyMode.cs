@@ -19,7 +19,7 @@ namespace ChunkyMode
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
-        public const string PluginVersion = "0.1.0";
+        public const string PluginVersion = "0.1.1";
 
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
@@ -86,14 +86,17 @@ namespace ChunkyMode
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
 
-            IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
+            IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
+            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
+            
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer +=
                 ProjectileHealOwnerOnDamageInflicted_OnDamageInflictedServer;
-            On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += DumbAssRexFlower;
+            
+            //On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += DumbAssRexFlower;
         }
 
         private void Run_onRunDestroyGlobal(Run run) {
@@ -105,14 +108,17 @@ namespace ChunkyMode
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = ogMonsterCap;
             
-            IL.RoR2.HealthComponent.ServerFixedUpdate -= HealthComponent_ServerFixedUpdate;
+            IL.RoR2.HealthComponent.ServerFixedUpdate -= ShieldRechargeRate;
+            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= REXHealPulse;
+            
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.HealthComponent.Heal -= OnHeal;
             On.RoR2.CombatDirector.Awake -= CombatDirector_Awake;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
             On.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -=
                 ProjectileHealOwnerOnDamageInflicted_OnDamageInflictedServer;
-            On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= DumbAssRexFlower;
+            
+            //On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= DumbAssRexFlower;
         }
         
         // This handles the -50% Ally Healing stat
@@ -214,7 +220,7 @@ namespace ChunkyMode
         }
 
         // This handles the -50% Ally Shield Recharge Rate stat
-        private void HealthComponent_ServerFixedUpdate(ILContext il) {
+        private void ShieldRechargeRate(ILContext il) {
             ILCursor c = new ILCursor(il);
             c.GotoNext(
                 x => x.MatchLdloc(4),
@@ -232,6 +238,34 @@ namespace ChunkyMode
                 if (cb.teamComponent.teamIndex != TeamIndex.Player) return 0.5f;
                 return 0.25f;
             });
+        }
+        
+        // This buffs REX's Tangling Growth
+        private void REXHealPulse(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            c.GotoNext(
+                x => x.MatchLdfld<EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile>("rootedBodies"),
+                x => x.MatchCallvirt<System.Collections.Generic.List<RoR2.CharacterBody>>("get_Count"),
+                x => x.MatchConvR4(),
+                x => x.MatchMul(),
+                // Inserting here
+                x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue")
+            );
+            c.Index += 4;
+            c.Emit(OpCodes.Ldarg_0);
+            c.Emit(OpCodes.Ldfld,
+                typeof(EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile).GetField("owner"));
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
+                (toHeal, cb) => {
+                    Log.Info("Healing");
+                    if (!cb) return toHeal;
+                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * rexHealOverride;
+                });
+        }
+
+        private void REXPrimaryAttack(ILContext il) {
+            
         }
         
     }
