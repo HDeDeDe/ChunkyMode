@@ -1,0 +1,13 @@
+﻿<Project>
+  <ItemGroup>
+    <Content Include="..\CHANGELOG.md">
+      <Link>CHANGELOG.md</Link>
+    </Content>
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
+    <Content Include="chunkydifficon" />
+    <Content Include="icon.png" />
+    <Content Include="manifest.json" />
+  </ItemGroup>
+</Project>
