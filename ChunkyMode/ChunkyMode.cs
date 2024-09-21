@@ -19,7 +19,7 @@ namespace ChunkyMode
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
-        public const string PluginVersion = "0.1.2";
+        public const string PluginVersion = "0.1.3";
 
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
@@ -173,7 +173,7 @@ namespace ChunkyMode
                     break;
             }
             
-            if (getFuckedLMAO) args.healthMultAdd += 2.0f;
+            if (getFuckedLMAO) args.healthMultAdd += 1.0f;
         }
 
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
