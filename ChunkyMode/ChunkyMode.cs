@@ -16,7 +16,6 @@ namespace ChunkyMode
 
     public class ChunkyMode : BaseUnityPlugin
     {
-        //TODO: Buff Vicious Wounds and Ravenous Bite
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
@@ -102,6 +101,7 @@ namespace ChunkyMode
             IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
             IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
+            IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff;
             
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
@@ -125,6 +125,7 @@ namespace ChunkyMode
             IL.RoR2.HealthComponent.ServerFixedUpdate -= ShieldRechargeRate;
             IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= REXHealPulse;
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -= REXPrimaryAttack;
+            IL.RoR2.CharacterBody.RecalculateStats -= AcridRegenBuff;
             
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.HealthComponent.Heal -= OnHeal;
@@ -329,6 +330,28 @@ namespace ChunkyMode
                     if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
                         TeamIndex.Player) return toHeal;
                     return toHeal * rexHealOverride;
+                });
+        }
+        
+        // This buffs Acrid's Vicious Wounds and Ravenous Bite
+        private void AcridRegenBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            c.GotoNext(
+                x => x.MatchCall<CharacterBody>("GetBuffCount"),
+                x => x.MatchConvR4(),
+                x => x.MatchLdarg(0),
+                x => x.MatchCall<CharacterBody>("get_maxHealth"),
+                x => x.MatchMul(),
+                x => x.MatchLdcR4(0.1f),
+                //Insert Here
+                x => x.MatchMul()
+            );
+            c.Index += 6;
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
+                (toHeal, cb) => {
+                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return 0.2f;
                 });
         }
         
