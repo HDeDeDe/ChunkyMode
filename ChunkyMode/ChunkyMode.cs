@@ -94,10 +94,6 @@ namespace ChunkyMode
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-            
-            //On.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer +=
-            //    ProjectileHealOwnerOnDamageInflicted_OnDamageInflictedServer;
-            //On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += DumbAssRexFlower;
         }
 
         private void Run_onRunDestroyGlobal(Run run) {
@@ -117,10 +113,6 @@ namespace ChunkyMode
             On.RoR2.HealthComponent.Heal -= OnHeal;
             On.RoR2.CombatDirector.Awake -= CombatDirector_Awake;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
-            
-            //On.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -=
-            //    ProjectileHealOwnerOnDamageInflicted_OnDamageInflictedServer;
-            //On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= DumbAssRexFlower;
         }
         
         // This handles the -50% Ally Healing stat
@@ -129,53 +121,6 @@ namespace ChunkyMode
             float newAmount = amount;
             if (self.body.teamComponent.teamIndex == TeamIndex.Player) newAmount /= 2f;
             return orig(self, newAmount, procChainMask, nonRegen);
-        }
-        
-        // Buff Rex healing because holy fuck
-        // Probably shouldn't just reimplement it with a check but I'm lazy
-        //TODO: Replace with IL hook
-        private void ProjectileHealOwnerOnDamageInflicted_OnDamageInflictedServer(
-            On.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.orig_OnDamageInflictedServer onDamageInflictedServer, 
-            RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted self, DamageReport report) {
-            if (!self.projectileController.owner) return;
-            if (self.projectileController.name == "SyringeProjectileHealing(Clone)") {
-                if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex ==
-                    TeamIndex.Player) {
-                    HealthComponent component = self.projectileController.owner.GetComponent<HealthComponent>();
-                    if (component) {
-                        RoR2.Orbs.HealOrb healOrb = new RoR2.Orbs.HealOrb();
-                        healOrb.origin = self.transform.position;
-                        healOrb.target = component.body.mainHurtBox;
-                        healOrb.healValue = report.damageDealt * self.fractionOfDamage * rexHealOverride;
-                        healOrb.overrideDuration = 0.3f;
-                        RoR2.Orbs.OrbManager.instance.AddOrb(healOrb);
-                    }
-                    return;
-                }
-            }
-            onDamageInflictedServer(self, report);
-        }
-        //hatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehatehate
-        //TODO: Replace this shit with an IL hook
-        private void DumbAssRexFlower(
-            On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.orig_HealPulse whatTheFuck,
-            EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile self) {
-            if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
-                TeamIndex.Player) whatTheFuck(self);
-            
-            HealthComponent healthComponent = self.owner ? self.owner.GetComponent<HealthComponent>() : null;
-            
-            if (healthComponent && self.rootedBodies.Count > 0)
-            {
-                float num = 1f / EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.healPulseCount;
-                RoR2.Orbs.HealOrb healOrb = new RoR2.Orbs.HealOrb();
-                healOrb.origin = self.transform.position;
-                healOrb.target = healthComponent.body.mainHurtBox;
-                healOrb.healValue = num * EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.healthFractionYieldPerHit 
-                                        * healthComponent.fullHealth * (float)self.rootedBodies.Count * rexHealOverride;
-                healOrb.overrideDuration = 0.3f;
-                RoR2.Orbs.OrbManager.instance.AddOrb(healOrb);
-            }
         }
         
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
