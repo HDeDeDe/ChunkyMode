@@ -28,8 +28,5 @@
 	</ItemGroup>
 
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="..\CompressToZip\bin\net8.0\CompressToZip.exe" />
-	</Target>
 
 </Project>
