@@ -5,7 +5,7 @@
 		<LangVersion>preview</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>ChunkyMode</RootNamespace>
-		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,5 +27,9 @@
 		<PackageReference Include="MMHOOK.RoR2" Version="2024.8.28" NoWarn="NU1701" />
 	</ItemGroup>
 
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="..\CompressToZip\bin\net8.0\CompressToZip.exe" />
+	</Target>
 
 </Project>

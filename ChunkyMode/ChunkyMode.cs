@@ -163,7 +163,7 @@ namespace ChunkyMode
         // This handles the +20% Loot Spawn Rate stat
         private void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
             self.interactableCredit = (int)(self.interactableCredit * 1.2);
-            Log.Info(self.interactableCredit);
+            Log.Info("Updated Credits: " + self.interactableCredit);
         }
 
         // This handles the -50% Ally Shield Recharge Rate stat
