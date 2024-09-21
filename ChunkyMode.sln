@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChunkyMode", "ChunkyMode\ChunkyMode.csproj", "{2F8A40CC-6D15-486D-B689-0A7A472DB89E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A02C8F2D-916C-401D-8E4F-16B5C0295DB8} = {A02C8F2D-916C-401D-8E4F-16B5C0295DB8}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressToZip", "CompressToZip\CompressToZip.csproj", "{A02C8F2D-916C-401D-8E4F-16B5C0295DB8}"
 EndProject

@@ -5,6 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RunPostBuildEvent>Always</RunPostBuildEvent>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -14,5 +15,13 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <OutputPath>bin\</OutputPath>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ChunkyMode\ChunkyMode.csproj" />
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="..\CompressToZip\bin\net8.0\CompressToZip.exe" />
+    </Target>
 
 </Project>
