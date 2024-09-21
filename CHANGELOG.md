@@ -1,3 +1,6 @@
+## 0.1.2
+- Added loitering penalty
+- Buffed Vicious Wounds and Ravenous Bite to be unaffected by ally healing
 ## 0.1.1
 - Changed the way rex buffs are hooked
 ## 0.1.0

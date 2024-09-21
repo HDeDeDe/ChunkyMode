@@ -12,6 +12,7 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 
 - Ally Healing -50%
   - REX only gets -25% to DIRECTIVE: Inject and Tangling Growth
+  - Regenerative is unaffected
 - Ally Shield Recharge Rate -50%
 - Gold generation -10%
 - Director interactable credits +20%
@@ -27,3 +28,4 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 - Enemy cooldowns -50%
   - Wandering Vagrants only get -25%
   - Brass Contraptions get +25%
+- After 5 minutes on a stage with a teleporter, artifact of swarms is enabled and all monsters get double hp. This persists until the teleporter event begins.
