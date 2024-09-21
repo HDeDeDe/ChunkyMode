@@ -47,7 +47,7 @@ using (StreamWriter writer = new StreamWriter(manifest.Open())) {
 	writer.WriteLine("\t\"version_number\": \"" + manifestVersionNumber + "\",");
 	writer.WriteLine("\t\"website_url\": \"" + manifestWebsiteUrl + "\",");
 	writer.WriteLine("\t\"description\": \"" + manifestDescription + "\",");
-	writer.WriteLine("\t\"dependencies\": \"" + manifestDependencies);
+	writer.WriteLine("\t\"dependencies\": " + manifestDependencies);
 	writer.WriteLine("}");
 	
 	writer.Close();
