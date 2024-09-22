@@ -29,3 +29,6 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
   - Wandering Vagrants only get -25%
   - Brass Contraptions get +25%
 - After 5 minutes on a stage with a teleporter, artifact of swarms is enabled and all monsters get double hp. This persists until the teleporter event begins.
+
+### Feedback
+Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/ChunkyMode).

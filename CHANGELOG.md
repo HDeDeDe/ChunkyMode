@@ -1,3 +1,5 @@
+## 0.1.4
+- added director dependency to manifest.json
 ## 0.1.3
 - Fixed HP being tripled after 5 minutes when it was supposed to be doubled
 ## 0.1.2

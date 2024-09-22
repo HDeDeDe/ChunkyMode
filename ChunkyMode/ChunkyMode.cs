@@ -19,7 +19,7 @@ namespace ChunkyMode
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
-        public const string PluginVersion = "0.1.3";
+        public const string PluginVersion = "0.1.4";
 
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
