@@ -5,7 +5,8 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 
 ![difficulty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Screenshot%202024-09-20%20003117.png?raw=true)
 
-![gameplay](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-05%2012-24-11%20AM.gif?raw=true)
+![Death from nowhere](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-05%2012-24-11%20AM.gif?raw=true)
+![Overwhelming mushrooms](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-00%202-36-20%20AM.gif?raw=true)
 
 ## Changes
 ### Player / Ally changes
