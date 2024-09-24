@@ -16,22 +16,29 @@ namespace ChunkyMode
 
     public class ChunkyMode : BaseUnityPlugin
     {
+        // Plugin details
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
         public const string PluginVersion = "0.1.5";
 
+        // Difficulty related variables
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
+        
+        // Run start checks
         private static bool shouldRun;
         private static bool swarmsEnabled;
         private static int ogMonsterCap;
-
+        
+        // These are related to the loitering penalty
         private static bool getFuckedLMAO;
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
+        
+        // These are the override values
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;
         private const float shieldRechargeOverride = 2f;
