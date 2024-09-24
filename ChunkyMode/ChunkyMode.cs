@@ -83,6 +83,7 @@ namespace ChunkyMode
                                                              ">Ally Shield Recharge Rate: <style=cIsHealth>-50%</style>\n" +
                                                              ">Enemy Speed: <style=cIsHealth>+40%</style>\n" +
                                                              ">Enemy Cooldowns: <style=cIsHealth>-50%</style>\n" +
+                                                             ">Enemy Attack Speed: <style=cIsHealth>+50%</style>\n" +
                                                              ">Enemy Spawn Rate: <style=cIsHealth>+10%</style>\n" +
                                                              ">Loot Spawn Rate: <style=cIsHealing>+20%</style>\n" +
                                                              "and <style=cIsHealth>more</style>...</style>");
