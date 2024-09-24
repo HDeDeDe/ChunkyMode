@@ -36,6 +36,12 @@ namespace ChunkyMode
         private const float acridHealOverride = 2f;
         private const float shieldRechargeOverride = 2f;
         
+        // These values can be changed by the player through config options
+        public static bool doHealingBuffs = true;
+        public static bool doLoiterPenalty = true;
+        
+        
+        
         public void Awake()
         {
             Log.Init(Logger);
@@ -101,15 +107,18 @@ namespace ChunkyMode
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
 
             IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
-            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
-            IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
-            IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff;
+            if (doHealingBuffs){ 
+                IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
+                IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
+                IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff; 
+            }
             
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             
+            if (!doLoiterPenalty) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
@@ -212,6 +221,12 @@ namespace ChunkyMode
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
+            if (!doLoiterPenalty) {
+#if DEBUG
+                ReportLoiterError("Loiter penalty disabled");
+#endif
+                return;
+            }
             if (Run.instance.isGameOverServer) {
 #if DEBUG
                 ReportLoiterError("Game Over");
