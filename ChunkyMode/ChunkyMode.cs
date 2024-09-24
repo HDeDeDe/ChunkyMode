@@ -24,7 +24,6 @@ namespace ChunkyMode
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
-        private const float rexHealOverride = 1.5f;
         private static bool shouldRun;
         private static bool swarmsEnabled;
         private static int ogMonsterCap;
@@ -33,6 +32,9 @@ namespace ChunkyMode
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
+        private const float rexHealOverride = 1.5f;
+        private const float acridHealOverride = 2f;
+        private const float shieldRechargeOverride = 2f;
         
         public void Awake()
         {
@@ -279,9 +281,9 @@ namespace ChunkyMode
             c.Index += 5;
             c.Emit(OpCodes.Ldarg_0);
             c.Emit(OpCodes.Ldfld, typeof(HealthComponent).GetField("body"));
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>((consumed, cb) => {
-                if (cb.teamComponent.teamIndex != TeamIndex.Player) return 0.5f;
-                return 0.25f;
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>((toRecharge, cb) => {
+                if (cb.teamComponent.teamIndex != TeamIndex.Player) return toRecharge;
+                return toRecharge / shieldRechargeOverride;
             });
         }
         
@@ -347,7 +349,7 @@ namespace ChunkyMode
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
                 (toHeal, cb) => {
                     if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                    return 0.2f;
+                    return toHeal * acridHealOverride;
                 });
         }
         
