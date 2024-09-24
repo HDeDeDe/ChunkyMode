@@ -38,6 +38,11 @@ namespace ChunkyMode
         private static float stagePunishTimer;
         private static bool teleporterHit;
         
+        // These are to prevent changing settings mid run
+        private static bool doLoiterThisRun; 
+        private static bool doGoldThisRun;
+        private static bool doNerfsThisRun;
+        
         // These are the override values
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;
@@ -46,7 +51,9 @@ namespace ChunkyMode
         // These values can be changed by the player through config options
         public static bool doHealingBuffs = true;
         public static bool doLoiterPenalty = true;
-        
+        public static bool doEnemyLimitBoost = true;
+        public static bool doGoldPenalty = true;
+        public static bool doEnemyNerfs = true;
         
         
         public void Awake()
@@ -108,11 +115,13 @@ namespace ChunkyMode
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            
-            //Thanks Starstorm 2 :)
-            TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = (int)(ogMonsterCap * 1.5);
-            TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
-            TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
+
+            if (doEnemyLimitBoost){ 
+                //Thanks Starstorm 2 :)
+                TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = (int)(ogMonsterCap * 1.5);
+                TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
+                TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
+            }
 
             IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
             if (doHealingBuffs){ 
@@ -120,12 +129,15 @@ namespace ChunkyMode
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff; 
             }
-            
+
+            doGoldThisRun = doGoldPenalty;
+            doNerfsThisRun = doEnemyNerfs;
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-            
+
+            doLoiterThisRun = doLoiterPenalty;
             if (!doLoiterPenalty) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
@@ -170,6 +182,15 @@ namespace ChunkyMode
             if (!sender) return;
             if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
             
+            if (getFuckedLMAO) args.healthMultAdd += 1.0f;
+
+            if (!doNerfsThisRun) {
+                args.attackSpeedMultAdd += 0.5f;
+                args.moveSpeedMultAdd += 0.4f;
+                args.cooldownReductionAdd += 0.5f;
+                return;
+            }
+            
             switch (sender.name) {
                 case "BeetleGuardBody(Clone)":
                     args.moveSpeedMultAdd += 0.4f;
@@ -191,15 +212,13 @@ namespace ChunkyMode
                     args.cooldownReductionAdd += 0.5f;
                     break;
             }
-            
-            if (getFuckedLMAO) args.healthMultAdd += 1.0f;
         }
 
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
         private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            self.goldRewardCoefficient *= 0.9f;
+            if(doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
@@ -229,7 +248,7 @@ namespace ChunkyMode
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
-            if (!doLoiterPenalty) {
+            if (!doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
 #endif
