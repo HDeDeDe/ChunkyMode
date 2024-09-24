@@ -210,9 +210,9 @@ namespace ChunkyMode
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
-            if (swarmsEnabled || Run.instance.isGameOverServer) {
+            if (Run.instance.isGameOverServer) {
 #if DEBUG
-                ReportLoiterError("Swarms or Game Over");
+                ReportLoiterError("Game Over");
 #endif
                 return;
             }
@@ -240,9 +240,9 @@ namespace ChunkyMode
 #endif
                 return;
             }
-            Log.Info("Time's up! Swarms has been enabled. StagePunishTimer " + stagePunishTimer);
+            Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
             getFuckedLMAO = true;
-            RunArtifactManager.instance.SetArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef, true);
+            if (!swarmsEnabled) RunArtifactManager.instance.SetArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef, true);
         }
         
 #if DEBUG
@@ -257,11 +257,7 @@ namespace ChunkyMode
         
         // Disable loitering penalty when the teleporter is interacted with
         private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
-            if (swarmsEnabled) {
-                interact(teleporterState, interactor);
-                return;
-            }
-            if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef)) 
+            if (!swarmsEnabled && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef)) 
                 RunArtifactManager.instance.SetArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef, false);
             getFuckedLMAO = false;
             teleporterHit = true;
