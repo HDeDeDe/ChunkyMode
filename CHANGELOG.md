@@ -1,3 +1,12 @@
+## 0.1.5
+- Loiter timer now applies in swarms mode
+- Enemy attack speed buff is now listed in the difficulty description
+- Changed the way that Acrid's healing buff and the Shield Recharge Rate penalty are calculated
+- TODO:
+- Added support for Risk of Options
+  - All unlisted changes can be disabled if desired (such as the soft cap for computers that struggle to run at a decent framerate with the additional enemies)
+  - As of right now there are no plans to make listed changes toggleable
+- Moved text strings into a language file
 ## 0.1.4
 - added director dependency to manifest.json
 ## 0.1.3
