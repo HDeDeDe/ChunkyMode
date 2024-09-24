@@ -25,7 +25,7 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 - Enemy move speed +40%
 - Enemy attack speed +50%
   - This does not apply to Beetle Guards 
-  - Wandering Vagrants only get -25%
+  - Wandering Vagrants only get +25%
   - Brass Contraptions get +100%
 - Enemy cooldowns -50%
   - Brass Contraptions get +25%
