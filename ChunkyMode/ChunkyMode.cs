@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using BepInEx;
 using BepInEx.Configuration;
 using R2API;
@@ -7,8 +6,7 @@ using RoR2;
 using UnityEngine;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using RiskOfOptions;
-using RiskOfOptions.Options;
+
 
 namespace ChunkyMode
 {
