@@ -3,7 +3,7 @@
 
 A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.
 
-![difficulty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Screenshot%202024-09-20%20003117.png?raw=true)
+![difficulty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/DifficultyPreview.png?raw=true)
 
 ![Death from nowhere](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-05%2012-24-11%20AM.gif?raw=true)
 ![Overwhelming mushrooms](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-00%202-36-20%20AM.gif?raw=true)
