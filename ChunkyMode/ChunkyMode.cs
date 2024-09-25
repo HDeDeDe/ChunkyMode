@@ -61,7 +61,6 @@ namespace ChunkyMode
             Log.Init(Logger);
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
-            FillTokens();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
@@ -79,21 +78,6 @@ namespace ChunkyMode
             ChunkyModeDifficultyDef.iconSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon");
             ChunkyModeDifficultyDef.foundIconSprite = true;
             ChunkyModeDifficultyIndex = DifficultyAPI.AddDifficulty(ChunkyModeDifficultyDef);
-        }
-
-        public void FillTokens() {
-            LanguageAPI.Add("CHUNKYMODEDIFFMOD_NAME", "Chunky Mode");
-            LanguageAPI.Add("CHUNKYMODEDIFFMOD_DESCRIPTION", "<color=#C80000>For fools</color>. The nightmares this planet holds will devour you faster than ever before. You will be overwhelmed. You will suffer.\n\n" +
-                                                             "<style=cStack>>Player Health Regeneration: <style=cIsHealth>-40%</style>\n" +
-                                                             ">Difficulty Scaling: <style=cIsHealth>+100%</style>\n" +
-                                                             ">Ally Healing: <style=cIsHealth>-50%</style>\n" +
-                                                             ">Ally Shield Recharge Rate: <style=cIsHealth>-50%</style>\n" +
-                                                             ">Enemy Speed: <style=cIsHealth>+40%</style>\n" +
-                                                             ">Enemy Cooldowns: <style=cIsHealth>-50%</style>\n" +
-                                                             ">Enemy Attack Speed: <style=cIsHealth>+50%</style>\n" +
-                                                             ">Enemy Spawn Rate: <style=cIsHealth>+10%</style>\n" +
-                                                             ">Loot Spawn Rate: <style=cIsHealing>+20%</style>\n" +
-                                                             "and <style=cIsHealth>more</style>...</style>");
         }
         
         private static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)

@@ -7,6 +7,7 @@ FileInfo chunkyDiffIcon = new FileInfo("../Resources/chunkydifficon");
 FileInfo changelog = new FileInfo("../CHANGELOG.md");
 FileInfo readme = new FileInfo("../README.md");
 FileInfo icon = new FileInfo("../Resources/icon.png");
+FileInfo languageFile = new FileInfo("../Resources/ChunkyMode.language");
 
 string manifestAuthor = ChunkyMode.ChunkyMode.PluginAuthor;
 string manifestName = ChunkyMode.ChunkyMode.PluginName;
@@ -40,6 +41,7 @@ archive.CreateEntryFromFile(changelog.FullName, changelog.Name, CompressionLevel
 archive.CreateEntryFromFile(readme.FullName, readme.Name, CompressionLevel.Optimal);
 archive.CreateEntryFromFile(chunkyModeDLL.FullName, chunkyModeDLL.Name, CompressionLevel.Optimal);
 archive.CreateEntryFromFile(icon.FullName, icon.Name, CompressionLevel.Optimal);
+archive.CreateEntryFromFile(languageFile.FullName, languageFile.Name, CompressionLevel.Optimal);
 ZipArchiveEntry manifest = archive.CreateEntry("manifest.json", CompressionLevel.Optimal);
 using (StreamWriter writer = new StreamWriter(manifest.Open())) {
 	writer.WriteLine("{");
