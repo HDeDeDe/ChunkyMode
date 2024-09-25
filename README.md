@@ -25,9 +25,9 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 - Enemy move speed +40%
 - Enemy attack speed +50%
   - This does not apply to Beetle Guards 
+  - Wandering Vagrants only get +25%
   - Brass Contraptions get +100%
 - Enemy cooldowns -50%
-  - Wandering Vagrants only get -25%
   - Brass Contraptions get +25%
 - After 5 minutes on a stage with a teleporter, artifact of swarms is enabled and all monsters get double hp. This persists until the teleporter event begins.
 
