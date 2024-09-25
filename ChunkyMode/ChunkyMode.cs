@@ -1,19 +1,49 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using BepInEx;
+using BepInEx.Configuration;
 using R2API;
 using RoR2;
 using UnityEngine;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using RiskOfOptions;
+using RiskOfOptions.Options;
 
 namespace ChunkyMode
 {
+    public static class ChunkyModeOptions {
+        private static bool? _enabled;
+
+        public static bool enabled {
+            get {
+                if (_enabled == null) {
+                    _enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
+                }
+                return (bool)_enabled;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void AddCheck(ConfigEntry<bool> option) {
+            ModSettingsManager.AddOption(new CheckBoxOption(option));
+        }
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void SetSprite(Sprite sprite) {
+            ModSettingsManager.SetModIcon(sprite);
+        }
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void SetDescription(string description) {
+            ModSettingsManager.SetModDescription(description);
+        }
+    }
+    
     [BepInDependency(DifficultyAPI.PluginGUID)]
     [BepInDependency(LanguageAPI.PluginGUID)]
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     [BepInDependency(DirectorAPI.PluginGUID)]
+    [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
-
     public class ChunkyMode : BaseUnityPlugin
     {
         // Plugin details
@@ -49,11 +79,12 @@ namespace ChunkyMode
         private const float shieldRechargeOverride = 2f;
         
         // These values can be changed by the player through config options
-        public static bool doHealingBuffs = true;
-        public static bool doLoiterPenalty = true;
-        public static bool doEnemyLimitBoost = true;
-        public static bool doGoldPenalty = true;
-        public static bool doEnemyNerfs = true;
+        public static ConfigEntry<bool> doHealingBuffs { get; set; }
+        public static ConfigEntry<bool> doLoiterPenalty { get; set; }
+        public static ConfigEntry<bool> doEnemyLimitBoost { get; set; }
+        public static ConfigEntry<bool> doGoldPenalty { get; set; }
+        public static ConfigEntry<bool> doEnemyNerfs { get; set; }
+        
         
         
         public void Awake()
@@ -61,6 +92,7 @@ namespace ChunkyMode
             Log.Init(Logger);
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
+            BindSettings();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
@@ -78,6 +110,42 @@ namespace ChunkyMode
             ChunkyModeDifficultyDef.iconSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon");
             ChunkyModeDifficultyDef.foundIconSprite = true;
             ChunkyModeDifficultyIndex = DifficultyAPI.AddDifficulty(ChunkyModeDifficultyDef);
+        }
+
+        public void BindSettings() {
+            doHealingBuffs = Config.Bind<bool>(
+                "Unlisted Difficulty Modifiers",
+                "Do Healing Buffs",
+                true,
+                "Enables buffs to some survivor healing skills. Disable if you want a harder challenge.");
+            doLoiterPenalty = Config.Bind<bool>(
+                "Unlisted Difficulty Modifiers",
+                "Do Loiter Penalty",
+                true,
+                "Enables a 5 minute loiter penalty on stages with a teleporter. Not recommended to disable.");
+            doEnemyLimitBoost = Config.Bind<bool>(
+                "Unlisted Difficulty Modifiers",
+                "Do Enemy Limit Boost",
+                true,
+                "Enables enemy limit increase. If your computer is struggling to run on Chunky Mode, consider disabling this.");
+            doGoldPenalty = Config.Bind<bool>(
+                "Unlisted Difficulty Modifiers",
+                "Do Gold Penalty",
+                true,
+                "Enables a -10% gold penalty. Disable to speed up gameplay.");
+            doEnemyNerfs = Config.Bind<bool>(
+                "Unlisted Difficulty Modifiers",
+                "Do Enemy Nerfs",
+                true,
+                "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants");
+            if (!ChunkyModeOptions.enabled) return;
+            ChunkyModeOptions.AddCheck(doHealingBuffs);
+            ChunkyModeOptions.AddCheck(doLoiterPenalty);
+            ChunkyModeOptions.AddCheck(doEnemyLimitBoost);
+            ChunkyModeOptions.AddCheck(doGoldPenalty);
+            ChunkyModeOptions.AddCheck(doEnemyNerfs);
+            ChunkyModeOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
+            ChunkyModeOptions.SetDescription("Options for Chunky Mode. These options can not be changed during a run.");
         }
         
         private static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
@@ -99,8 +167,9 @@ namespace ChunkyMode
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
+            Config.Reload();
 
-            if (doEnemyLimitBoost){ 
+            if (doEnemyLimitBoost.Value){ 
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
@@ -108,21 +177,21 @@ namespace ChunkyMode
             }
 
             IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
-            if (doHealingBuffs){ 
+            if (doHealingBuffs.Value){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff; 
             }
 
-            doGoldThisRun = doGoldPenalty;
-            doNerfsThisRun = doEnemyNerfs;
+            doGoldThisRun = doGoldPenalty.Value;
+            doNerfsThisRun = doEnemyNerfs.Value;
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
 
-            doLoiterThisRun = doLoiterPenalty;
-            if (!doLoiterPenalty) return;
+            doLoiterThisRun = doLoiterPenalty.Value;
+            if (!doLoiterPenalty.Value) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;

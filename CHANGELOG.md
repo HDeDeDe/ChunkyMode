@@ -3,7 +3,6 @@
 - Enemy attack speed buff is now listed in the difficulty description
 - Changed the way that Acrid's healing buff and the Shield Recharge Rate penalty are calculated
 - Moved text strings into a language file
-- TODO:
 - Added support for Risk of Options
   - All unlisted changes can be disabled if desired (such as the soft cap for computers that struggle to run at a decent framerate with the additional enemies)
   - As of right now there are no plans to make listed changes toggleable
