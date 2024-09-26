@@ -236,6 +236,10 @@ namespace ChunkyMode
                     args.moveSpeedMultAdd += 0.1f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
+                case "SigmaConstructBody(Clone)":
+                    args.attackSpeedMultAdd += 0.25f;
+                    args.cooldownReductionAdd += 0.5f;
+                    break;
                 default:
                     args.attackSpeedMultAdd += 0.5f;
                     args.moveSpeedMultAdd += 0.4f;
