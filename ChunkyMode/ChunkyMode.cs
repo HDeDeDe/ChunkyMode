@@ -249,8 +249,8 @@ namespace ChunkyMode
                     args.cooldownMultAdd += 0.25f;
                     break;
                 case "RobNemesisBody(Clone)":
-                    args.attackSpeedMultAdd += 0.1f;
-                    args.moveSpeedMultAdd += 0.1f;
+                    args.attackSpeedMultAdd += 0.25f;
+                    args.moveSpeedMultAdd += 0.15f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
                 case "SigmaConstructBody(Clone)":
