@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
@@ -6,7 +7,6 @@ using RoR2;
 using UnityEngine;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-
 
 namespace ChunkyMode
 {
@@ -62,6 +62,9 @@ namespace ChunkyMode
         public void Awake()
         {
             Log.Init(Logger);
+#if DEBUG
+            On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
+#endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
             BindSettings();
@@ -69,6 +72,20 @@ namespace ChunkyMode
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
         }
+        
+#if DEBUG
+        public void KillOnThreePercentBug(On.RoR2.SteamworksClientManager.orig_ctor ctor, SteamworksClientManager self) {
+            try {
+                ctor(self);
+            }
+            catch (Exception err) {
+                Log.Error(err);
+                Application.Quit();
+                throw;
+            }
+            On.RoR2.SteamworksClientManager.ctor -= KillOnThreePercentBug;
+        }
+#endif
 
         public void AddDifficulty() {
             ChunkyModeDifficultyDef = new DifficultyDef(4f,
