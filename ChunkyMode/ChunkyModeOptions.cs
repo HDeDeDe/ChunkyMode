@@ -19,7 +19,12 @@ namespace ChunkyMode {
 
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddCheck(ConfigEntry<bool> option) {
-			ModSettingsManager.AddOption(new CheckBoxOption(option));
+			CheckBoxOption boxOption = new CheckBoxOption(option);
+			ModSettingsManager.AddOption(boxOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
+#if DEBUG
+			Log.Info(boxOption.GetNameToken());
+			Log.Info(boxOption.GetDescriptionToken());
+#endif
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SetSprite(Sprite sprite) {
