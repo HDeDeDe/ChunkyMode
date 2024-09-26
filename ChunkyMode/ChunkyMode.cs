@@ -109,7 +109,7 @@ namespace ChunkyMode
                 "Unlisted Difficulty Modifiers",
                 "Do Enemy Nerfs",
                 true,
-                "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants");
+                "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
             if (!ChunkyModeOptions.enabled) return;
             ChunkyModeOptions.AddCheck(doHealingBuffs);
             ChunkyModeOptions.AddCheck(doLoiterPenalty);

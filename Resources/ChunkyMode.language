@@ -13,5 +13,8 @@
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_GOLD_PENALTY.CHECKBOX.DESCRIPTION" : "Enables a -10% gold penalty. Disable to speed up gameplay.",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_NERFS.CHECKBOX.NAME" : "Do Enemy Nerfs",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_NERFS.CHECKBOX.DESCRIPTION" : "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants."
+  },
+  "en" : {
+    "CHUNKYMODE_WARNING_TO_LOCALIZERS" : "Changes made to any key that starts with RISK_OF_OPTIONS.* won't apply in english because Risk of Options overwrites them."
   }
 }
