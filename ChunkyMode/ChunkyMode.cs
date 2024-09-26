@@ -117,7 +117,7 @@ namespace ChunkyMode
             ChunkyModeOptions.AddCheck(doGoldPenalty);
             ChunkyModeOptions.AddCheck(doEnemyNerfs);
             ChunkyModeOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
-            ChunkyModeOptions.SetDescription("Options for Chunky Mode. These options can not be changed during a run.");
+            ChunkyModeOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
         private static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)

@@ -26,8 +26,8 @@ namespace ChunkyMode {
 			ModSettingsManager.SetModIcon(sprite);
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-		public static void SetDescription(string description) {
-			ModSettingsManager.SetModDescription(description);
+		public static void SetDescriptionToken(string description) {
+			ModSettingsManager.SetModDescriptionToken(description);
 		}
 	}
 }
