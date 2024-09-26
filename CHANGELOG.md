@@ -1,3 +1,6 @@
+## 0.1.6
+- Nerfed some modded enemies to prevent unfair deaths.
+- Added language tokens for Risk of Options settings.
 ## 0.1.5
 - Loiter timer now applies in swarms mode
 - Enemy attack speed buff is now listed in the difficulty description
