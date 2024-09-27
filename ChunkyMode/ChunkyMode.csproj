@@ -30,4 +30,10 @@
 
 
 
+	<ItemGroup>
+	  <Reference Include="ProperSave">
+	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>

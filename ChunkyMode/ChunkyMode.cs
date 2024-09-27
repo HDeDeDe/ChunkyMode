@@ -15,6 +15,7 @@ namespace ChunkyMode
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     [BepInDependency(DirectorAPI.PluginGUID)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("KingEnderBrine-ProperSave-2.11.1", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     public class ChunkyMode : BaseUnityPlugin
     {
@@ -64,6 +65,7 @@ namespace ChunkyMode
             AddDifficulty();
             BindSettings();
             RunInfo.Instance = new RunInfo();
+            if (Saving.enabled) Saving.SetUp();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
