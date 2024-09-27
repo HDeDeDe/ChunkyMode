@@ -5,7 +5,7 @@ using BepInEx.Configuration;
 using UnityEngine;
 
 namespace ChunkyMode {
-	public static class ChunkyModeOptions {
+	public static class Options {
 		private static bool? _enabled;
 
 		public static bool enabled {

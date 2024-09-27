@@ -127,14 +127,14 @@ namespace ChunkyMode
                 "Do Enemy Nerfs",
                 true,
                 "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
-            if (!ChunkyModeOptions.enabled) return;
-            ChunkyModeOptions.AddCheck(doHealingBuffs);
-            ChunkyModeOptions.AddCheck(doLoiterPenalty);
-            ChunkyModeOptions.AddCheck(doEnemyLimitBoost);
-            ChunkyModeOptions.AddCheck(doGoldPenalty);
-            ChunkyModeOptions.AddCheck(doEnemyNerfs);
-            ChunkyModeOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
-            ChunkyModeOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
+            if (!Options.enabled) return;
+            Options.AddCheck(doHealingBuffs);
+            Options.AddCheck(doLoiterPenalty);
+            Options.AddCheck(doEnemyLimitBoost);
+            Options.AddCheck(doGoldPenalty);
+            Options.AddCheck(doEnemyNerfs);
+            Options.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
+            Options.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
         private static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
