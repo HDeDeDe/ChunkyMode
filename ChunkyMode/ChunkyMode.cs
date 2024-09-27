@@ -40,11 +40,6 @@ namespace ChunkyMode
         private static float stagePunishTimer;
         private static bool teleporterHit;
         
-        // These are to prevent changing settings mid run
-        private static bool doLoiterThisRun; 
-        private static bool doGoldThisRun;
-        private static bool doNerfsThisRun;
-        
         // These are the override values
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;
@@ -68,6 +63,7 @@ namespace ChunkyMode
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
             BindSettings();
+            RunInfo.Instance = new RunInfo();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
@@ -156,9 +152,17 @@ namespace ChunkyMode
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            Config.Reload();
+            
+            if (!RunInfo.preSet) {
+                Config.Reload();
+                RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
+                RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
+                RunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
+                RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
+                RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
+            }
 
-            if (doEnemyLimitBoost.Value){ 
+            if (RunInfo.Instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
@@ -166,21 +170,18 @@ namespace ChunkyMode
             }
 
             IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
-            if (doHealingBuffs.Value){ 
+            if (RunInfo.Instance.doHealBuffThisRun){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff; 
             }
-
-            doGoldThisRun = doGoldPenalty.Value;
-            doNerfsThisRun = doEnemyNerfs.Value;
+            
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-
-            doLoiterThisRun = doLoiterPenalty.Value;
-            if (!doLoiterPenalty.Value) return;
+           
+            if (!RunInfo.Instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
@@ -190,6 +191,7 @@ namespace ChunkyMode
             if (!shouldRun) return;
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
+            RunInfo.preSet = false;
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
@@ -226,7 +228,7 @@ namespace ChunkyMode
             
             if (getFuckedLMAO) args.healthMultAdd += 1.0f;
 
-            if (!doNerfsThisRun) {
+            if (!RunInfo.Instance.doNerfsThisRun) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
                 args.cooldownReductionAdd += 0.5f;
@@ -269,7 +271,7 @@ namespace ChunkyMode
         private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            if(doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
+            if(RunInfo.Instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
@@ -299,7 +301,7 @@ namespace ChunkyMode
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
-            if (!doLoiterThisRun) {
+            if (!RunInfo.Instance.doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
 #endif
