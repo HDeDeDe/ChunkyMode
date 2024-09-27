@@ -1,3 +1,5 @@
+## 0.1.7
+- Added support for ProperSaves
 ## 0.1.6
 - Nerfed some modded enemies to prevent unfair deaths.
 - Added language tokens for Risk of Options settings.
