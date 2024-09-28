@@ -3,13 +3,13 @@ using ProperSave;
 using System.Runtime.CompilerServices;
 
 namespace ChunkyMode {
-	public class Saving {
+	public static class Saving {
 		private static bool? _enabled;
 
 		public static bool enabled {
 			get {
 				if (_enabled == null) {
-					_enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("KingEnderBrine-ProperSave-2.11.1");
+					_enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ProperSavePlugin.GUID);
 				}
 				return (bool)_enabled;
 			}
@@ -38,7 +38,7 @@ namespace ChunkyMode {
 			RunInfo.preSet = true;
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-		private static void SaveRunInfo(Dictionary<string, object> save) {
+		public static void SaveRunInfo(Dictionary<string, object> save) {
 #if DEBUG
 			Log.Info("Saving Chunky Mode data");			
 #endif
