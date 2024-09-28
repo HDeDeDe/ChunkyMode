@@ -15,7 +15,7 @@ namespace ChunkyMode
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     [BepInDependency(DirectorAPI.PluginGUID)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("KingEnderBrine-ProperSave-2.11.1", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     public class ChunkyMode : BaseUnityPlugin
     {
@@ -29,6 +29,10 @@ namespace ChunkyMode
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
+        
+#if DEBUG
+        public RunInfo infoAccess;        
+#endif
         
         // Run start checks
         private static bool shouldRun;
@@ -65,6 +69,9 @@ namespace ChunkyMode
             AddDifficulty();
             BindSettings();
             RunInfo.Instance = new RunInfo();
+#if DEBUG
+            infoAccess = RunInfo.Instance;
+#endif
             if (Saving.enabled) Saving.SetUp();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
