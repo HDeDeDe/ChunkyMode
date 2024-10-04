@@ -7,14 +7,15 @@ using RoR2;
 using UnityEngine;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using UnityEngine.Networking;
 
-//TODO: Implement RunInfo syncing
 namespace ChunkyMode
 {
     [BepInDependency(DifficultyAPI.PluginGUID)]
     [BepInDependency(LanguageAPI.PluginGUID)]
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     [BepInDependency(DirectorAPI.PluginGUID)]
+    [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
@@ -55,8 +56,6 @@ namespace ChunkyMode
         public static ConfigEntry<bool> doGoldPenalty { get; set; }
         public static ConfigEntry<bool> doEnemyNerfs { get; set; }
         
-        
-        
         public void Awake()
         {
             Log.Init(Logger);
@@ -68,6 +67,7 @@ namespace ChunkyMode
             BindSettings();
             RunInfo.Instance = new RunInfo();
             if (Saving.enabled) Saving.SetUp();
+            ASeriesOfTubes.SetUpNetworking();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
@@ -158,7 +158,7 @@ namespace ChunkyMode
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
             
-            if (!RunInfo.preSet) {
+            if (!RunInfo.preSet && NetworkServer.active) {
                 Config.Reload();
                 RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
                 RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
@@ -166,6 +166,8 @@ namespace ChunkyMode
                 RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
                 RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
             }
+            
+            ASeriesOfTubes.DoNetworkingStuff();
 
             if (RunInfo.Instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)
@@ -198,6 +200,8 @@ namespace ChunkyMode
             shouldRun = false;
             RunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
+
+            ASeriesOfTubes.readyToRumble = false;
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;

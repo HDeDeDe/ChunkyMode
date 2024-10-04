@@ -20,6 +20,7 @@ string manifestDependencies = "[\n" +
                               "\t\t\"RiskofThunder-R2API_Language-1.0.1\",\n" + 
                               "\t\t\"RiskofThunder-R2API_Difficulty-1.1.2\",\n" + 
                               "\t\t\"RiskofThunder-R2API_RecalculateStats-1.4.0\",\n" +
+                              "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
                               "\t\t\"RiskofThunder-R2API_Director-2.2.1\"\n" +
                               "\t]";
 
