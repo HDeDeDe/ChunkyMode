@@ -8,6 +8,7 @@ using UnityEngine;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 
+//TODO: Implement RunInfo syncing
 namespace ChunkyMode
 {
     [BepInDependency(DifficultyAPI.PluginGUID)]
@@ -23,7 +24,7 @@ namespace ChunkyMode
         public const string PluginGUID = PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
-        public const string PluginVersion = "0.1.7";
+        public const string PluginVersion = "0.1.8";
 
         // Difficulty related variables
         public AssetBundle ChunkyModeDifficultyModBundle;
