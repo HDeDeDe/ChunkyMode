@@ -35,6 +35,7 @@ namespace ChunkyMode
         private static bool shouldRun;
         private static bool swarmsEnabled;
         private static int ogMonsterCap;
+        private static int ogRunLevelCap;
         
         // These are related to the loitering penalty
         private static bool getFuckedLMAO;
@@ -142,6 +143,7 @@ namespace ChunkyMode
             if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef))
                 swarmsEnabled = true;
             else swarmsEnabled = false;
+            ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap = 9999;
         }
 
@@ -195,6 +197,7 @@ namespace ChunkyMode
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
             RunInfo.preSet = false;
+            Run.ambientLevelCap = ogRunLevelCap;
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
