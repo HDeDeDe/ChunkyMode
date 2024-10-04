@@ -31,5 +31,12 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
   - Brass Contraptions get +25%
 - After 5 minutes on a stage with a teleporter, artifact of swarms is enabled and all monsters get double hp. This persists until the teleporter event begins.
 
-### Feedback
-Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/ChunkyMode).
+## Installation
+To install with r2modman automatically, either click the "Install with Mod Manager" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/) or search for ChunkyMode within r2modman.
+
+To install manually, either click the "Manual Download" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/), or download the latest release from [GitHub](https://github.com/HDeDeDe/ChunkyMode/releases). Once downloaded, if you are using r2modman, launch r2modman and navigate to your preferred Risk of Rain 2 profile. From there, go to Settings > Profile > Import local mod, and then select HDeDeDe-ChunkyMode-{Version_Number}.zip (or just ChunkyMode.zip) when prompted. Confirm the settings and you should be good to go.
+
+If you do not have r2modman, then make sure you have the required dependencies (they can be found at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/)), navigate to your Risk of Rain 2 install folder > BepInEx > plugins and extract the following files from ChunkyMode.zip to the same subfolder: ChunkyMode.dll, chunkydifficon, ChunkyMode.language
+
+## Feedback
+Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/ChunkyMode) or @ me on the modding discord (hdedede).
