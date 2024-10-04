@@ -144,7 +144,7 @@ namespace ChunkyMode
                 swarmsEnabled = true;
             else swarmsEnabled = false;
             ogRunLevelCap = Run.ambientLevelCap;
-            Run.ambientLevelCap = 9999;
+            Run.ambientLevelCap += 9900;
         }
 
         private void Run_onRunStartGlobal(Run run) {
