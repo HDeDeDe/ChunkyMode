@@ -1,3 +1,7 @@
+## 0.1.8
+- Fixed max enemy levels not being reset at the end of a run.
+- TODO:
+- ChunkyMode options are now pulled from the host.
 ## 0.1.7
 - Added support for ProperSaves
 ## 0.1.6
