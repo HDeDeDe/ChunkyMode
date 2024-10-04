@@ -31,10 +31,6 @@ namespace ChunkyMode
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
         
-#if DEBUG
-        public RunInfo infoAccess;        
-#endif
-        
         // Run start checks
         private static bool shouldRun;
         private static bool swarmsEnabled;
@@ -70,9 +66,6 @@ namespace ChunkyMode
             AddDifficulty();
             BindSettings();
             RunInfo.Instance = new RunInfo();
-#if DEBUG
-            infoAccess = RunInfo.Instance;
-#endif
             if (Saving.enabled) Saving.SetUp();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
