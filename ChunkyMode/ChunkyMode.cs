@@ -158,7 +158,7 @@ namespace ChunkyMode
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
             
-            if (!RunInfo.preSet && NetworkServer.active) {
+            if (!RunInfo.preSet) {
                 Config.Reload();
                 RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
                 RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;

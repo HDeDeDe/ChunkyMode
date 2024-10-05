@@ -1,58 +1,85 @@
 using R2API.Networking;
 using R2API.Networking.Interfaces;
 using UnityEngine.Networking;
+using System.Threading;
 
 namespace ChunkyMode {
 	public static class ASeriesOfTubes {
 		public static bool readyToRumble;
+        
 		public static void SetUpNetworking() {
-			NetworkingAPI.RegisterMessageType<SyncRunInfo>();
+			NetworkingAPI.RegisterRequestTypes<RequestRunInfo,ReplyRunInfo>();
 		}
-		//TODO: Finish this
+		
 		public static void DoNetworkingStuff() {
 			if (NetworkServer.active) {
-				new SyncRunInfo(RunInfo.Instance).Send(NetworkDestination.Clients);
+				readyToRumble = true;
 				return;
 			}
-			
+
+			while (!readyToRumble && NetworkClient.active) {
+				//TODO: Send message and then check to see if the code works (it probably won't lmao)
+				new RequestRunInfo().Send<RequestRunInfo,ReplyRunInfo>(NetworkDestination.Server);
+				if(!readyToRumble) Thread.Sleep(5);
+			}
 		}
 	}
 
-	public class SyncRunInfo : INetMessage {
-		private RunInfo _runInfo;
-
-		public SyncRunInfo() {
-			_runInfo = new RunInfo();
-		}
-
-		public SyncRunInfo(RunInfo runInfo) {
-			_runInfo = runInfo;
+	internal class RequestRunInfo : INetRequest<RequestRunInfo, ReplyRunInfo> {
+		public RequestRunInfo() {
+			if(!NetworkServer.active) Log.Info("Requesting RunInfo from host.");
 		}
 		
+		public ReplyRunInfo OnRequestReceived() {
+			if (!NetworkServer.active) {
+				Log.Warning("This is not the host, sending not ready flag.");
+				return new ReplyRunInfo { _runInfo = null , _ready = false};
+			}
+			Log.Info("RunInfo requested by client.");
+			if (!ASeriesOfTubes.readyToRumble) {
+				Log.Warning("RunInfo is not ready yet! Sending not ready flag.");
+				return new ReplyRunInfo { _runInfo = null , _ready = false};
+			}
+			Log.Info("Sending RunInfo now!");
+			return new ReplyRunInfo { _runInfo = RunInfo.Instance , _ready = true};
+		}
+
 		public void Serialize(NetworkWriter writer) {
-			writer.Write(_runInfo.doLoiterThisRun);
-			writer.Write(_runInfo.doGoldThisRun);
-			writer.Write(_runInfo.doNerfsThisRun);
-			writer.Write(_runInfo.doHealBuffThisRun);
-			writer.Write(_runInfo.doEnemyBoostThisRun);
+			return;
 		}
 
 		public void Deserialize(NetworkReader reader) {
-			_runInfo.doLoiterThisRun = reader.ReadBoolean();
-			_runInfo.doGoldThisRun = reader.ReadBoolean();
-			_runInfo.doNerfsThisRun = reader.ReadBoolean();
-			_runInfo.doHealBuffThisRun = reader.ReadBoolean();
-			_runInfo.doEnemyBoostThisRun = reader.ReadBoolean();
+			return;
 		}
+	}
 
-		public void OnReceived() {
+	internal class ReplyRunInfo : INetRequestReply<RequestRunInfo, ReplyRunInfo> {
+		internal RunInfo _runInfo;
+		internal bool _ready;
+		
+		public void OnReplyReceived() {
 			if (NetworkServer.active) {
-				Log.Warning("We're the host, we don't need to sync :)");
+				Log.Warning("This is the host, ignoring request");
 				return;
 			}
-			Log.Info("Client received RunInfo, applying now.");
-			RunInfo.Instance = _runInfo;
-			ASeriesOfTubes.readyToRumble = true;
+			if(!_ready) {
+				Log.Warning("Host is not ready, trying again in 5 milliseconds.");
+				return;
+			}
+			if (_runInfo == null) return;
+			Log.Info("RunInfo received, applying now!");
+            RunInfo.Instance = _runInfo;
+            ASeriesOfTubes.readyToRumble = true;
+		}
+
+		public void Serialize(NetworkWriter writer) {
+			writer.Write(_runInfo);
+			writer.Write(_ready);
+		}
+
+		public void Deserialize(NetworkReader reader) {
+			_runInfo = reader.Read<RunInfo>();
+			_ready = reader.ReadBoolean();
 		}
 	}
 }

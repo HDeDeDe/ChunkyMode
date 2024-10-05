@@ -1,7 +1,9 @@
 using System.Runtime.Serialization;
+using R2API.Networking.Interfaces;
+using UnityEngine.Networking;
 
 namespace ChunkyMode {
-	public class RunInfo {
+	public class RunInfo : ISerializableObject {
 		// This is the instance of RunInfo
 		[IgnoreDataMember]
 		public static RunInfo Instance;
@@ -19,5 +21,21 @@ namespace ChunkyMode {
 		public bool doHealBuffThisRun;
 		[DataMember(Name = "boost")]
 		public bool doEnemyBoostThisRun;
+
+		public void Serialize(NetworkWriter writer) {
+			writer.Write(doLoiterThisRun);
+			writer.Write(doGoldThisRun);
+			writer.Write(doNerfsThisRun);
+			writer.Write(doHealBuffThisRun);
+			writer.Write(doEnemyBoostThisRun);
+		}
+
+		public void Deserialize(NetworkReader reader) {
+			doLoiterThisRun = reader.ReadBoolean();
+			doGoldThisRun = reader.ReadBoolean();
+			doNerfsThisRun = reader.ReadBoolean();
+			doHealBuffThisRun = reader.ReadBoolean();
+			doEnemyBoostThisRun = reader.ReadBoolean();
+		}
 	}
 }
