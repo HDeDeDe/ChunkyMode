@@ -368,10 +368,12 @@ namespace ChunkyMode
 #if DEBUG
         // Report why loitering hasn't been enabled every 5 seconds
         private static float reportErrorTime;
+        private static bool reportErrorAnyway;
         private void ReportLoiterError(string err) {
-            if (reportErrorTime >= Run.instance.NetworkfixedTime) return;
+            if (reportErrorTime >= Run.instance.NetworkfixedTime && !reportErrorAnyway) return;
             Log.Info(err);
             reportErrorTime = Run.instance.NetworkfixedTime + 5f;
+            reportErrorAnyway = false;
         }
 #endif
         
