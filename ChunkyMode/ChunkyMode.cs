@@ -192,6 +192,9 @@ namespace ChunkyMode
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
+#if DEBUG
+            reportErrorTime = Run.instance.NetworkfixedTime;
+#endif
         }
 
         private void Run_onRunDestroyGlobal(Run run) {
