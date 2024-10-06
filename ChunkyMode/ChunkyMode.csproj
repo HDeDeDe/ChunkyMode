@@ -32,6 +32,9 @@
 
 
 	<ItemGroup>
+	  <Reference Include="EnragedAssembly">
+	    <HintPath>..\Resources\libs\EnragedAssembly.dll</HintPath>
+	  </Reference>
 	  <Reference Include="ProperSave">
 	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
 	  </Reference>
