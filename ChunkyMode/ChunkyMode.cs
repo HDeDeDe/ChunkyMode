@@ -145,13 +145,6 @@ namespace ChunkyMode
             else swarmsEnabled = false;
             ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap += 9900;
-            if (RunInfo.preSet || !NetworkServer.active) return;
-            Config.Reload();
-            RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
-            RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
-            RunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
-            RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
-            RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
         }
 
         private void Run_onRunStartGlobal(Run run) {
@@ -164,6 +157,15 @@ namespace ChunkyMode
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
+            
+            if (!RunInfo.preSet) {
+                Config.Reload();
+                RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
+                RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
+                RunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
+                RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
+                RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
+            }
             
             ASeriesOfTubes.DoNetworkingStuff();
             
