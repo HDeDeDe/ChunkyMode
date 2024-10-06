@@ -311,6 +311,12 @@ namespace ChunkyMode
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
+            if (!NetworkServer.active) {
+#if DEBUG
+                ReportLoiterError("Client can not enforce loiter penalty.");
+#endif
+                return;
+            }
             if (!RunInfo.Instance.doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
