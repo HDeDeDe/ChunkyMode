@@ -71,6 +71,7 @@ namespace ChunkyMode
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+            On.RoR2.TeamManager.Start += LoadConfigSettings;
         }
         
 #if DEBUG
@@ -136,8 +137,19 @@ namespace ChunkyMode
             Options.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             Options.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
+
+        private void LoadConfigSettings(On.RoR2.TeamManager.orig_Start start, TeamManager self) {
+            start(self);
+            if (RunInfo.preSet || !NetworkServer.active) return;
+            Config.Reload();
+            RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
+            RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
+            RunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
+            RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
+            RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
+        }
         
-        private static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
+        private void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
         {
             if (arg1.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef))
@@ -145,6 +157,7 @@ namespace ChunkyMode
             else swarmsEnabled = false;
             ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap += 9900;
+            
         }
 
         private void Run_onRunStartGlobal(Run run) {
@@ -157,15 +170,6 @@ namespace ChunkyMode
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            
-            if (!RunInfo.preSet) {
-                Config.Reload();
-                RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
-                RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
-                RunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
-                RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
-                RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
-            }
             
             ASeriesOfTubes.DoNetworkingStuff();
 
