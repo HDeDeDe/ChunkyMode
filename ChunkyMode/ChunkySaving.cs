@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using ProperSave;
 using System.Runtime.CompilerServices;
 
-namespace ChunkyMode {
-	public static class Saving {
+namespace HDeMods {
+	public static class ChunkySaving {
 		private static bool? _enabled;
 
 		public static bool enabled {
@@ -23,14 +23,14 @@ namespace ChunkyMode {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void LoadFromSave(SaveFile save) {
 			if (!Loading.IsLoading) return;
-			RunInfo tempRun = save.GetModdedData<RunInfo>("CHUNKYMODE_RunInfo");
+			ChunkyRunInfo tempRun = save.GetModdedData<ChunkyRunInfo>("CHUNKYMODE_RunInfo");
 			if (tempRun == null) return;
-			RunInfo.Instance = tempRun;
-			RunInfo.preSet = true;
+			ChunkyRunInfo.Instance = tempRun;
+			ChunkyRunInfo.preSet = true;
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SaveRunInfo(Dictionary<string, object> save) {
-			save.Add("CHUNKYMODE_RunInfo",RunInfo.Instance);
+			save.Add("CHUNKYMODE_RunInfo",ChunkyRunInfo.Instance);
 		}
 	}
 }

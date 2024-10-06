@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace ChunkyMode {
-	public static class Options {
+namespace HDeMods {
+	public static class ChunkyOptions {
 		private static bool? _enabled;
 
 		public static bool enabled {

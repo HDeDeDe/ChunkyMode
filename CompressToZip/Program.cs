@@ -9,9 +9,9 @@ FileInfo readme = new FileInfo("../README.md");
 FileInfo icon = new FileInfo("../Resources/icon.png");
 FileInfo languageFile = new FileInfo("../Resources/ChunkyMode.language");
 
-string manifestAuthor = ChunkyMode.ChunkyMode.PluginAuthor;
-string manifestName = ChunkyMode.ChunkyMode.PluginName;
-string manifestVersionNumber = ChunkyMode.ChunkyMode.PluginVersion;
+string manifestAuthor = HDeMods.ChunkyMode.PluginAuthor;
+string manifestName = HDeMods.ChunkyMode.PluginName;
+string manifestVersionNumber = HDeMods.ChunkyMode.PluginVersion;
 string manifestWebsiteUrl = "https://github.com/HDeDeDe/ChunkyMode";
 string manifestDescription = "A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.";
 string manifestDependencies = "[\n" +

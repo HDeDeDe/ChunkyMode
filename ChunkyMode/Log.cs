@@ -1,6 +1,6 @@
 ﻿using BepInEx.Logging;
 
-namespace ChunkyMode
+namespace HDeMods
 {
     internal static class Log
     {

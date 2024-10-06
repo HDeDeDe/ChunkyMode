@@ -9,7 +9,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using UnityEngine.Networking;
 
-namespace ChunkyMode
+namespace HDeMods
 {
     [BepInDependency(DifficultyAPI.PluginGUID)]
     [BepInDependency(LanguageAPI.PluginGUID)]
@@ -65,9 +65,9 @@ namespace ChunkyMode
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
             BindSettings();
-            RunInfo.Instance = new RunInfo();
-            if (Saving.enabled) Saving.SetUp();
-            ASeriesOfTubes.SetUpNetworking();
+            ChunkyRunInfo.Instance = new ChunkyRunInfo();
+            if (ChunkySaving.enabled) ChunkySaving.SetUp();
+            ChunkyASeriesOfTubes.SetUpNetworking();
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
@@ -127,14 +127,14 @@ namespace ChunkyMode
                 "Do Enemy Nerfs",
                 true,
                 "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
-            if (!Options.enabled) return;
-            Options.AddCheck(doHealingBuffs);
-            Options.AddCheck(doLoiterPenalty);
-            Options.AddCheck(doEnemyLimitBoost);
-            Options.AddCheck(doGoldPenalty);
-            Options.AddCheck(doEnemyNerfs);
-            Options.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
-            Options.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
+            if (!ChunkyOptions.enabled) return;
+            ChunkyOptions.AddCheck(doHealingBuffs);
+            ChunkyOptions.AddCheck(doLoiterPenalty);
+            ChunkyOptions.AddCheck(doEnemyLimitBoost);
+            ChunkyOptions.AddCheck(doGoldPenalty);
+            ChunkyOptions.AddCheck(doEnemyNerfs);
+            ChunkyOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
+            ChunkyOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
         private void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
@@ -158,16 +158,16 @@ namespace ChunkyMode
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
             
-            if (!RunInfo.preSet) {
+            if (!ChunkyRunInfo.preSet) {
                 Config.Reload();
-                RunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
-                RunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
-                RunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
-                RunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
-                RunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
+                ChunkyRunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
+                ChunkyRunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
+                ChunkyRunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
+                ChunkyRunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
+                ChunkyRunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
             }
             
-            ASeriesOfTubes.DoNetworkingStuff();
+            ChunkyASeriesOfTubes.DoNetworkingStuff();
             
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
 #if DEBUG
@@ -175,7 +175,7 @@ namespace ChunkyMode
 #endif
             if (!NetworkServer.active) return;
 
-            if (RunInfo.Instance.doEnemyBoostThisRun){ 
+            if (ChunkyRunInfo.Instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
@@ -183,7 +183,7 @@ namespace ChunkyMode
             }
 
             IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
-            if (RunInfo.Instance.doHealBuffThisRun){ 
+            if (ChunkyRunInfo.Instance.doHealBuffThisRun){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff; 
@@ -193,7 +193,7 @@ namespace ChunkyMode
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
            
-            if (!RunInfo.Instance.doLoiterThisRun) return;
+            if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
@@ -203,7 +203,7 @@ namespace ChunkyMode
             if (!shouldRun) return;
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
-            RunInfo.preSet = false;
+            ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = ogMonsterCap;
@@ -241,7 +241,7 @@ namespace ChunkyMode
             
             if (getFuckedLMAO) args.healthMultAdd += 1.0f;
 
-            if (!RunInfo.Instance.doNerfsThisRun) {
+            if (!ChunkyRunInfo.Instance.doNerfsThisRun) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
                 args.cooldownReductionAdd += 0.5f;
@@ -284,7 +284,7 @@ namespace ChunkyMode
         private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            if(RunInfo.Instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
+            if(ChunkyRunInfo.Instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
@@ -320,7 +320,7 @@ namespace ChunkyMode
 #endif
                 return;
             }
-            if (!RunInfo.Instance.doLoiterThisRun) {
+            if (!ChunkyRunInfo.Instance.doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
 #endif
@@ -367,7 +367,7 @@ namespace ChunkyMode
         private static bool reportErrorAnyway;
         private void ReportLoiterError(string err) {
             if (reportErrorTime >= Run.instance.NetworkfixedTime && !reportErrorAnyway) return;
-            Log.Info(err);
+            Log.Debug(err);
             reportErrorTime = Run.instance.NetworkfixedTime + 5f;
             reportErrorAnyway = false;
         }

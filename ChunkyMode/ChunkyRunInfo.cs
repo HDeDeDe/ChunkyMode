@@ -2,11 +2,11 @@ using System.Runtime.Serialization;
 using R2API.Networking.Interfaces;
 using UnityEngine.Networking;
 
-namespace ChunkyMode {
-	public class RunInfo : ISerializableObject {
+namespace HDeMods {
+	public class ChunkyRunInfo : ISerializableObject {
 		// This is the instance of RunInfo
 		[IgnoreDataMember]
-		public static RunInfo Instance;
+		public static ChunkyRunInfo Instance;
 		// This should only be true if ProperSave is present and added settings
 		[IgnoreDataMember]
 		public static bool preSet;

@@ -2,32 +2,32 @@ using R2API.Networking;
 using R2API.Networking.Interfaces;
 using UnityEngine.Networking;
 
-namespace ChunkyMode {
-	public static class ASeriesOfTubes {
+namespace HDeMods {
+	public static class ChunkyASeriesOfTubes {
 		public static void SetUpNetworking() {
-			NetworkingAPI.RegisterRequestTypes<RequestRunInfo,ReplyRunInfo>();
+			NetworkingAPI.RegisterRequestTypes<ChunkyRequestRunInfo,ChunkyReplyRunInfo>();
 		}
 		
 		public static void DoNetworkingStuff() {
 			if (NetworkServer.active) return;
 			
-			new RequestRunInfo().Send<RequestRunInfo,ReplyRunInfo>(NetworkDestination.Server);
+			new ChunkyRequestRunInfo().Send<ChunkyRequestRunInfo,ChunkyReplyRunInfo>(NetworkDestination.Server);
 		}
 	}
 
-	internal class RequestRunInfo : INetRequest<RequestRunInfo, ReplyRunInfo> {
-		public RequestRunInfo() {
+	internal class ChunkyRequestRunInfo : INetRequest<ChunkyRequestRunInfo, ChunkyReplyRunInfo> {
+		public ChunkyRequestRunInfo() {
 			if(!NetworkServer.active) Log.Info("Requesting RunInfo from host.");
 		}
 		
-		public ReplyRunInfo OnRequestReceived() {
+		public ChunkyReplyRunInfo OnRequestReceived() {
 			if (!NetworkServer.active) {
 				Log.Warning("This is not the host, sending not ready flag.");
-				return new ReplyRunInfo { _runInfo = null , _ready = false};
+				return new ChunkyReplyRunInfo { _runInfo = null , _ready = false};
 			}
-			Log.Info("RunInfo requested by client.");
-			Log.Info("Sending RunInfo now!");
-			return new ReplyRunInfo { _runInfo = RunInfo.Instance , _ready = true};
+			Log.Info("ChunkyRunInfo requested by client.");
+			Log.Info("Sending ChunkyRunInfo now!");
+			return new ChunkyReplyRunInfo { _runInfo = ChunkyRunInfo.Instance , _ready = true};
 		}
 
 		public void Serialize(NetworkWriter writer) {
@@ -39,8 +39,8 @@ namespace ChunkyMode {
 		}
 	}
 
-	internal class ReplyRunInfo : INetRequestReply<RequestRunInfo, ReplyRunInfo> {
-		internal RunInfo _runInfo;
+	internal class ChunkyReplyRunInfo : INetRequestReply<ChunkyRequestRunInfo, ChunkyReplyRunInfo> {
+		internal ChunkyRunInfo _runInfo;
 		internal bool _ready;
 		
 		public void OnReplyReceived() {
@@ -53,8 +53,8 @@ namespace ChunkyMode {
 				return;
 			}
 			if (_runInfo == null) return;
-			Log.Info("RunInfo received, applying now!");
-            RunInfo.Instance = _runInfo;
+			Log.Info("ChunkyRunInfo received, applying now!");
+            ChunkyRunInfo.Instance = _runInfo;
 		}
 
 		public void Serialize(NetworkWriter writer) {
@@ -63,7 +63,7 @@ namespace ChunkyMode {
 		}
 
 		public void Deserialize(NetworkReader reader) {
-			_runInfo = reader.Read<RunInfo>();
+			_runInfo = reader.Read<ChunkyRunInfo>();
 			_ready = reader.ReadBoolean();
 		}
 	}
