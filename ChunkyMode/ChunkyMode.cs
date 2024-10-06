@@ -172,6 +172,12 @@ namespace ChunkyMode
             shouldRun = true;
             
             ASeriesOfTubes.DoNetworkingStuff();
+            
+            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+#if DEBUG
+            reportErrorAnyway = true;
+#endif
+            if (!NetworkServer.active) return;
 
             if (RunInfo.Instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)
@@ -190,15 +196,11 @@ namespace ChunkyMode
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
-            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
            
             if (!RunInfo.Instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
-#if DEBUG
-            reportErrorTime = Run.instance.NetworkfixedTime;
-#endif
         }
 
         private void Run_onRunDestroyGlobal(Run run) {
@@ -207,8 +209,6 @@ namespace ChunkyMode
             shouldRun = false;
             RunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
-
-            ASeriesOfTubes.readyToRumble = false;
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
@@ -238,7 +238,7 @@ namespace ChunkyMode
         }
         
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
-        private static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender,
+        public static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender,
             RecalculateStatsAPI.StatHookEventArgs args) {
             if (!sender) return;
             if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
