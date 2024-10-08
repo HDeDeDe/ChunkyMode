@@ -1,3 +1,6 @@
+## 0.1.9
+- Enemies now have a chance to speak. This is infrequent and can be disabled if desired.
+- Fixed typo in data member. ProperSaves may be lost with this change.
 ## 0.1.8
 - Fixed max enemy levels not being reset at the end of a run.
 - Level cap change is now listed on the difficulty card.
