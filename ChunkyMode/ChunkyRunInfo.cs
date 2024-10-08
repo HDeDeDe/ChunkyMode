@@ -13,7 +13,7 @@ namespace HDeMods {
 		// These are to prevent changing settings mid run
 		[DataMember(Name = "loiter")]
 		public bool doLoiterThisRun; 
-		[DataMember(Name = "fold")]
+		[DataMember(Name = "gold")]
 		public bool doGoldThisRun;
 		[DataMember(Name = "nerf")]
 		public bool doNerfsThisRun;
