@@ -3,6 +3,7 @@
     "CHUNKYMODEDIFFMOD_NAME" : "Chunky Mode",
     "CHUNKYMODEDIFFMOD_DESCRIPTION" : "<color=#C80000>For fools</color>. The nightmares this planet holds will devour you faster than ever before. You will be overwhelmed. You will suffer.\n\n<style=cStack>>Player Health Regeneration: <style=cIsHealth>-40%</style>\n>Difficulty Scaling: <style=cIsHealth>+100%</style>\n>Ally Healing: <style=cIsHealth>-50%</style>\n>Ally Shield Recharge Rate: <style=cIsHealth>-50%</style>\n>Enemy Speed: <style=cIsHealth>+40%</style>\n>Enemy Cooldowns: <style=cIsHealth>-50%</style>\n>Enemy Attack Speed: <style=cIsHealth>+50%</style>\n>Enemy Spawn Rate: <style=cIsHealth>+10%</style>\n>Enemy Level Cap: <style=cIsHealth>+9900</style>\n>Loot Spawn Rate: <style=cIsHealing>+20%</style>\nand <style=cIsHealth>more</style>...</style>",
     "CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION" : "Options for Chunky Mode. These options can not be changed during a run.",
+    "CHUNKYMODEDIFFMOD_YAP_FORMAT" : "<color=#c6d5ff><size=120%>{0}: {1}</color></size>",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_HEALING_BUFFS.CHECKBOX.NAME" : "Do Healing Buffs",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_HEALING_BUFFS.CHECKBOX.DESCRIPTION" : "Enables buffs to some survivor healing skills. Disable if you want a harder challenge.",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_LOITER_PENALTY.CHECKBOX.NAME" : "Do Loiter Penalty",
@@ -12,7 +13,11 @@
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_GOLD_PENALTY.CHECKBOX.NAME" : "Do Gold Penalty",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_GOLD_PENALTY.CHECKBOX.DESCRIPTION" : "Enables a -10% gold penalty. Disable to speed up gameplay.",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_NERFS.CHECKBOX.NAME" : "Do Enemy Nerfs",
-    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_NERFS.CHECKBOX.DESCRIPTION" : "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants."
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_NERFS.CHECKBOX.DESCRIPTION" : "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_SPEECH_CHANCE.INT_SLIDER.NAME" : "Enemy Speech Chance",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_SPEECH_CHANCE.INT_SLIDER.DESCRIPTION" : "The probability of enemies to yap. Set to 0 to stop the yapping.",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_COOLDOWN.SLIDER.NAME" : "Enemy Yap Cooldown",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_COOLDOWN.SLIDER.DESCRIPTION" : "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping."
   },
   "en" : {
     "CHUNKYMODE_WARNING_TO_LOCALIZERS" : "Changes made to any key that starts with RISK_OF_OPTIONS.* won't apply in english because Risk of Options overwrites them."

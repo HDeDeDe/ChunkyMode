@@ -45,6 +45,9 @@ namespace HDeMods
         private static float stagePunishTimer;
         private static bool teleporterHit;
         
+        // These are related to random enemy speaking
+        private static float enemyYapTimer;
+        
         // These are the override values
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;
@@ -56,6 +59,9 @@ namespace HDeMods
         public static ConfigEntry<bool> doEnemyLimitBoost { get; set; }
         public static ConfigEntry<bool> doGoldPenalty { get; set; }
         public static ConfigEntry<bool> doEnemyNerfs { get; set; }
+        
+        public static ConfigEntry<int> enemyChanceToYap { get; set; }
+        public static ConfigEntry<float> enemyYapCooldown { get; set; }
         
         public void Awake()
         {
@@ -70,9 +76,13 @@ namespace HDeMods
             if (ChunkySaving.enabled) ChunkySaving.SetUp();
             if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
             ChunkyASeriesOfTubes.SetUpNetworking();
+            
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+            
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
         }
         
 #if DEBUG
@@ -129,12 +139,24 @@ namespace HDeMods
                 "Do Enemy Nerfs",
                 true,
                 "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
+            enemyChanceToYap = Config.Bind<int>(
+                "Yapping",
+                "Enemy Yap Chance",
+                5,
+                "The probability of enemies to yap. Set to 0 to stop the yapping.");
+            enemyYapCooldown = Config.Bind<float>(
+                "Yapping",
+                "Enemy Yap Cooldown",
+                30f,
+                "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping.");
             if (!ChunkyOptions.enabled) return;
             ChunkyOptions.AddCheck(doHealingBuffs);
             ChunkyOptions.AddCheck(doLoiterPenalty);
             ChunkyOptions.AddCheck(doEnemyLimitBoost);
             ChunkyOptions.AddCheck(doGoldPenalty);
             ChunkyOptions.AddCheck(doEnemyNerfs);
+            ChunkyOptions.AddInt(enemyChanceToYap);
+            ChunkyOptions.AddFloat(enemyYapCooldown);
             ChunkyOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
@@ -167,6 +189,8 @@ namespace HDeMods
                 ChunkyRunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
                 ChunkyRunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
                 ChunkyRunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
+                ChunkyRunInfo.Instance.enemyChanceToYapThisRun = enemyChanceToYap.Value;
+                ChunkyRunInfo.Instance.enemyYapCooldownThisRun = enemyYapCooldown.Value;
             }
             
             ChunkyASeriesOfTubes.DoNetworkingStuff();
@@ -194,10 +218,10 @@ namespace HDeMods
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             On.RoR2.HealthComponent.Heal += OnHeal;
-           
+            On.RoR2.Run.BeginStage += Run_BeginStage;
+            
             if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
-            On.RoR2.Run.BeginStage += Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
         }
 
@@ -242,6 +266,16 @@ namespace HDeMods
             if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
             
             if (getFuckedLMAO) args.healthMultAdd += 1.0f;
+            
+            int funko = UnityEngine.Random.RandomRangeInt(1, 10000);
+            
+            if (NetworkServer.active && funko < ChunkyRunInfo.Instance.enemyChanceToYapThisRun && enemyYapTimer < Run.instance.NetworkfixedTime) {
+#if DEBUG
+                Log.Debug("Speaking now");
+#endif
+                enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.enemyYapCooldownThisRun;
+                ChunkyYap.DoYapping(funko, sender.baseNameToken);
+            }
 
             if (!ChunkyRunInfo.Instance.doNerfsThisRun) {
                 args.attackSpeedMultAdd += 0.5f;
@@ -298,6 +332,15 @@ namespace HDeMods
 
         // Set up Loitering Punishment
         private void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
+            enemyYapTimer = self.NetworkfixedTime + 10f;
+#if DEBUG
+            Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
+#endif
+            if (ChunkyRunInfo.Instance.doLoiterThisRun) {
+                beginStage(self);
+                return;
+            }
+            
             teleporterHit = false;
             teleporterExists = false;
             getFuckedLMAO = false;

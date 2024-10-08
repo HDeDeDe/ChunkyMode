@@ -21,6 +21,10 @@ namespace HDeMods {
 		public bool doHealBuffThisRun;
 		[DataMember(Name = "boost")]
 		public bool doEnemyBoostThisRun;
+		[DataMember(Name = "yapChance")]
+		public int enemyChanceToYapThisRun;
+		[DataMember(Name = "yapTime")]
+		public float enemyYapCooldownThisRun;
 
 		public void Serialize(NetworkWriter writer) {
 			writer.Write(doLoiterThisRun);
@@ -28,6 +32,8 @@ namespace HDeMods {
 			writer.Write(doNerfsThisRun);
 			writer.Write(doHealBuffThisRun);
 			writer.Write(doEnemyBoostThisRun);
+			writer.Write(enemyChanceToYapThisRun);
+			writer.Write(enemyYapCooldownThisRun);
 		}
 
 		public void Deserialize(NetworkReader reader) {
@@ -36,6 +42,8 @@ namespace HDeMods {
 			doNerfsThisRun = reader.ReadBoolean();
 			doHealBuffThisRun = reader.ReadBoolean();
 			doEnemyBoostThisRun = reader.ReadBoolean();
+			enemyChanceToYapThisRun = reader.ReadInt32();
+			enemyYapCooldownThisRun = reader.ReadSingle();
 		}
 	}
 }
