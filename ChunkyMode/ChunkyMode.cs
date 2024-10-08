@@ -18,7 +18,7 @@ namespace HDeMods
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency(EnrageArtifact.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
+    //[BepInDependency(EnrageArtifact.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     public class ChunkyMode : BaseUnityPlugin
     {
@@ -74,7 +74,7 @@ namespace HDeMods
             BindSettings();
             ChunkyRunInfo.Instance = new ChunkyRunInfo();
             if (ChunkySaving.enabled) ChunkySaving.SetUp();
-            if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
+            //if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
             ChunkyASeriesOfTubes.SetUpNetworking();
             
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
