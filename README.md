@@ -1,5 +1,5 @@
 # Chunky Mode
-![chunky](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/icon.png?raw=true)
+![chunky](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/ror2Assets/Assets/ChunkyDiffAssets/ChunkyDiffBundle/texChunkyModeDiffIcon.png?raw=true)
 
 A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.
 
