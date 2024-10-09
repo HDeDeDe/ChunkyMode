@@ -5,8 +5,6 @@ using BepInEx.Configuration;
 using R2API;
 using RoR2;
 using UnityEngine;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using UnityEngine.Networking;
 
 namespace HDeMods
@@ -46,14 +44,8 @@ namespace HDeMods
         private static float enemyWaveTimerRefresh;
         private static float largestEnemyCredit;
         
-        
         // These are related to random enemy speaking
         private static float enemyYapTimer;
-        
-        // These are the override values
-        private const float rexHealOverride = 1.5f;
-        private const float acridHealOverride = 2f;
-        private const float shieldRechargeOverride = 2f;
         
         // These values can be changed by the player through config options
         public static ConfigEntry<bool> doHealingBuffs { get; set; }
@@ -223,11 +215,11 @@ namespace HDeMods
                 TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
             }
 
-            IL.RoR2.HealthComponent.ServerFixedUpdate += ShieldRechargeRate;
+            IL.RoR2.HealthComponent.ServerFixedUpdate += ChunkyILHooks.ShieldRechargeRate;
             if (ChunkyRunInfo.Instance.doHealBuffThisRun){ 
-                IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += REXHealPulse;
-                IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += REXPrimaryAttack;
-                IL.RoR2.CharacterBody.RecalculateStats += AcridRegenBuff; 
+                IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
+                IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += ChunkyILHooks.REXPrimaryAttack;
+                IL.RoR2.CharacterBody.RecalculateStats += ChunkyILHooks.AcridRegenBuff; 
             }
             
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
@@ -252,10 +244,10 @@ namespace HDeMods
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = ogMonsterCap;
             
-            IL.RoR2.HealthComponent.ServerFixedUpdate -= ShieldRechargeRate;
-            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= REXHealPulse;
-            IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -= REXPrimaryAttack;
-            IL.RoR2.CharacterBody.RecalculateStats -= AcridRegenBuff;
+            IL.RoR2.HealthComponent.ServerFixedUpdate -= ChunkyILHooks.ShieldRechargeRate;
+            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= ChunkyILHooks.REXHealPulse;
+            IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -= ChunkyILHooks.REXPrimaryAttack;
+            IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
             
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.HealthComponent.Heal -= OnHeal;
@@ -371,6 +363,30 @@ namespace HDeMods
             teleporterPlaced(self, sceneDirector, thing);
         }
         
+        // Toying with harsher loiter penalty
+        private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
+            if (!getFuckedLMAO || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
+                if (largestEnemyCredit < self.monsterCredit) largestEnemyCredit = self.monsterCredit;
+                simulate(self, deltaTime);
+                return;
+            }
+#if DEBUG
+            Log.Debug("Refreshing combat timers");
+#endif
+            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
+            self.monsterSpawnTimer = 0f;
+            self.monsterCredit = largestEnemyCredit;
+            simulate(self, deltaTime);
+        }
+        
+        // Disable loitering penalty when the teleporter is interacted with
+        private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
+            largestEnemyCredit = 0f;
+            getFuckedLMAO = false;
+            teleporterHit = true;
+            interact(teleporterState, interactor);
+        }
+        
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
@@ -431,117 +447,5 @@ namespace HDeMods
             reportErrorAnyway = false;
         }
 #endif
-
-        // Toying with harsher loiter penalty
-        private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
-            if (!getFuckedLMAO || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
-                if (largestEnemyCredit < self.monsterCredit) largestEnemyCredit = self.monsterCredit;
-                simulate(self, deltaTime);
-                return;
-            }
-#if DEBUG
-            Log.Debug("Refreshing combat timers");
-#endif
-            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
-            self.monsterSpawnTimer = 0f;
-            self.monsterCredit = largestEnemyCredit;
-            simulate(self, deltaTime);
-        }
-        
-        // Disable loitering penalty when the teleporter is interacted with
-        private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
-            largestEnemyCredit = 0f;
-            getFuckedLMAO = false;
-            teleporterHit = true;
-            interact(teleporterState, interactor);
-        }
-
-        // This handles the -50% Ally Shield Recharge Rate stat
-        private void ShieldRechargeRate(ILContext il) {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchLdloc(4),
-                x => x.MatchLdarg(0),
-                x => x.MatchLdfld<HealthComponent>("body"),
-                x => x.MatchCallvirt<CharacterBody>("get_maxShield"),
-                x => x.MatchLdcR4(0.5f),
-                // Inserting here
-                x => x.MatchMul()
-            );
-            c.Index += 5;
-            c.Emit(OpCodes.Ldarg_0);
-            c.Emit(OpCodes.Ldfld, typeof(HealthComponent).GetField("body"));
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>((toRecharge, cb) => {
-                if (cb.teamComponent.teamIndex != TeamIndex.Player) return toRecharge;
-                return toRecharge / shieldRechargeOverride;
-            });
-        }
-        
-        // This buffs REX's Tangling Growth
-        private void REXHealPulse(ILContext il) {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchConvR4(),
-                x => x.MatchMul(),
-                // Inserting here
-                x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue"),
-                x => x.MatchLdloc(2),
-                x => x.MatchLdcR4(0.3f)
-            );
-            c.Index += 2;
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile, float>>(
-                (toHeal, tbf) => {
-                    if (!tbf.owner) return toHeal;
-                    if (tbf.owner.GetComponent<CharacterBody>().teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                    return toHeal * rexHealOverride;
-                });
-        }
-        
-        // This buffs REX's DIRECTIVE: Inject
-        private void REXPrimaryAttack(ILContext il) {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchLdfld<RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted>("fractionOfDamage"),
-                x => x.MatchMul(),
-                // Inserting here
-                x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue"),
-                x => x.MatchLdloc(1),
-                x => x.MatchLdcR4(0.3f)
-            );
-            c.Index += 2;
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted,
-                float>>(
-                (toHeal,self) => {
-                    if (self.projectileController.name != "SyringeProjectileHealing(Clone)") return toHeal;
-                    if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
-                        TeamIndex.Player) return toHeal;
-                    return toHeal * rexHealOverride;
-                });
-        }
-        
-        // This buffs Acrid's Vicious Wounds and Ravenous Bite
-        private void AcridRegenBuff(ILContext il) {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchCall<CharacterBody>("GetBuffCount"),
-                x => x.MatchConvR4(),
-                x => x.MatchLdarg(0),
-                x => x.MatchCall<CharacterBody>("get_maxHealth"),
-                x => x.MatchMul(),
-                x => x.MatchLdcR4(0.1f),
-                //Insert Here
-                x => x.MatchMul()
-            );
-            c.Index += 6;
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
-                (toHeal, cb) => {
-                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                    return toHeal * acridHealOverride;
-                });
-        }
-        
     }
 }
