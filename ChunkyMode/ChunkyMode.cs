@@ -44,6 +44,7 @@ namespace HDeMods
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
+        private static float enemyWaveTimerRefresh;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -223,6 +224,7 @@ namespace HDeMods
             if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
+            On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
         }
 
         private void Run_onRunDestroyGlobal(Run run) {
@@ -249,6 +251,7 @@ namespace HDeMods
             On.RoR2.Run.OnServerTeleporterPlaced -= Run_OnServerTeleporterPlaced;
             On.RoR2.Run.BeginStage -= Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
+            On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
         }
         
         // This handles the -50% Ally Healing stat
@@ -417,6 +420,23 @@ namespace HDeMods
             reportErrorAnyway = false;
         }
 #endif
+
+        // Toying with harsher loiter penalty
+        private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
+            if (!getFuckedLMAO || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
+                simulate(self, deltaTime);
+                return;
+            }
+#if DEBUG
+            Log.Debug("Refreshing combat timers");
+#endif
+            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + 3f;
+            self.monsterSpawnTimer = 0f;
+            foreach (CombatDirector.DirectorMoneyWave moneyWave in self.moneyWaves) {
+                moneyWave.timer = moneyWave.interval;
+            }
+            simulate(self, deltaTime);
+        }
         
         // Disable loitering penalty when the teleporter is interacted with
         private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
