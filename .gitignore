@@ -328,3 +328,19 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Unity Project
+!Resources/ror2Assets/Packages/manifest.json
+!Resources/ror2Assets/Packages/packages-lock.json
+!Resources/ror2Assets/Assets/*.meta
+!Resources/ror2Assets/Assets/AssetBundle/*.meta
+!Resources/ror2Assets/Assets/Scenes/*.meta
+!Resources/ror2Assets/Assets/ChunkyDiffAssets/*.meta
+!Resources/ror2Assets/Assets/ChunkyDiffAssets/ChunkyDiffBundle/*.meta
+Resources/ror2Assets/Library/
+Resources/ror2Assets/Logs/
+Resources/ror2Assets/obj/
+Resources/ror2Assets/Temp/
+Resources/ror2Assets/UserSettings/
+Resources/ror2Assets/*.csproj
+Resources/ror2Assets/*.sln
