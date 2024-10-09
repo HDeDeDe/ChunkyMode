@@ -20,7 +20,7 @@ namespace HDeMods {
 
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddCheck(ConfigEntry<bool> option) {
-			CheckBoxOption boxOption = new CheckBoxOption(option);
+			ChunkyCheckBoxOption boxOption = new ChunkyCheckBoxOption(option);
 			ModSettingsManager.AddOption(boxOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 #if DEBUG
 			Log.Info(boxOption.GetNameToken());
@@ -30,7 +30,7 @@ namespace HDeMods {
 		
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
-			IntSliderOption sliderOption = new IntSliderOption(option, new IntSliderConfig() {min = minimum, max = maximum});
+			ChunkyIntSliderOption sliderOption = new ChunkyIntSliderOption(option, new IntSliderConfig() {min = minimum, max = maximum});
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG
@@ -40,7 +40,7 @@ namespace HDeMods {
 		}
 		
 		public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum) {
-			SliderOption sliderOption = new SliderOption(option, new SliderConfig() {min = minimum, max = maximum});
+			ChunkySliderOption sliderOption = new ChunkySliderOption(option, new SliderConfig() {min = minimum, max = maximum});
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG
@@ -57,6 +57,39 @@ namespace HDeMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SetDescriptionToken(string description) {
 			ModSettingsManager.SetModDescriptionToken(description);
+		}
+	}
+
+	// Thanks to Bubbet for the suggestion to do this
+	public class ChunkyCheckBoxOption : CheckBoxOption {
+		public ChunkyCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry)
+		{
+		}
+
+		public override void RegisterTokens()
+		{
+		}
+	}
+	
+	public class ChunkyIntSliderOption : IntSliderOption {
+
+		public ChunkyIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config)
+		{
+		}
+
+		public override void RegisterTokens()
+		{
+		}
+	}
+	
+	public class ChunkySliderOption : SliderOption {
+
+		public ChunkySliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config)
+		{
+		}
+
+		public override void RegisterTokens()
+		{
 		}
 	}
 }

@@ -22,8 +22,5 @@
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.DESCRIPTION" : "The amount of time from the start of the stage until the loiter penalty is enforced.",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.NAME" : "Loiter penalty frequency",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.DESCRIPTION" : "The amount of time between forced enemy spawns."
-  },
-  "en" : {
-    "CHUNKYMODE_WARNING_TO_LOCALIZERS" : "Changes made to any key that starts with RISK_OF_OPTIONS.* won't apply in english because Risk of Options overwrites them."
   }
 }
