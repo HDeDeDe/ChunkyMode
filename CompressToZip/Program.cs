@@ -15,7 +15,7 @@ string manifestAuthor = HDeMods.ChunkyMode.PluginAuthor;
 string manifestName = HDeMods.ChunkyMode.PluginName;
 string manifestVersionNumber = HDeMods.ChunkyMode.PluginVersion;
 string manifestWebsiteUrl = "https://github.com/HDeDeDe/ChunkyMode";
-string manifestDescription = "A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.";
+string manifestDescription = "LOITER PENALTY REWORKED! A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.";
 string manifestDependencies = "[\n" +
                               "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" + 
                               "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\",\n" + 
