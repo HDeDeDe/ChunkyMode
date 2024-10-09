@@ -35,7 +35,6 @@ namespace HDeMods
         
         // Run start checks
         private static bool shouldRun;
-        private static bool swarmsEnabled;
         private static int ogMonsterCap;
         private static int ogRunLevelCap;
         
@@ -181,9 +180,6 @@ namespace HDeMods
         private void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
         {
             if (arg1.selectedDifficulty != ChunkyModeDifficultyIndex) return;
-            if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef))
-                swarmsEnabled = true;
-            else swarmsEnabled = false;
             ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap += 9900;
         }
@@ -285,8 +281,6 @@ namespace HDeMods
             RecalculateStatsAPI.StatHookEventArgs args) {
             if (!sender) return;
             if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
-            
-            if (getFuckedLMAO) args.healthMultAdd += 1.0f;
             
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
             
@@ -424,7 +418,6 @@ namespace HDeMods
             }
             Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
             getFuckedLMAO = true;
-            if (!swarmsEnabled) RunArtifactManager.instance.SetArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef, true);
         }
         
 #if DEBUG
@@ -457,8 +450,6 @@ namespace HDeMods
         
         // Disable loitering penalty when the teleporter is interacted with
         private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
-            if (!swarmsEnabled && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef)) 
-                RunArtifactManager.instance.SetArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef, false);
             largestEnemyCredit = 0f;
             getFuckedLMAO = false;
             teleporterHit = true;
