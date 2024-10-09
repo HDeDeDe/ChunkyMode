@@ -3,7 +3,7 @@
 - Increased the value range for yapping from 10 thousand to 100 thousand.
 - Setting yap chance below 10 (0.01%) now disables yapping.
 - Decreased default yap chance from 0.05% to 0.03%
-- TODO
+- Fixed loiter penalty not resetting between stages
 - Reworked loitering penalty
 ## 0.1.9
 - Enemies now have a chance to speak. This is infrequent and can be disabled if desired.
