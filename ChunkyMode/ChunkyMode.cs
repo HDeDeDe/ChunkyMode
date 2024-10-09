@@ -142,8 +142,8 @@ namespace HDeMods
             enemyChanceToYap = Config.Bind<int>(
                 "Yapping",
                 "Enemy Yap Chance",
-                5,
-                "The probability of enemies to yap. Set to 0 to stop the yapping.");
+                30,
+                "The probability of enemies to yap. Set below 10 to stop the yapping.");
             enemyYapCooldown = Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Cooldown",
@@ -267,9 +267,9 @@ namespace HDeMods
             
             if (getFuckedLMAO) args.healthMultAdd += 1.0f;
             
-            int funko = UnityEngine.Random.RandomRangeInt(1, 10000);
+            int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
             
-            if (NetworkServer.active && funko < ChunkyRunInfo.Instance.enemyChanceToYapThisRun && enemyYapTimer < Run.instance.NetworkfixedTime) {
+            if (NetworkServer.active && funko < ChunkyRunInfo.Instance.enemyChanceToYapThisRun && ChunkyRunInfo.Instance.enemyChanceToYapThisRun >= 10 && enemyYapTimer < Run.instance.NetworkfixedTime) {
 #if DEBUG
                 Log.Debug("Speaking now");
 #endif
