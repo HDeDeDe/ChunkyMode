@@ -29,8 +29,8 @@ namespace HDeMods {
 		}
 		
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-		public static void AddInt(ConfigEntry<int> option) {
-			IntSliderOption sliderOption = new IntSliderOption(option, new IntSliderConfig() {min = 0, max = 100000});
+		public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
+			IntSliderOption sliderOption = new IntSliderOption(option, new IntSliderConfig() {min = minimum, max = maximum});
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG
@@ -39,8 +39,8 @@ namespace HDeMods {
 #endif
 		}
 		
-		public static void AddFloat(ConfigEntry<float> option) {
-			SliderOption sliderOption = new SliderOption(option, new SliderConfig() {min = 0f, max = 600f});
+		public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum) {
+			SliderOption sliderOption = new SliderOption(option, new SliderConfig() {min = minimum, max = maximum});
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG

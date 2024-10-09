@@ -45,6 +45,8 @@ namespace HDeMods
         private static float stagePunishTimer;
         private static bool teleporterHit;
         private static float enemyWaveTimerRefresh;
+        private static float largestEnemyCredit;
+        
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -63,6 +65,8 @@ namespace HDeMods
         
         public static ConfigEntry<int> enemyChanceToYap { get; set; }
         public static ConfigEntry<float> enemyYapCooldown { get; set; }
+        public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
+        public static ConfigEntry<float> loiterPenaltyFrequency { get; set; }
         
         public void Awake()
         {
@@ -150,14 +154,26 @@ namespace HDeMods
                 "Enemy Yap Cooldown",
                 30f,
                 "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping.");
+            timeUntilLoiterPenalty = Config.Bind<float>(
+                "Loitering",
+                "Time until loiter penalty",
+                360f,
+                "The amount of time from the start of the stage until the loiter penalty is enforced.");
+            loiterPenaltyFrequency = Config.Bind<float>(
+                "Loitering",
+                "Loiter penalty frequency",
+                10f,
+                "The amount of time between forced enemy spawns.");
             if (!ChunkyOptions.enabled) return;
             ChunkyOptions.AddCheck(doHealingBuffs);
             ChunkyOptions.AddCheck(doLoiterPenalty);
             ChunkyOptions.AddCheck(doEnemyLimitBoost);
             ChunkyOptions.AddCheck(doGoldPenalty);
             ChunkyOptions.AddCheck(doEnemyNerfs);
-            ChunkyOptions.AddInt(enemyChanceToYap);
-            ChunkyOptions.AddFloat(enemyYapCooldown);
+            ChunkyOptions.AddInt(enemyChanceToYap, 0, 100000);
+            ChunkyOptions.AddFloat(enemyYapCooldown, 0f, 600f);
+            ChunkyOptions.AddFloat(timeUntilLoiterPenalty, 0f, 600f);
+            ChunkyOptions.AddFloat(loiterPenaltyFrequency, 0f, 60f);
             ChunkyOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
@@ -192,6 +208,8 @@ namespace HDeMods
                 ChunkyRunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
                 ChunkyRunInfo.Instance.enemyChanceToYapThisRun = enemyChanceToYap.Value;
                 ChunkyRunInfo.Instance.enemyYapCooldownThisRun = enemyYapCooldown.Value;
+                ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
+                ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
             }
             
             ChunkyASeriesOfTubes.DoNetworkingStuff();
@@ -354,7 +372,7 @@ namespace HDeMods
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
         private void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
-            stagePunishTimer = self.NetworkfixedTime + 300f;
+            stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun;
             Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
             teleporterPlaced(self, sceneDirector, thing);
         }
@@ -424,17 +442,16 @@ namespace HDeMods
         // Toying with harsher loiter penalty
         private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
             if (!getFuckedLMAO || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
+                if (largestEnemyCredit < self.monsterCredit) largestEnemyCredit = self.monsterCredit;
                 simulate(self, deltaTime);
                 return;
             }
 #if DEBUG
             Log.Debug("Refreshing combat timers");
 #endif
-            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + 3f;
+            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
             self.monsterSpawnTimer = 0f;
-            foreach (CombatDirector.DirectorMoneyWave moneyWave in self.moneyWaves) {
-                moneyWave.timer = moneyWave.interval;
-            }
+            self.monsterCredit = largestEnemyCredit;
             simulate(self, deltaTime);
         }
         
@@ -442,6 +459,7 @@ namespace HDeMods
         private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
             if (!swarmsEnabled && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef)) 
                 RunArtifactManager.instance.SetArtifactEnabled(RoR2Content.Artifacts.swarmsArtifactDef, false);
+            largestEnemyCredit = 0f;
             getFuckedLMAO = false;
             teleporterHit = true;
             interact(teleporterState, interactor);
