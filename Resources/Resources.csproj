@@ -8,6 +8,7 @@
     </Content>
     <Content Include="chunkydifficon" />
     <Content Include="ChunkyMode.language" />
+    <Content Include="ChunkyModeIconSource.clip" />
     <Content Include="icon.png" />
     <Content Include="libs\EnragedAssembly.dll" />
     <Content Include="libs\ProperSave.dll" />
