@@ -339,7 +339,7 @@ namespace HDeMods
 #if DEBUG
             Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
 #endif
-            if (ChunkyRunInfo.Instance.doLoiterThisRun) {
+            if (!ChunkyRunInfo.Instance.doLoiterThisRun) {
                 beginStage(self);
                 return;
             }
