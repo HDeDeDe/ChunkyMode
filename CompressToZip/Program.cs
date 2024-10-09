@@ -8,7 +8,7 @@ FileInfo chunkyModeDLL;
 FileInfo chunkyDiffIcon = new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon");
 FileInfo changelog = new FileInfo("../CHANGELOG.md");
 FileInfo readme = new FileInfo("../README.md");
-FileInfo icon = new FileInfo("../Resources/icon.png");
+FileInfo icon = new FileInfo("../Resources/ror2Assets/Assets/ChunkyDiffAssets/ChunkyDiffBundle/texChunkyModeDiffIcon.png");
 FileInfo languageFile = new FileInfo("../Resources/ChunkyMode.language");
 
 string manifestAuthor = HDeMods.ChunkyMode.PluginAuthor;
@@ -43,7 +43,7 @@ archive.CreateEntryFromFile(chunkyDiffIcon.FullName, chunkyDiffIcon.Name, Compre
 archive.CreateEntryFromFile(changelog.FullName, changelog.Name, CompressionLevel.Optimal);
 archive.CreateEntryFromFile(readme.FullName, readme.Name, CompressionLevel.Optimal);
 archive.CreateEntryFromFile(chunkyModeDLL.FullName, chunkyModeDLL.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(icon.FullName, icon.Name, CompressionLevel.Optimal);
+archive.CreateEntryFromFile(icon.FullName, "icon.png", CompressionLevel.Optimal);
 archive.CreateEntryFromFile(languageFile.FullName, languageFile.Name, CompressionLevel.Optimal);
 ZipArchiveEntry manifest = archive.CreateEntry("manifest.json", CompressionLevel.Optimal);
 using (StreamWriter writer = new StreamWriter(manifest.Open())) {
