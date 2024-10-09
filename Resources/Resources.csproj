@@ -6,7 +6,6 @@
     <Content Include="..\README.md">
       <Link>README.md</Link>
     </Content>
-    <Content Include="chunkydifficon" />
     <Content Include="ChunkyMode.language" />
     <Content Include="ChunkyModeIconSource.clip" />
     <Content Include="icon.png" />

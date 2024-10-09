@@ -5,7 +5,7 @@ using System.IO.Compression;
 string targetFile = "../ChunkyMode/bin/ChunkyMode.zip";
 
 FileInfo chunkyModeDLL;
-FileInfo chunkyDiffIcon = new FileInfo("../Resources/chunkydifficon");
+FileInfo chunkyDiffIcon = new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon");
 FileInfo changelog = new FileInfo("../CHANGELOG.md");
 FileInfo readme = new FileInfo("../README.md");
 FileInfo icon = new FileInfo("../Resources/icon.png");
