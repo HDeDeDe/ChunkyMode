@@ -1,10 +1,13 @@
-## 0.1.10
+## 0.2.0
 - Updated icon
 - Increased the value range for yapping from 10 thousand to 100 thousand.
 - Setting yap chance below 10 (0.01%) now disables yapping.
 - Decreased default yap chance from 0.05% to 0.03%
 - Fixed loiter penalty not resetting between stages
+- Added options to tune loiter penalty
+- Loiter penalty now kicks in at 6 minutes by default
 - Reworked loitering penalty
+  - Penalty now causes the Combat Director to go into overdrive instead of enabling Artifact of Swarms.
 ## 0.1.9
 - Enemies now have a chance to speak. This is infrequent and can be disabled if desired.
 - Fixed typo in data member. ProperSaves may be lost with this change.
