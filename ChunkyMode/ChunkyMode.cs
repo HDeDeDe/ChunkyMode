@@ -148,12 +148,12 @@ namespace HDeMods
             timeUntilLoiterPenalty = Config.Bind<float>(
                 "Loitering",
                 "Time until loiter penalty",
-                360f,
-                "The amount of time from the start of the stage until the loiter penalty is enforced.");
+                300f,
+                "The amount of time from the start of the stage until the loiter penalty is enforced. Longer values result in more time to loot but far more pronounced effects. Minimum of 60 seconds.");
             loiterPenaltyFrequency = Config.Bind<float>(
                 "Loitering",
                 "Loiter penalty frequency",
-                10f,
+                7f,
                 "The amount of time between forced enemy spawns.");
             if (!ChunkyOptions.enabled) return;
             ChunkyOptions.AddCheck(doHealingBuffs);
@@ -163,7 +163,7 @@ namespace HDeMods
             ChunkyOptions.AddCheck(doEnemyNerfs);
             ChunkyOptions.AddInt(enemyChanceToYap, 0, 100000);
             ChunkyOptions.AddFloat(enemyYapCooldown, 0f, 600f);
-            ChunkyOptions.AddFloat(timeUntilLoiterPenalty, 0f, 600f);
+            ChunkyOptions.AddFloat(timeUntilLoiterPenalty, 60f, 600f);
             ChunkyOptions.AddFloat(loiterPenaltyFrequency, 0f, 60f);
             ChunkyOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
@@ -347,7 +347,9 @@ namespace HDeMods
                 beginStage(self);
                 return;
             }
-            
+
+            enemyWaveTimerRefresh = 0f;
+            largestEnemyCredit = 0f;
             teleporterHit = false;
             teleporterExists = false;
             getFuckedLMAO = false;
@@ -363,7 +365,7 @@ namespace HDeMods
             teleporterPlaced(self, sceneDirector, thing);
         }
         
-        // Toying with harsher loiter penalty
+        // The loitering penalty
         private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
             if (!getFuckedLMAO || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
                 if (largestEnemyCredit < self.monsterCredit) largestEnemyCredit = self.monsterCredit;
@@ -374,8 +376,10 @@ namespace HDeMods
             Log.Debug("Refreshing combat timers");
 #endif
             enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
+            
             self.monsterSpawnTimer = 0f;
             self.monsterCredit = largestEnemyCredit;
+            
             simulate(self, deltaTime);
         }
         

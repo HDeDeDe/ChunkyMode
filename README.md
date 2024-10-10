@@ -29,7 +29,7 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
   - Brass Contraptions get +100%
 - Enemy cooldowns -50%
   - Brass Contraptions get +25%
-- After 5 minutes on a stage with a teleporter, artifact of swarms is enabled and all monsters get double hp. This persists until the teleporter event begins.
+- After 5 minutes on a stage with a teleporter, enemies will begin to spawn at an accelerated pace. This persists until the teleporter event begins.
 
 ## Installation
 To install with r2modman automatically, either click the "Install with Mod Manager" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/) or search for ChunkyMode within r2modman.
