@@ -24,6 +24,9 @@ namespace HDeMods {
 
 	public static class ChunkyYap {
 		public static void DoYapping(int randomNumber, [NotNull]string enemyToken) {
+#if DEBUG
+			Log.Debug("Speaking now");
+#endif
 			string baseToken = "";
 			randomNumber %= 10;
 			switch (randomNumber) {
@@ -61,6 +64,18 @@ namespace HDeMods {
 			Chat.SendBroadcastChat(new ChunkyChatEnemyYap() {
 				baseToken = baseToken,
 				enemyToken = enemyToken
+			});
+		}
+
+		public static void DoWarning() {
+#if DEBUG
+			Log.Debug("Warning now");
+#endif
+			Chat.SendBroadcastChat(new Chat.NpcChatMessage() {
+				baseToken = "CHUNKYMODEDIFFMOD_WARNING",
+				formatStringToken = "CHUNKYMODEDIFFMOD_WARNING_FORMAT",
+				sender = null,
+				sound = null
 			});
 		}
 	}

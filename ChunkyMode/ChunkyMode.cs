@@ -282,11 +282,10 @@ namespace HDeMods
             if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
             
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
+            int yap = ChunkyRunInfo.Instance.enemyChanceToYapThisRun;
+            if (getFuckedLMAO) yap *= 2;
             
-            if (NetworkServer.active && funko < ChunkyRunInfo.Instance.enemyChanceToYapThisRun && ChunkyRunInfo.Instance.enemyChanceToYapThisRun >= 10 && enemyYapTimer < Run.instance.NetworkfixedTime) {
-#if DEBUG
-                Log.Debug("Speaking now");
-#endif
+            if (NetworkServer.active && funko < yap && ChunkyRunInfo.Instance.enemyChanceToYapThisRun >= 10 && enemyYapTimer < Run.instance.NetworkfixedTime) {
                 enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.enemyYapCooldownThisRun;
                 ChunkyYap.DoYapping(funko, sender.baseNameToken);
             }
@@ -462,6 +461,7 @@ namespace HDeMods
             }
             Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
             getFuckedLMAO = true;
+            ChunkyYap.DoWarning();
         }
         
 #if DEBUG
