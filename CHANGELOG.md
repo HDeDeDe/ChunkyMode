@@ -1,3 +1,9 @@
+## 0.2.1
+- Changed loitering penalty to be less insane.
+- Loitering penalty severity can now be changed.
+- Reduced default loitering penalty frequency from 7 seconds to 5 seconds
+- Added warning for the loitering penalty.
+- Enemies are twice as likely to yap once the loitering penalty has kicked in.
 ## 0.2.0
 - Updated icon
 - Fixed difficulty not appearing in logbook. As a consequence, Chunky Mode no longer has a space.
