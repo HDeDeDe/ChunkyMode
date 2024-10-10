@@ -42,7 +42,6 @@ namespace HDeMods
         private static float stagePunishTimer;
         private static bool teleporterHit;
         private static float enemyWaveTimerRefresh;
-        private static float largestEnemyCredit;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -58,6 +57,7 @@ namespace HDeMods
         public static ConfigEntry<float> enemyYapCooldown { get; set; }
         public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
         public static ConfigEntry<float> loiterPenaltyFrequency { get; set; }
+        public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
         
         public void Awake()
         {
@@ -149,12 +149,17 @@ namespace HDeMods
                 "Loitering",
                 "Time until loiter penalty",
                 300f,
-                "The amount of time from the start of the stage until the loiter penalty is enforced. Longer values result in more time to loot but far more pronounced effects. Minimum of 60 seconds.");
+                "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds.");
             loiterPenaltyFrequency = Config.Bind<float>(
                 "Loitering",
                 "Loiter penalty frequency",
-                7f,
+                5f,
                 "The amount of time between forced enemy spawns.");
+            loiterPenaltySeverity = Config.Bind<float>(
+                "Loitering",
+                "Loiter penalty severity",
+                40f,
+                "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
             if (!ChunkyOptions.enabled) return;
             ChunkyOptions.AddCheck(doHealingBuffs);
             ChunkyOptions.AddCheck(doLoiterPenalty);
@@ -165,6 +170,7 @@ namespace HDeMods
             ChunkyOptions.AddFloat(enemyYapCooldown, 0f, 600f);
             ChunkyOptions.AddFloat(timeUntilLoiterPenalty, 60f, 600f);
             ChunkyOptions.AddFloat(loiterPenaltyFrequency, 0f, 60f);
+            ChunkyOptions.AddFloat(loiterPenaltySeverity, 10f, 100f);
             ChunkyOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
@@ -198,6 +204,7 @@ namespace HDeMods
                 ChunkyRunInfo.Instance.enemyYapCooldownThisRun = enemyYapCooldown.Value;
                 ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
                 ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
+                ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
             }
             
             ChunkyASeriesOfTubes.DoNetworkingStuff();
@@ -349,7 +356,6 @@ namespace HDeMods
             }
 
             enemyWaveTimerRefresh = 0f;
-            largestEnemyCredit = 0f;
             teleporterHit = false;
             teleporterExists = false;
             getFuckedLMAO = false;
@@ -367,25 +373,43 @@ namespace HDeMods
         
         // The loitering penalty
         private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
-            if (!getFuckedLMAO || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
-                if (largestEnemyCredit < self.monsterCredit) largestEnemyCredit = self.monsterCredit;
+            if (!getFuckedLMAO || teleporterHit || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
                 simulate(self, deltaTime);
                 return;
             }
 #if DEBUG
-            Log.Debug("Refreshing combat timers");
+            Log.Debug("Attempting to spawn enemy wave");
+#endif
+            float newCreditBalance = ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient;
+            float oldTimer = self.monsterSpawnTimer - deltaTime;
+            DirectorCard oldEnemy = self.currentMonsterCard;
+            DirectorCard newEnemy = self.SelectMonsterCardForCombatShrine(newCreditBalance);
+
+            if (newEnemy == null) {
+#if DEBUG
+                Log.Error("Invalid enemy. Retrying next update.");
+#endif
+                simulate(self, deltaTime);
+                return;
+            }
+#if DEBUG
+            Log.Debug("Spawning enemy wave");
 #endif
             enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
             
+            //Thank you .score for pointing out CombatDirector.CombatShrineActivation
             self.monsterSpawnTimer = 0f;
-            self.monsterCredit = largestEnemyCredit;
+            self.monsterCredit =+ newCreditBalance;
+            self.OverrideCurrentMonsterCard(newEnemy);
             
             simulate(self, deltaTime);
+
+            self.monsterSpawnTimer = oldTimer;
+            if (oldEnemy != null) self.OverrideCurrentMonsterCard(oldEnemy);
         }
         
         // Disable loitering penalty when the teleporter is interacted with
         private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
-            largestEnemyCredit = 0f;
             getFuckedLMAO = false;
             teleporterHit = true;
             interact(teleporterState, interactor);

@@ -29,6 +29,8 @@ namespace HDeMods {
 		public float loiterPenaltyTimeThisRun;
 		[DataMember(Name = "loiterFrequency")]
 		public float loiterPenaltyFrequencyThisRun;
+		[DataMember(Name = "loiterSeverity")]
+		public float loiterPenaltySeverityThisRun;
 
 		public void Serialize(NetworkWriter writer) {
 			writer.Write(doLoiterThisRun);
@@ -40,6 +42,7 @@ namespace HDeMods {
 			writer.Write(enemyYapCooldownThisRun);
 			writer.Write(loiterPenaltyTimeThisRun);
 			writer.Write(loiterPenaltyFrequencyThisRun);
+			writer.Write(loiterPenaltySeverityThisRun);
 		}
 
 		public void Deserialize(NetworkReader reader) {
@@ -52,6 +55,7 @@ namespace HDeMods {
 			enemyYapCooldownThisRun = reader.ReadSingle();
 			loiterPenaltyTimeThisRun = reader.ReadSingle();
 			loiterPenaltyFrequencyThisRun = reader.ReadSingle();
+			loiterPenaltySeverityThisRun = reader.ReadSingle();
 		}
 	}
 }

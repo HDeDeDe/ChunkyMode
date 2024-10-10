@@ -19,8 +19,10 @@
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_COOLDOWN.SLIDER.NAME" : "Enemy Yap Cooldown",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_COOLDOWN.SLIDER.DESCRIPTION" : "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping.",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.NAME" : "Time until loiter penalty",
-    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.DESCRIPTION" : "The amount of time from the start of the stage until the loiter penalty is enforced. Longer values result in more time to loot but far more pronounced effects. Minimum of 60 seconds.",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.DESCRIPTION" : "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds.",
     "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.NAME" : "Loiter penalty frequency",
-    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.DESCRIPTION" : "The amount of time between forced enemy spawns."
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.DESCRIPTION" : "The amount of time between forced enemy spawns.",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_SEVERITY.SLIDER.NAME" : "Loiter penalty severity",
+    "RISK_OF_OPTIONS.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_SEVERITY.SLIDER.DESCRIPTION" : "The strength of spawned enemies. 40 is equal to 1 combat shrine."
   }
 }
