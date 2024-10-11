@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 982906977
+CRC: 4130106121
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: chunkydifficon
+      Dependencies: {}
+    Info_1:
+      Name: lunarbottledchaos
       Dependencies: {}

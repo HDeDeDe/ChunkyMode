@@ -337,6 +337,7 @@ ASALocalRun/
 !Resources/ror2Assets/Assets/Scenes/*.meta
 !Resources/ror2Assets/Assets/ChunkyDiffAssets/*.meta
 !Resources/ror2Assets/Assets/ChunkyDiffAssets/ChunkyDiffBundle/*.meta
+Resources/ror2Assets/Assets/LunarBottledChaos/
 Resources/ror2Assets/Library/
 Resources/ror2Assets/Logs/
 Resources/ror2Assets/obj/
@@ -344,3 +345,6 @@ Resources/ror2Assets/Temp/
 Resources/ror2Assets/UserSettings/
 Resources/ror2Assets/*.csproj
 Resources/ror2Assets/*.sln
+/Resources/ror2Assets/Assets/AssetBundle/lunarbottledchaos
+/Resources/ror2Assets/Assets/AssetBundle/lunarbottledchaos.manifest
+/Resources/ror2Assets/Assets/LunarBottledChaos.meta

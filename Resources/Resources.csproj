@@ -1,5 +1,8 @@
 ﻿<Project>
   <ItemGroup>
+    <Content Include="..\.gitignore">
+      <Link>.gitignore</Link>
+    </Content>
     <Content Include="..\CHANGELOG.md">
       <Link>CHANGELOG.md</Link>
     </Content>
