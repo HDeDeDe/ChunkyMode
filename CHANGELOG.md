@@ -1,8 +1,6 @@
 ## 0.2.2
 - Optimized enemy buffs
 - Fixed the nerf to Nemesis
-- TODO:
-- Stop the blind pest spam on stages with blind pest. fuck blind pest I hate them.
 ## 0.2.1
 - Changed loitering penalty to be less insane.
 - Loitering penalty severity can now be changed.
