@@ -16,6 +16,8 @@ namespace HDeMods
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("_com.prodzpod.ProdzpodSpikestripContent", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.rob.Hunk", BepInDependency.DependencyFlags.SoftDependency)]
     //[BepInDependency(EnrageArtifact.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     public class ChunkyMode : BaseUnityPlugin
@@ -76,6 +78,7 @@ namespace HDeMods
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+            RoR2Application.onLoad += ChunkyCachedBodyIndex.GenerateCache;
             
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
@@ -296,31 +299,35 @@ namespace HDeMods
                 args.cooldownReductionAdd += 0.5f;
                 return;
             }
+
+            CachedIndex bodyIndex;
+            if (!ChunkyCachedBodyIndex.Cache.TryGetValue(sender.bodyIndex, out bodyIndex)) bodyIndex = CachedIndex.None;
             
-            switch (sender.name) {
-                case "BeetleGuardBody(Clone)":
+            switch (bodyIndex) {
+                case CachedIndex.BeetleGuard:
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case "VagrantBody(Clone)":
+                case CachedIndex.Vagrant:
                     args.attackSpeedMultAdd += 0.25f;
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case "BellBody(Clone)":
+                case CachedIndex.Bell:
                     args.attackSpeedMultAdd += 2f;
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownMultAdd += 0.25f;
                     break;
-                case "RobNemesisBody(Clone)":
+                case CachedIndex.RobNemesis:
                     args.attackSpeedMultAdd += 0.25f;
                     args.moveSpeedMultAdd += 0.15f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case "SigmaConstructBody(Clone)":
+                case CachedIndex.SigmaConstruct:
                     args.attackSpeedMultAdd += 0.25f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
+                case CachedIndex.None:
                 default:
                     args.attackSpeedMultAdd += 0.5f;
                     args.moveSpeedMultAdd += 0.4f;
