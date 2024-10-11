@@ -90,7 +90,7 @@ namespace HDeMods
                 ctor(self);
             }
             catch (Exception err) {
-                Log.Error(err);
+                Log.Fatal(err);
                 Application.Quit();
                 throw;
             }
@@ -300,9 +300,11 @@ namespace HDeMods
                 return;
             }
 
-            CachedIndex bodyIndex;
-            if (!ChunkyCachedBodyIndex.Cache.TryGetValue(sender.bodyIndex, out bodyIndex)) bodyIndex = CachedIndex.None;
-            
+            ChunkyCachedBodyIndex.Cache.TryGetValue(sender.bodyIndex, out CachedIndex bodyIndex);
+#if DEBUG
+            Log.Debug(sender.name + ", " + sender.bodyIndex);
+            Log.Debug(bodyIndex);
+#endif
             switch (bodyIndex) {
                 case CachedIndex.BeetleGuard:
                     args.moveSpeedMultAdd += 0.4f;

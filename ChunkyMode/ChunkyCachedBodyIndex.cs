@@ -14,11 +14,14 @@ namespace HDeMods {
 		public static Dictionary<BodyIndex, CachedIndex> Cache = new Dictionary<BodyIndex, CachedIndex>();
 
 		public static void GenerateCache() {
-			Cache.TryAdd(BodyCatalog.FindBodyIndex("BeetleGuard"), CachedIndex.BeetleGuard);
-			Cache.TryAdd(BodyCatalog.FindBodyIndex("VagrantBody"), CachedIndex.Vagrant);
-			Cache.TryAdd(BodyCatalog.FindBodyIndex("BellBody"), CachedIndex.Bell);
-			if (ChunkyOptionalMods.Hunk.enabled) Cache.TryAdd(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), CachedIndex.RobNemesis);
-			if (ChunkyOptionalMods.Spikestrip.enabled) Cache.TryAdd(BodyCatalog.FindBodyIndex("SigmaConstructBody"), CachedIndex.SigmaConstruct);
+#if DEBUG
+			Log.Fatal("Generating Cache!");
+#endif
+			Cache.Add(BodyCatalog.FindBodyIndex("BeetleGuardBody"), CachedIndex.BeetleGuard);
+			Cache.Add(BodyCatalog.FindBodyIndex("VagrantBody"), CachedIndex.Vagrant);
+			Cache.Add(BodyCatalog.FindBodyIndex("BellBody"), CachedIndex.Bell);
+			if (ChunkyOptionalMods.Hunk.enabled) Cache.Add(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), CachedIndex.RobNemesis);
+			if (ChunkyOptionalMods.Spikestrip.enabled) Cache.Add(BodyCatalog.FindBodyIndex("SigmaConstructBody"), CachedIndex.SigmaConstruct);
 		}
 	}
 }
