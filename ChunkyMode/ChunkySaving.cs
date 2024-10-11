@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using ProperSave;
 using System.Runtime.CompilerServices;
 
-namespace HDeMods {
-	public static class ChunkySaving {
+namespace HDeMods { namespace ChunkyOptionalMods {
+	public static class Saving {
 		private static bool? _enabled;
 
 		public static bool enabled {
@@ -33,4 +33,4 @@ namespace HDeMods {
 			save.Add("CHUNKYMODE_RunInfo",ChunkyRunInfo.Instance);
 		}
 	}
-}
+}}

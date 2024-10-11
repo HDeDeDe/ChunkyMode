@@ -69,7 +69,7 @@ namespace HDeMods
             AddDifficulty();
             BindSettings();
             ChunkyRunInfo.Instance = new ChunkyRunInfo();
-            if (ChunkySaving.enabled) ChunkySaving.SetUp();
+            if (ChunkyOptionalMods.Saving.enabled) ChunkyOptionalMods.Saving.SetUp();
             //if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
             ChunkyASeriesOfTubes.SetUpNetworking();
             
@@ -160,19 +160,19 @@ namespace HDeMods
                 "Loiter penalty severity",
                 40f,
                 "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
-            if (!ChunkyOptions.enabled) return;
-            ChunkyOptions.AddCheck(doHealingBuffs);
-            ChunkyOptions.AddCheck(doLoiterPenalty);
-            ChunkyOptions.AddCheck(doEnemyLimitBoost);
-            ChunkyOptions.AddCheck(doGoldPenalty);
-            ChunkyOptions.AddCheck(doEnemyNerfs);
-            ChunkyOptions.AddInt(enemyChanceToYap, 0, 100000);
-            ChunkyOptions.AddFloat(enemyYapCooldown, 0f, 600f);
-            ChunkyOptions.AddFloat(timeUntilLoiterPenalty, 60f, 600f);
-            ChunkyOptions.AddFloat(loiterPenaltyFrequency, 0f, 60f);
-            ChunkyOptions.AddFloat(loiterPenaltySeverity, 10f, 100f);
-            ChunkyOptions.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
-            ChunkyOptions.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
+            if (!ChunkyOptionalMods.RoO.enabled) return;
+            ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
+            ChunkyOptionalMods.RoO.AddCheck(doLoiterPenalty);
+            ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
+            ChunkyOptionalMods.RoO.AddCheck(doGoldPenalty);
+            ChunkyOptionalMods.RoO.AddCheck(doEnemyNerfs);
+            ChunkyOptionalMods.RoO.AddInt(enemyChanceToYap, 0, 100000);
+            ChunkyOptionalMods.RoO.AddFloat(enemyYapCooldown, 0f, 600f);
+            ChunkyOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f);
+            ChunkyOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f);
+            ChunkyOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
+            ChunkyOptionalMods.RoO.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
+            ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
         private void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)

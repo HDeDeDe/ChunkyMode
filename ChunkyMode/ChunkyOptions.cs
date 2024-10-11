@@ -5,8 +5,8 @@ using BepInEx.Configuration;
 using RiskOfOptions.OptionConfigs;
 using UnityEngine;
 
-namespace HDeMods {
-	public static class ChunkyOptions {
+namespace HDeMods { namespace ChunkyOptionalMods {
+	public static class RoO {
 		private static bool? _enabled;
 
 		public static bool enabled {
@@ -92,4 +92,4 @@ namespace HDeMods {
 		{
 		}
 	}
-}
+}}
