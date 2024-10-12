@@ -1,3 +1,8 @@
+## 0.2.3
+- Added +50% Ally Barrier Decay Rate
+- Nerfed Bastard Pest
+- Buffed Bison
+- Changed the way OnHeal is hooked
 ## 0.2.2
 - Optimized enemy buffs
 - Fixed the nerf to Nemesis
