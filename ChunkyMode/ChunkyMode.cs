@@ -329,6 +329,10 @@ namespace HDeMods
                     args.attackSpeedMultAdd += 0.25f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
+                case BodyCache.FlyingVermin:
+                    args.attackSpeedMultAdd += 0.15f;
+                    args.moveSpeedMultAdd += 0.4f;
+                    break;
                 case BodyCache.None:
                 default:
                     args.attackSpeedMultAdd += 0.5f;

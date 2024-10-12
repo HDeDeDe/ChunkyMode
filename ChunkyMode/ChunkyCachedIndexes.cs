@@ -8,7 +8,8 @@ namespace HDeMods {
 		Vagrant,
 		Bell,
 		RobNemesis,
-		SigmaConstruct
+		SigmaConstruct,
+		FlyingVermin
 	}
 	public static class ChunkyCachedIndexes {
 		public static Dictionary<BodyIndex, BodyCache> Body = new Dictionary<BodyIndex, BodyCache>();
@@ -22,6 +23,7 @@ namespace HDeMods {
 			Body.Add(BodyCatalog.FindBodyIndex("BeetleGuardBody"), BodyCache.BeetleGuard);
 			Body.Add(BodyCatalog.FindBodyIndex("VagrantBody"), BodyCache.Vagrant);
 			Body.Add(BodyCatalog.FindBodyIndex("BellBody"), BodyCache.Bell);
+			Body.Add(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
 			if (ChunkyOptionalMods.Hunk.enabled) Body.Add(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
 			if (ChunkyOptionalMods.Spikestrip.enabled) Body.Add(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
 		}
