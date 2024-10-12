@@ -46,6 +46,19 @@ namespace HDeMods {
             });
         }
         
+        // This handles the -50% Ally Healing stat
+        public static void HealingOverride(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            c.GotoNext(
+                x => x.MatchCall<Run>("get_instance"),
+                x => x.MatchCallvirt<Run>("get_selectedDifficulty"),
+                // Inserting here
+                x => x.MatchLdcI4(7)
+            );
+            c.Index += 2;
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(consume => 7);
+        }
+        
         // This buffs REX's Tangling Growth
         public static void REXHealPulse(ILContext il) {
             ILCursor c = new ILCursor(il);

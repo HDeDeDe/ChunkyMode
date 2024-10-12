@@ -234,7 +234,7 @@ namespace HDeMods
             
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
-            On.RoR2.HealthComponent.Heal += OnHeal;
+            IL.RoR2.HealthComponent.Heal += ChunkyILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             
             if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
@@ -260,7 +260,7 @@ namespace HDeMods
             IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
             
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
-            On.RoR2.HealthComponent.Heal -= OnHeal;
+            IL.RoR2.HealthComponent.Heal -= ChunkyILHooks.HealingOverride;
             On.RoR2.CombatDirector.Awake -= CombatDirector_Awake;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
             
@@ -270,13 +270,13 @@ namespace HDeMods
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
         }
         
-        // This handles the -50% Ally Healing stat
+        /*// This handles the -50% Ally Healing stat
         private static float OnHeal(On.RoR2.HealthComponent.orig_Heal orig, HealthComponent self, float amount,
             ProcChainMask procChainMask, bool nonRegen) {
             float newAmount = amount;
             if (self.body.teamComponent.teamIndex == TeamIndex.Player) newAmount /= 2f;
             return orig(self, newAmount, procChainMask, nonRegen);
-        }
+        }*/
         
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
         public static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender,
