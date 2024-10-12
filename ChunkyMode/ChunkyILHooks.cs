@@ -22,9 +22,8 @@ namespace HDeMods {
             );
             c.Index += 5;
             c.Emit(OpCodes.Ldarg_0);
-            c.Emit(OpCodes.Ldfld, typeof(HealthComponent).GetField("body"));
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>((toRecharge, cb) => {
-                if (cb.teamComponent.teamIndex != TeamIndex.Player) return toRecharge;
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((toRecharge, hc) => {
+                if (hc.body.teamComponent.teamIndex != TeamIndex.Player) return toRecharge;
                 return toRecharge / shieldRechargeOverride;
             });
         }
