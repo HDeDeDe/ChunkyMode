@@ -65,7 +65,7 @@ namespace HDeMods {
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted,
                 float>>(
                 (toHeal,self) => {
-                    if (self.projectileController.name != "SyringeProjectileHealing(Clone)") return toHeal;
+                    if (self.projectileController.catalogIndex != ChunkyCachedIndexes.Injector) return toHeal;
                     if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
                         TeamIndex.Player) return toHeal;
                     return toHeal * rexHealOverride;
