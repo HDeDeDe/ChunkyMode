@@ -78,7 +78,7 @@ namespace HDeMods
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
-            RoR2Application.onLoad += ChunkyCachedBodyIndex.GenerateCache;
+            RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
             
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
@@ -300,36 +300,36 @@ namespace HDeMods
                 return;
             }
 
-            ChunkyCachedBodyIndex.Cache.TryGetValue(sender.bodyIndex, out CachedIndex bodyIndex);
+            ChunkyCachedIndexes.Body.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
 #if DEBUG
             Log.Debug(sender.name + ", " + sender.bodyIndex);
             Log.Debug(bodyIndex);
 #endif
             switch (bodyIndex) {
-                case CachedIndex.BeetleGuard:
+                case BodyCache.BeetleGuard:
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case CachedIndex.Vagrant:
+                case BodyCache.Vagrant:
                     args.attackSpeedMultAdd += 0.25f;
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case CachedIndex.Bell:
+                case BodyCache.Bell:
                     args.attackSpeedMultAdd += 2f;
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownMultAdd += 0.25f;
                     break;
-                case CachedIndex.RobNemesis:
+                case BodyCache.RobNemesis:
                     args.attackSpeedMultAdd += 0.25f;
                     args.moveSpeedMultAdd += 0.15f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case CachedIndex.SigmaConstruct:
+                case BodyCache.SigmaConstruct:
                     args.attackSpeedMultAdd += 0.25f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
-                case CachedIndex.None:
+                case BodyCache.None:
                 default:
                     args.attackSpeedMultAdd += 0.5f;
                     args.moveSpeedMultAdd += 0.4f;
