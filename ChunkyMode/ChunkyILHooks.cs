@@ -7,10 +7,28 @@ namespace HDeMods {
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;
         private const float shieldRechargeOverride = 2f;
+        private const float barrierDecayOverride = 2f;
         
-        // This handles the -50% Ally Shield Recharge Rate stat
-        public static void ShieldRechargeRate(ILContext il) {
+        // This handles the -50% Ally Shield Recharge Rate and +50% Ally Shield Decay Rate stats
+        public static void ShieldRechargeAndBarrierDecayRate(ILContext il) {
             ILCursor c = new ILCursor(il);
+            c.GotoNext(
+                x => x.MatchLdarg(0),
+                x => x.MatchLdfld<HealthComponent>("barrier"),
+                x => x.MatchLdarg(0),
+                x => x.MatchLdfld<HealthComponent>("body"),
+                x => x.MatchCallvirt<CharacterBody>("get_barrierDecayRate"),
+                // Inserting here
+                x => x.MatchLdarg(1),
+                x => x.MatchMul()
+            );
+            c.Index += 5;
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((decayRate, hc) => {
+                if (hc.body.teamComponent.teamIndex != TeamIndex.Player) return decayRate;
+                return decayRate * barrierDecayOverride;
+            });
+            
             c.GotoNext(
                 x => x.MatchLdloc(4),
                 x => x.MatchLdarg(0),

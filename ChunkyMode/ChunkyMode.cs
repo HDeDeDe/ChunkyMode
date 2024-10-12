@@ -225,7 +225,7 @@ namespace HDeMods
                 TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
             }
 
-            IL.RoR2.HealthComponent.ServerFixedUpdate += ChunkyILHooks.ShieldRechargeRate;
+            IL.RoR2.HealthComponent.ServerFixedUpdate += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
             if (ChunkyRunInfo.Instance.doHealBuffThisRun){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += ChunkyILHooks.REXPrimaryAttack;
@@ -254,7 +254,7 @@ namespace HDeMods
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = ogMonsterCap;
             
-            IL.RoR2.HealthComponent.ServerFixedUpdate -= ChunkyILHooks.ShieldRechargeRate;
+            IL.RoR2.HealthComponent.ServerFixedUpdate -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
             IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= ChunkyILHooks.REXHealPulse;
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -= ChunkyILHooks.REXPrimaryAttack;
             IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
