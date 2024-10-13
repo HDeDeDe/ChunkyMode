@@ -270,14 +270,6 @@ namespace HDeMods
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
         }
         
-        /*// This handles the -50% Ally Healing stat
-        private static float OnHeal(On.RoR2.HealthComponent.orig_Heal orig, HealthComponent self, float amount,
-            ProcChainMask procChainMask, bool nonRegen) {
-            float newAmount = amount;
-            if (self.body.teamComponent.teamIndex == TeamIndex.Player) newAmount /= 2f;
-            return orig(self, newAmount, procChainMask, nonRegen);
-        }*/
-        
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
         public static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender,
             RecalculateStatsAPI.StatHookEventArgs args) {
