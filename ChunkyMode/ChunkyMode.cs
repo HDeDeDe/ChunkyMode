@@ -14,6 +14,7 @@ namespace HDeMods
     [BepInDependency(RecalculateStatsAPI.PluginGUID)]
     [BepInDependency(DirectorAPI.PluginGUID)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID)]
+    [BepInDependency(HealthComponentAPI.PluginGUID)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("_com.prodzpod.ProdzpodSpikestripContent", BepInDependency.DependencyFlags.SoftDependency)]
@@ -65,7 +66,7 @@ namespace HDeMods
         {
             Log.Init(Logger);
 #if DEBUG
-            On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
+            //On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
 #endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
@@ -225,7 +226,8 @@ namespace HDeMods
                 TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
             }
 
-            IL.RoR2.HealthComponent.ServerFixedUpdate += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
+            //IL.RoR2.HealthComponent.ServerFixedUpdate += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
+            HealthComponentAPI.GetHealthStats += ChunkyILHooks.NewShieldRechargeAndBarrierDecayRate;
             if (ChunkyRunInfo.Instance.doHealBuffThisRun){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += ChunkyILHooks.REXPrimaryAttack;
@@ -234,7 +236,8 @@ namespace HDeMods
             
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
-            IL.RoR2.HealthComponent.Heal += ChunkyILHooks.HealingOverride;
+            //IL.RoR2.HealthComponent.Heal += ChunkyILHooks.HealingOverride;
+            HealthComponentAPI.GetHealStats += ChunkyILHooks.NewHealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             
             if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
@@ -254,13 +257,15 @@ namespace HDeMods
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = ogMonsterCap;
             
-            IL.RoR2.HealthComponent.ServerFixedUpdate -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
+            //IL.RoR2.HealthComponent.ServerFixedUpdate -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
+            HealthComponentAPI.GetHealthStats -= ChunkyILHooks.NewShieldRechargeAndBarrierDecayRate;
             IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= ChunkyILHooks.REXHealPulse;
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -= ChunkyILHooks.REXPrimaryAttack;
             IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
             
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
-            IL.RoR2.HealthComponent.Heal -= ChunkyILHooks.HealingOverride;
+            //IL.RoR2.HealthComponent.Heal -= ChunkyILHooks.HealingOverride;
+            //HealthComponentAPI.GetHealStats -= ChunkyILHooks.NewHealingOverride;
             On.RoR2.CombatDirector.Awake -= CombatDirector_Awake;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
             

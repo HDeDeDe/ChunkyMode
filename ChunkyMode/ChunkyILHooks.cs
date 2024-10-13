@@ -6,10 +6,24 @@ namespace HDeMods {
         // These are the override values
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;
-        private const float shieldRechargeOverride = 2f;
-        private const float barrierDecayOverride = 2f;
+        private const float shieldRechargeOverride = -0.5f;
+        private const float barrierDecayOverride = -0.5f;
+
+        // This handles the -50% Ally Healing stat
+        public static void NewHealingOverride(HealthComponent sender, HealthComponentAPI.HealEventArgs args) {
+            if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
+            args.enableEclipseHealReduction = true;
+        }
+
+        // This handles the -50% Ally Shield Recharge Rate and +50% Ally Barrier Decay Rate stats
+        public static void NewShieldRechargeAndBarrierDecayRate(HealthComponent sender,
+            HealthComponentAPI.UpdateHealthEventArgs args) {
+            if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
+            args.barrierDecayRateMultAdd += barrierDecayOverride;
+            args.shieldRechargeRateMultAdd += shieldRechargeOverride;
+        }
         
-        // This handles the -50% Ally Shield Recharge Rate and +50% Ally Shield Decay Rate stats
+        /*// This handles the -50% Ally Shield Recharge Rate and +50% Ally Shield Decay Rate stats
         public static void ShieldRechargeAndBarrierDecayRate(ILContext il) {
             ILCursor c = new ILCursor(il);
             c.GotoNext(
@@ -44,9 +58,9 @@ namespace HDeMods {
                 if (hc.body.teamComponent.teamIndex != TeamIndex.Player) return toRecharge;
                 return toRecharge / shieldRechargeOverride;
             });
-        }
+        }*/
         
-        // This handles the -50% Ally Healing stat
+        /*// This handles the -50% Ally Healing stat
         public static void HealingOverride(ILContext il) {
             ILCursor c = new ILCursor(il);
             c.GotoNext(
@@ -57,7 +71,7 @@ namespace HDeMods {
             );
             c.Index += 2;
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(consume => 7);
-        }
+        }*/
         
         // This buffs REX's Tangling Growth
         public static void REXHealPulse(ILContext il) {

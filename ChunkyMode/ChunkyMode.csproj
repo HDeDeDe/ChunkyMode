@@ -41,4 +41,10 @@
 	  </Reference>
 	</ItemGroup>
 
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\HealthComponentAPI\HealthComponentAPI\HealthComponentAPI.csproj" />
+	</ItemGroup>
+
 </Project>
