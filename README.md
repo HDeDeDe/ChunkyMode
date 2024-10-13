@@ -15,12 +15,14 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
   - REX only gets -25% to DIRECTIVE: Inject and Tangling Growth
   - Regenerative is unaffected
 - Ally Shield Recharge Rate -50%
+- Ally Barrier Decay Rate +50%
 - Gold generation -10%
 - Director interactable credits +20%
   - This is applied after credits are generated so it may not be exactly 20%
 ### Enemy changes
 
 - Director combat credits +10%
+- Enemy level cap +9900
 - Enemy soft spawn cap +50%
 - Enemy move speed +40%
 - Enemy attack speed +50%
