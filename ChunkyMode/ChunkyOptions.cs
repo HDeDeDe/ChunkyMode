@@ -6,7 +6,7 @@ using RiskOfOptions.OptionConfigs;
 using UnityEngine;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
-	public static class RoO {
+	internal static class RoO {
 		private static bool? _enabled;
 
 		public static bool enabled {
@@ -61,7 +61,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 	}
 
 	// Thanks to Bubbet for the suggestion to do this
-	public class ChunkyCheckBoxOption : CheckBoxOption {
+	internal class ChunkyCheckBoxOption : CheckBoxOption {
 		public ChunkyCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry)
 		{
 		}
@@ -71,7 +71,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 	}
 	
-	public class ChunkyIntSliderOption : IntSliderOption {
+	internal class ChunkyIntSliderOption : IntSliderOption {
 
 		public ChunkyIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config)
 		{
@@ -82,7 +82,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 	}
 	
-	public class ChunkySliderOption : SliderOption {
+	internal class ChunkySliderOption : SliderOption {
 
 		public ChunkySliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config)
 		{

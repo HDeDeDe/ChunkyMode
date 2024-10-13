@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
-	public class Hunk {
+	internal class Hunk {
 		private static bool? _enabled;
 
         public static bool enabled {
@@ -13,7 +13,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
             }
         }
     }
-    public class Spikestrip {
+    internal class Spikestrip {
         private static bool? _enabled;
 
         public static bool enabled {
@@ -26,7 +26,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
         }
         
     }
-    public class Enrage {
+    internal class Enrage {
         private static bool? _enabled;
 
         public static bool enabled {

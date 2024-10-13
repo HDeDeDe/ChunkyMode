@@ -22,7 +22,7 @@ namespace HDeMods {
 		}
 	}
 
-	public static class ChunkyYap {
+	internal static class ChunkyYap {
 		public static void DoYapping(int randomNumber, [NotNull]string enemyToken) {
 #if DEBUG
 			Log.Debug("Speaking now");

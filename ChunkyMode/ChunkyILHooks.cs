@@ -2,7 +2,7 @@ using RoR2;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 namespace HDeMods {
-	public static class ChunkyILHooks {
+	internal static class ChunkyILHooks {
         // These are the override values
         private const float rexHealOverride = 1.5f;
         private const float acridHealOverride = 2f;

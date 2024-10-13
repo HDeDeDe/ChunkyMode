@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using RoR2;
 
 namespace HDeMods {
-	public enum BodyCache{
+	internal enum BodyCache{
 		None,
 		BeetleGuard,
 		Vagrant,
@@ -12,7 +12,7 @@ namespace HDeMods {
 		FlyingVermin,
 		Bison
 	}
-	public static class ChunkyCachedIndexes {
+	internal static class ChunkyCachedIndexes {
 		public static Dictionary<BodyIndex, BodyCache> Body = new Dictionary<BodyIndex, BodyCache>();
 		public static int Injector;
 

@@ -3,7 +3,7 @@ using R2API.Networking.Interfaces;
 using UnityEngine.Networking;
 
 namespace HDeMods {
-	public static class ChunkyASeriesOfTubes {
+	internal static class ChunkyASeriesOfTubes {
 		public static void SetUpNetworking() {
 			NetworkingAPI.RegisterRequestTypes<ChunkyRequestRunInfo,ChunkyReplyRunInfo>();
 		}
