@@ -23,12 +23,12 @@ namespace HDeMods {
 	}
 
 	internal static class ChunkyYap {
-		public static void DoYapping(int randomNumber, [NotNull]string enemyToken) {
+		public static void DoYapping([NotNull]string enemyToken) {
 #if DEBUG
 			Log.Debug("Speaking now");
 #endif
 			string baseToken = "";
-			randomNumber %= 10;
+			int randomNumber = UnityEngine.Random.RandomRangeInt(0, 100000) % 16;
 			switch (randomNumber) {
 				case 0:
 					baseToken = "BROTHER_SPAWN_PHASE1_1";
@@ -58,7 +58,25 @@ namespace HDeMods {
 					baseToken = "BROTHER_DAMAGEDEALT_3";
 					break;
 				case 9:
-					baseToken = "BROTHERHURT_DAMAGEDEALT_10";
+					baseToken = "FALSESONBOSS_SPAWN_3";
+					break;
+				case 10:
+					baseToken = "FALSESONBOSS_EARLYPHASE_HURT_2";
+					break;
+				case 11:
+					baseToken = "FALSESONBOSS_EARLYPHASE_HURT_7";
+					break;
+				case 12:
+					baseToken = "FALSESONBOSS_FINALPHASE_HURT_6";
+					break;
+				case 13:
+					baseToken = "FALSESONBOSS_EARLYPHASE_PLAYERDEATH_4";
+					break;
+				case 14:
+					baseToken = "FALSESONBOSS_EARLYPHASE_PLAYERDEATH_5";
+					break;
+				case 15:
+					baseToken = "FALSESONBOSS_DRONEDEATH_2";
 					break;
 			}
 			Chat.SendBroadcastChat(new ChunkyChatEnemyYap() {

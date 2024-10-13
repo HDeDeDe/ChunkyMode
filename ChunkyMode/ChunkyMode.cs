@@ -143,7 +143,7 @@ namespace HDeMods
                 "Yapping",
                 "Enemy Yap Chance",
                 30,
-                "The probability of enemies to yap. Set below 10 to stop the yapping.");
+                "The probability of enemies to yap. Set to 0 to stop the yapping.");
             enemyYapCooldown = Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Cooldown",
@@ -281,9 +281,9 @@ namespace HDeMods
             int yap = ChunkyRunInfo.Instance.enemyChanceToYapThisRun;
             if (getFuckedLMAO) yap *= 2;
             
-            if (NetworkServer.active && funko < yap && ChunkyRunInfo.Instance.enemyChanceToYapThisRun >= 10 && enemyYapTimer < Run.instance.NetworkfixedTime) {
+            if (NetworkServer.active && funko < yap && ChunkyRunInfo.Instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
                 enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.enemyYapCooldownThisRun;
-                ChunkyYap.DoYapping(funko, sender.baseNameToken);
+                ChunkyYap.DoYapping(sender.baseNameToken);
             }
 
             if (!ChunkyRunInfo.Instance.doNerfsThisRun) {
