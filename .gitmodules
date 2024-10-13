@@ -1,0 +1,3 @@
+[submodule "HealthComponentAPI"]
+	path = HealthComponentAPI
+	url = https://github.com/HDeDeDe/HealthComponentAPI.git
