@@ -226,8 +226,7 @@ namespace HDeMods
                 TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
             }
 
-            //IL.RoR2.HealthComponent.ServerFixedUpdate += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
-            HealthComponentAPI.GetHealthStats += ChunkyILHooks.NewShieldRechargeAndBarrierDecayRate;
+            HealthComponentAPI.GetHealthStats += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
             if (ChunkyRunInfo.Instance.doHealBuffThisRun){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += ChunkyILHooks.REXPrimaryAttack;
@@ -236,8 +235,7 @@ namespace HDeMods
             
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
-            //IL.RoR2.HealthComponent.Heal += ChunkyILHooks.HealingOverride;
-            HealthComponentAPI.GetHealStats += ChunkyILHooks.NewHealingOverride;
+            HealthComponentAPI.GetHealStats += ChunkyILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             
             if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
@@ -257,15 +255,13 @@ namespace HDeMods
             TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = ogMonsterCap;
             
-            //IL.RoR2.HealthComponent.ServerFixedUpdate -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
-            HealthComponentAPI.GetHealthStats -= ChunkyILHooks.NewShieldRechargeAndBarrierDecayRate;
+            HealthComponentAPI.GetHealthStats -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
             IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= ChunkyILHooks.REXHealPulse;
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -= ChunkyILHooks.REXPrimaryAttack;
             IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
             
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
-            //IL.RoR2.HealthComponent.Heal -= ChunkyILHooks.HealingOverride;
-            //HealthComponentAPI.GetHealStats -= ChunkyILHooks.NewHealingOverride;
+            HealthComponentAPI.GetHealStats -= ChunkyILHooks.HealingOverride;
             On.RoR2.CombatDirector.Awake -= CombatDirector_Awake;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
             

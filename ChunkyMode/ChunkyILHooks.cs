@@ -10,68 +10,18 @@ namespace HDeMods {
         private const float barrierDecayOverride = -0.5f;
 
         // This handles the -50% Ally Healing stat
-        public static void NewHealingOverride(HealthComponent sender, HealthComponentAPI.HealEventArgs args) {
+        public static void HealingOverride(HealthComponent sender, HealthComponentAPI.HealEventArgs args) {
             if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
             args.enableEclipseHealReduction = true;
         }
 
         // This handles the -50% Ally Shield Recharge Rate and +50% Ally Barrier Decay Rate stats
-        public static void NewShieldRechargeAndBarrierDecayRate(HealthComponent sender,
+        public static void ShieldRechargeAndBarrierDecayRate(HealthComponent sender,
             HealthComponentAPI.UpdateHealthEventArgs args) {
             if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
             args.barrierDecayRateMultAdd += barrierDecayOverride;
             args.shieldRechargeRateMultAdd += shieldRechargeOverride;
         }
-        
-        /*// This handles the -50% Ally Shield Recharge Rate and +50% Ally Shield Decay Rate stats
-        public static void ShieldRechargeAndBarrierDecayRate(ILContext il) {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchLdarg(0),
-                x => x.MatchLdfld<HealthComponent>("barrier"),
-                x => x.MatchLdarg(0),
-                x => x.MatchLdfld<HealthComponent>("body"),
-                x => x.MatchCallvirt<CharacterBody>("get_barrierDecayRate"),
-                // Inserting here
-                x => x.MatchLdarg(1),
-                x => x.MatchMul()
-            );
-            c.Index += 5;
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((decayRate, hc) => {
-                if (hc.body.teamComponent.teamIndex != TeamIndex.Player) return decayRate;
-                return decayRate * barrierDecayOverride;
-            });
-            
-            c.GotoNext(
-                x => x.MatchLdloc(4),
-                x => x.MatchLdarg(0),
-                x => x.MatchLdfld<HealthComponent>("body"),
-                x => x.MatchCallvirt<CharacterBody>("get_maxShield"),
-                x => x.MatchLdcR4(0.5f),
-                // Inserting here
-                x => x.MatchMul()
-            );
-            c.Index += 5;
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealthComponent, float>>((toRecharge, hc) => {
-                if (hc.body.teamComponent.teamIndex != TeamIndex.Player) return toRecharge;
-                return toRecharge / shieldRechargeOverride;
-            });
-        }*/
-        
-        /*// This handles the -50% Ally Healing stat
-        public static void HealingOverride(ILContext il) {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchCall<Run>("get_instance"),
-                x => x.MatchCallvirt<Run>("get_selectedDifficulty"),
-                // Inserting here
-                x => x.MatchLdcI4(7)
-            );
-            c.Index += 2;
-            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(consume => 7);
-        }*/
         
         // This buffs REX's Tangling Growth
         public static void REXHealPulse(ILContext il) {
