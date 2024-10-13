@@ -2,7 +2,7 @@
 - Added +50% Ally Barrier Decay Rate
 - Nerfed Bastard Pest
 - Buffed Bison
-- Changed the way OnHeal is hooked
+- The healing and shield nerfs now use HealthComponentAPI to achieve their effects
 ## 0.2.2
 - Optimized enemy buffs
 - Fixed the nerf to Nemesis
