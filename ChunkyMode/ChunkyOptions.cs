@@ -69,6 +69,18 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		public override void RegisterTokens()
 		{
 		}
+
+        /*public new string Description {
+			get => RoR2.Language.GetString(GetDescriptionToken());
+			set => Log.Warning("Risk Of Options attempted to write the following to " + GetDescriptionToken() + ":\n" + value);
+		}
+
+        public override void SetDescription(string fallback, BaseOptionConfig config) {
+	        if (!string.IsNullOrEmpty(config.description))
+		        Description = config.description;
+	        else
+		        Description = fallback;
+        }*/
 	}
 	
 	internal class ChunkyIntSliderOption : IntSliderOption {
@@ -80,6 +92,18 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		public override void RegisterTokens()
 		{
 		}
+		
+		/*public new string Description {
+			get => RoR2.Language.GetString(GetDescriptionToken());
+			set => Log.Warning("Risk Of Options attempted to write the following to " + GetDescriptionToken() + ":\n" + value);
+		}
+		
+		public override void SetDescription(string fallback, BaseOptionConfig config) {
+			if (!string.IsNullOrEmpty(config.description))
+				Description = config.description;
+			else
+				Description = fallback;
+		}*/
 	}
 	
 	internal class ChunkySliderOption : SliderOption {
@@ -91,5 +115,17 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		public override void RegisterTokens()
 		{
 		}
+		
+		/*public new string Description {
+			get => RoR2.Language.GetString(GetDescriptionToken());
+			set => Log.Warning("Risk Of Options attempted to write the following to " + GetDescriptionToken() + ":\n" + value);
+		}
+		
+		public override void SetDescription(string fallback, BaseOptionConfig config) {
+			if (!string.IsNullOrEmpty(config.description))
+				Description = config.description;
+			else
+				Description = fallback;
+		}*/
 	}
 }}
