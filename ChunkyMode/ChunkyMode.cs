@@ -66,7 +66,7 @@ namespace HDeMods
         {
             Log.Init(Logger);
 #if DEBUG
-            //On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
+            On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
 #endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
