@@ -80,7 +80,7 @@ namespace HDeMods
             AddDifficulty();
             BindSettings();
             ChunkyInfo.AddComponent<ChunkyRunInfo>();
-            if (ChunkyOptionalMods.Saving.enabled) ChunkyOptionalMods.Saving.SetUp();
+            if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
             //if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
             
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
@@ -250,7 +250,7 @@ namespace HDeMods
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
         }
 
-        private void Run_onRunDestroyGlobal(Run run) {
+        private static void Run_onRunDestroyGlobal(Run run) {
             if (!shouldRun) return;
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
@@ -290,7 +290,7 @@ namespace HDeMods
             if (NetworkServer.active && funko < yap && ChunkyRunInfo.instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
                 enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.enemyYapCooldownThisRun;
                 List<BuffIndex> eliteAffix = new List<BuffIndex>();
-                if(sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(buffIndex => sender.HasBuff(buffIndex)));
+                if(sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(sender.HasBuff));
                 ChunkyYap.DoYapping(sender.baseNameToken, eliteAffix);
             }
 
@@ -301,7 +301,7 @@ namespace HDeMods
                 return;
             }
 
-            ChunkyCachedIndexes.Body.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
+            ChunkyCachedIndexes.body.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
 #if DEBUG
             Log.Debug(sender.name + ", " + sender.bodyIndex);
             Log.Debug(bodyIndex);
@@ -349,7 +349,7 @@ namespace HDeMods
         }
 
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
-        private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
+        private static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
             if(ChunkyRunInfo.instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
@@ -357,13 +357,13 @@ namespace HDeMods
         }
 
         // This handles the +20% Loot Spawn Rate stat
-        private void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
+        private static void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
             self.interactableCredit = (int)(self.interactableCredit * 1.2);
             Log.Info("Updated Credits: " + self.interactableCredit);
         }
 
         // Set up Loitering Punishment
-        private void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
+        private static void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
             enemyYapTimer = self.NetworkfixedTime + 10f;
 #if DEBUG
             Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
@@ -382,7 +382,7 @@ namespace HDeMods
         }
         
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
-        private void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
+        private static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
             stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyTimeThisRun;
             Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
@@ -390,7 +390,7 @@ namespace HDeMods
         }
         
         // The loitering penalty
-        private void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
+        private static void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
             if (!getFuckedLMAO || teleporterHit || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
                 simulate(self, deltaTime);
                 return;
@@ -427,7 +427,8 @@ namespace HDeMods
         }
         
         // Disable loitering penalty when the teleporter is interacted with
-        private void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
+        // ReSharper disable once IdentifierTypo
+        private static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
             getFuckedLMAO = false;
             teleporterHit = true;
             interact(teleporterState, interactor);
@@ -487,7 +488,7 @@ namespace HDeMods
         // Report why loitering hasn't been enabled every 5 seconds
         private static float reportErrorTime;
         private static bool reportErrorAnyway;
-        private void ReportLoiterError(string err) {
+        private static void ReportLoiterError(string err) {
             if (reportErrorTime >= Run.instance.NetworkfixedTime && !reportErrorAnyway) return;
             Log.Debug(err);
             reportErrorTime = Run.instance.NetworkfixedTime + 5f;

@@ -4,21 +4,21 @@ using System.Runtime.CompilerServices;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
 	public static class Saving {
-		private static bool? _enabled;
+		private static bool? enabled;
 
-		public static bool enabled {
+		public static bool Enabled {
 			get {
-				if (_enabled == null) {
-					_enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ProperSavePlugin.GUID);
+				if (enabled == null) {
+					enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ProperSavePlugin.GUID);
 				}
-				return (bool)_enabled;
+				return (bool)enabled;
 			}
 		}
 		
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SetUp() {
-			ProperSave.Loading.OnLoadingStarted += LoadFromSave;
-			ProperSave.SaveFile.OnGatherSaveData += SaveRunInfo;
+			Loading.OnLoadingStarted += LoadFromSave;
+			SaveFile.OnGatherSaveData += SaveRunInfo;
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void LoadFromSave(SaveFile save) {
@@ -40,21 +40,21 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			ChunkyRunInfo.preSet = true;
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-		public static void SaveRunInfo(Dictionary<string, object> save) {
-			ChunkySaveData tempRun = new ChunkySaveData();
-			tempRun.isValidSave = true;
-			
-			tempRun.doEnemyBoostThisRun =ChunkyRunInfo.instance.doEnemyBoostThisRun;
-			tempRun.doHealBuffThisRun = ChunkyRunInfo.instance.doHealBuffThisRun;
-			tempRun.doGoldThisRun = ChunkyRunInfo.instance.doGoldThisRun;
-			tempRun.doNerfsThisRun = ChunkyRunInfo.instance.doNerfsThisRun;
-			tempRun.doLoiterThisRun = ChunkyRunInfo.instance.doLoiterThisRun;
-			tempRun.enemyChanceToYapThisRun = ChunkyRunInfo.instance.enemyChanceToYapThisRun;
-			tempRun.enemyYapCooldownThisRun = ChunkyRunInfo.instance.enemyYapCooldownThisRun;
-			tempRun.loiterPenaltyTimeThisRun = ChunkyRunInfo.instance.loiterPenaltyTimeThisRun;
-			tempRun.loiterPenaltyFrequencyThisRun = ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
-			tempRun.loiterPenaltySeverityThisRun = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun;
-			
+		private static void SaveRunInfo(Dictionary<string, object> save) {
+			ChunkySaveData tempRun = new ChunkySaveData {
+				isValidSave = true,
+				doEnemyBoostThisRun = ChunkyRunInfo.instance.doEnemyBoostThisRun,
+				doHealBuffThisRun = ChunkyRunInfo.instance.doHealBuffThisRun,
+				doGoldThisRun = ChunkyRunInfo.instance.doGoldThisRun,
+				doNerfsThisRun = ChunkyRunInfo.instance.doNerfsThisRun,
+				doLoiterThisRun = ChunkyRunInfo.instance.doLoiterThisRun,
+				enemyChanceToYapThisRun = ChunkyRunInfo.instance.enemyChanceToYapThisRun,
+				enemyYapCooldownThisRun = ChunkyRunInfo.instance.enemyYapCooldownThisRun,
+				loiterPenaltyTimeThisRun = ChunkyRunInfo.instance.loiterPenaltyTimeThisRun,
+				loiterPenaltyFrequencyThisRun = ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun,
+				loiterPenaltySeverityThisRun = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun
+			};
+
 			save.Add("CHUNKYMODE_RunInfo",tempRun);
 		}
 	}
