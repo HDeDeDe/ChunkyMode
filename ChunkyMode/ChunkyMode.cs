@@ -36,6 +36,7 @@ namespace HDeMods
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
+        public static readonly GameObject ChunkyInfo = new GameObject();
         
         // Run start checks
         private static bool shouldRun;
@@ -75,10 +76,9 @@ namespace HDeMods
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
             BindSettings();
-            ChunkyRunInfo.Instance = new ChunkyRunInfo();
+            ChunkyInfo.AddComponent<ChunkyRunInfo>();
             if (ChunkyOptionalMods.Saving.enabled) ChunkyOptionalMods.Saving.SetUp();
             //if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
-            ChunkyASeriesOfTubes.SetUpNetworking();
             
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
@@ -202,6 +202,12 @@ namespace HDeMods
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
             
+            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+#if DEBUG
+            reportErrorAnyway = true;
+#endif
+            if (!NetworkServer.active) return;
+            
             if (!ChunkyRunInfo.preSet) {
                 Config.Reload();
                 ChunkyRunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
@@ -215,14 +221,6 @@ namespace HDeMods
                 ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
                 ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
             }
-            
-            ChunkyASeriesOfTubes.DoNetworkingStuff();
-            
-            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-#if DEBUG
-            reportErrorAnyway = true;
-#endif
-            if (!NetworkServer.active) return;
 
             if (ChunkyRunInfo.Instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)

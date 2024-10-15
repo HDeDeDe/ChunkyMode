@@ -1,9 +1,8 @@
 using System.Runtime.Serialization;
-using R2API.Networking.Interfaces;
 using UnityEngine.Networking;
 
 namespace HDeMods {
-	public class ChunkyRunInfo : ISerializableObject {
+	internal class ChunkyRunInfo : NetworkBehaviour {
 		// This is the instance of RunInfo
 		[IgnoreDataMember]
 		public static ChunkyRunInfo Instance;
@@ -11,6 +10,36 @@ namespace HDeMods {
 		[IgnoreDataMember]
 		public static bool preSet;
 		// These are to prevent changing settings mid run
+		[SyncVar]
+		public bool doLoiterThisRun; 
+		[SyncVar]
+		public bool doGoldThisRun;
+		[SyncVar]
+		public bool doNerfsThisRun;
+		[SyncVar]
+		public bool doHealBuffThisRun;
+		[SyncVar]
+		public bool doEnemyBoostThisRun;
+		[SyncVar]
+		public int enemyChanceToYapThisRun;
+		[SyncVar]
+		public float enemyYapCooldownThisRun;
+		[SyncVar]
+		public float loiterPenaltyTimeThisRun;
+		[SyncVar]
+		public float loiterPenaltyFrequencyThisRun;
+		[SyncVar]
+		public float loiterPenaltySeverityThisRun;
+
+		public void Awake() {
+			if (Instance == null) Instance = this;
+			else Destroy(this);
+		}
+	}
+
+	public struct ChunkySaveData {
+		[DataMember(Name = "validCheck")]
+		public bool isValidSave;
 		[DataMember(Name = "loiter")]
 		public bool doLoiterThisRun; 
 		[DataMember(Name = "gold")]
@@ -31,31 +60,6 @@ namespace HDeMods {
 		public float loiterPenaltyFrequencyThisRun;
 		[DataMember(Name = "loiterSeverity")]
 		public float loiterPenaltySeverityThisRun;
-
-		public void Serialize(NetworkWriter writer) {
-			writer.Write(doLoiterThisRun);
-			writer.Write(doGoldThisRun);
-			writer.Write(doNerfsThisRun);
-			writer.Write(doHealBuffThisRun);
-			writer.Write(doEnemyBoostThisRun);
-			writer.Write(enemyChanceToYapThisRun);
-			writer.Write(enemyYapCooldownThisRun);
-			writer.Write(loiterPenaltyTimeThisRun);
-			writer.Write(loiterPenaltyFrequencyThisRun);
-			writer.Write(loiterPenaltySeverityThisRun);
-		}
-
-		public void Deserialize(NetworkReader reader) {
-			doLoiterThisRun = reader.ReadBoolean();
-			doGoldThisRun = reader.ReadBoolean();
-			doNerfsThisRun = reader.ReadBoolean();
-			doHealBuffThisRun = reader.ReadBoolean();
-			doEnemyBoostThisRun = reader.ReadBoolean();
-			enemyChanceToYapThisRun = reader.ReadInt32();
-			enemyYapCooldownThisRun = reader.ReadSingle();
-			loiterPenaltyTimeThisRun = reader.ReadSingle();
-			loiterPenaltyFrequencyThisRun = reader.ReadSingle();
-			loiterPenaltySeverityThisRun = reader.ReadSingle();
-		}
 	}
+	
 }

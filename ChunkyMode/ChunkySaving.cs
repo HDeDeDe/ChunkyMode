@@ -23,14 +23,39 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void LoadFromSave(SaveFile save) {
 			if (!Loading.IsLoading) return;
-			ChunkyRunInfo tempRun = save.GetModdedData<ChunkyRunInfo>("CHUNKYMODE_RunInfo");
-			if (tempRun == null) return;
-			ChunkyRunInfo.Instance = tempRun;
+			ChunkySaveData tempRun = save.GetModdedData<ChunkySaveData>("CHUNKYMODE_RunInfo");
+			if (!tempRun.isValidSave) return;
+			
+			ChunkyRunInfo.Instance.doEnemyBoostThisRun = tempRun.doEnemyBoostThisRun;
+			ChunkyRunInfo.Instance.doHealBuffThisRun = tempRun.doHealBuffThisRun;
+			ChunkyRunInfo.Instance.doGoldThisRun = tempRun.doGoldThisRun;
+			ChunkyRunInfo.Instance.doNerfsThisRun = tempRun.doNerfsThisRun;
+			ChunkyRunInfo.Instance.doLoiterThisRun = tempRun.doLoiterThisRun;
+			ChunkyRunInfo.Instance.enemyChanceToYapThisRun = tempRun.enemyChanceToYapThisRun;
+			ChunkyRunInfo.Instance.enemyYapCooldownThisRun = tempRun.enemyYapCooldownThisRun;
+			ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun = tempRun.loiterPenaltyTimeThisRun;
+			ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun = tempRun.loiterPenaltyFrequencyThisRun;
+			ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun = tempRun.loiterPenaltySeverityThisRun;
+			
 			ChunkyRunInfo.preSet = true;
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SaveRunInfo(Dictionary<string, object> save) {
-			save.Add("CHUNKYMODE_RunInfo",ChunkyRunInfo.Instance);
+			ChunkySaveData tempRun = new ChunkySaveData();
+			tempRun.isValidSave = true;
+			
+			tempRun.doEnemyBoostThisRun =ChunkyRunInfo.Instance.doEnemyBoostThisRun;
+			tempRun.doHealBuffThisRun = ChunkyRunInfo.Instance.doHealBuffThisRun;
+			tempRun.doGoldThisRun = ChunkyRunInfo.Instance.doGoldThisRun;
+			tempRun.doNerfsThisRun = ChunkyRunInfo.Instance.doNerfsThisRun;
+			tempRun.doLoiterThisRun = ChunkyRunInfo.Instance.doLoiterThisRun;
+			tempRun.enemyChanceToYapThisRun = ChunkyRunInfo.Instance.enemyChanceToYapThisRun;
+			tempRun.enemyYapCooldownThisRun = ChunkyRunInfo.Instance.enemyYapCooldownThisRun;
+			tempRun.loiterPenaltyTimeThisRun = ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun;
+			tempRun.loiterPenaltyFrequencyThisRun = ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
+			tempRun.loiterPenaltySeverityThisRun = ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun;
+			
+			save.Add("CHUNKYMODE_RunInfo",tempRun);
 		}
 	}
 }}
