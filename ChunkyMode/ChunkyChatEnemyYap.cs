@@ -8,10 +8,10 @@ namespace HDeMods {
 		public string baseToken;
 		public string enemyToken;
 		private int m_eliteLength;
-		public List<BuffIndex> eliteAffix;
+		public List<BuffIndex> eliteAffix = new List<BuffIndex>();
 
 		public override string ConstructChatString() {
-			string enemyName = enemyToken;
+			string enemyName = Language.GetString(enemyToken);
 			foreach (BuffIndex buffIndex in eliteAffix) {
 				enemyName = Language.GetStringFormatted(BuffCatalog.GetBuffDef(buffIndex).eliteDef.modifierToken, enemyName);
 			}
