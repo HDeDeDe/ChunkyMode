@@ -26,7 +26,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
         }
         
     }
-    internal class Enrage {
+    /*internal class Enrage {
         private static bool? _enabled;
 
         public static bool enabled {
@@ -44,5 +44,5 @@ namespace HDeMods { namespace ChunkyOptionalMods {
             Log.Info("Artifact of the Enraged detected, doing a crime.");
             EnrageArtifact.DoACrime();
         }
-    }
+    }*/
 } }
