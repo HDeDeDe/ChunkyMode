@@ -1,57 +1,82 @@
-﻿using System;
-using System.IO;
+﻿using System.Collections;
 using System.IO.Compression;
+using System.Diagnostics;
+//-----------------------------------------------------Customize--------------------------------------------------------
+const string pluginName = HDeMods.ChunkyMode.PluginName;
+const string pluginAuthor = HDeMods.ChunkyMode.PluginAuthor;
+const string pluginVersion = HDeMods.ChunkyMode.PluginVersion;
+const string changelog = "../CHANGELOG.md";
+const string readme = "../README.md";
+const string icon = "../Resources/ror2Assets/Assets/ChunkyDiffAssets/ChunkyDiffBundle/texChunkyModeDiffIcon.png";
+const string riskOfRain2Install = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Risk of Rain 2\\Risk of Rain 2_Data\\Managed\\";
+ArrayList extraFiles = new ArrayList {
+	new FileInfo("../Resources/ChunkyMode.language"),
+	new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon")
+};
+const string manifestWebsiteUrl = "https://github.com/HDeDeDe/ChunkyMode";
+const string manifestDescription = "A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.";
+const string manifestDependencies = "[\n" +
+                                    "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" + 
+                                    "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\",\n" + 
+                                    "\t\t\"RiskofThunder-R2API_Language-1.0.1\",\n" + 
+                                    "\t\t\"RiskofThunder-R2API_Difficulty-1.1.2\",\n" + 
+                                    "\t\t\"RiskofThunder-R2API_RecalculateStats-1.4.0\",\n" +
+                                    "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
+                                    "\t\t\"RiskofThunder-R2API_Director-2.2.1\",\n" +
+                                    "\t\t\"HDeDeDe-HealthComponentAPI-0.1.1\"\n" +
+                                    "\t]";
+//-----------------------------------------------------Stop-------------------------------------------------------------
 
-string targetFile = "../ChunkyMode/bin/ChunkyMode.zip";
-
-FileInfo chunkyModeDLL;
-FileInfo chunkyDiffIcon = new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon");
-FileInfo changelog = new FileInfo("../CHANGELOG.md");
-FileInfo readme = new FileInfo("../README.md");
-FileInfo icon = new FileInfo("../Resources/ror2Assets/Assets/ChunkyDiffAssets/ChunkyDiffBundle/texChunkyModeDiffIcon.png");
-FileInfo languageFile = new FileInfo("../Resources/ChunkyMode.language");
-
-string manifestAuthor = HDeMods.ChunkyMode.PluginAuthor;
-string manifestName = HDeMods.ChunkyMode.PluginName;
-string manifestVersionNumber = HDeMods.ChunkyMode.PluginVersion;
-string manifestWebsiteUrl = "https://github.com/HDeDeDe/ChunkyMode";
-string manifestDescription = "A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.";
-string manifestDependencies = "[\n" +
-                              "\t\t\"bbepis-BepInExPack-5.4.2108\",\n" + 
-                              "\t\t\"RiskofThunder-HookGenPatcher-1.2.3\",\n" + 
-                              "\t\t\"RiskofThunder-R2API_Language-1.0.1\",\n" + 
-                              "\t\t\"RiskofThunder-R2API_Difficulty-1.1.2\",\n" + 
-                              "\t\t\"RiskofThunder-R2API_RecalculateStats-1.4.0\",\n" +
-                              "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
-                              "\t\t\"RiskofThunder-R2API_Director-2.2.1\",\n" +
-                              "\t\t\"HDeDeDe-HealthComponentAPI-0.1.1\"\n" +
-                              "\t]";
+const string targetFile = "../" + pluginName + "/bin/" + pluginName + ".zip";
 
 #if DEBUG
-chunkyModeDLL = new FileInfo("../ChunkyMode/bin/Debug/netstandard2.1/ChunkyMode.dll");
+const string dllPath = "../" + pluginName + "/bin/Debug/netstandard2.1/";
+const string dllPathWindows = "..\\" + pluginName + "\\bin\\Debug\\netstandard2.1\\";
 #endif
 
 #if RELEASE
-chunkyModeDLL = new FileInfo("../ChunkyMode/bin/Release/netstandard2.1/ChunkyMode.dll");
+const string dllPath = "../" + pluginName + "/bin/Release/netstandard2.1/";
+const string dllPathWindows = "..\\" + pluginName + "\\bin\\Release\\netstandard2.1\\";
 #endif
 
-Console.WriteLine("Creating ChunkyMode.Zip");
+Console.WriteLine("Weaving " + pluginName + ".dll");
+if(File.Exists(dllPath + pluginName + ".prepatch")) File.Delete(dllPath + pluginName + ".prepatch");
+File.Copy(dllPath + pluginName + ".dll", dllPath + pluginName + ".prepatch");
+
+Process weaver = new Process();
+weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver.exe";
+weaver.StartInfo.Arguments = "\"" + riskOfRain2Install + "UnityEngine.CoreModule.dll\" " +
+                             "\"" + riskOfRain2Install + "com.unity.multiplayer-hlapi.Runtime.dll\" " +
+                             dllPathWindows + " " +
+                             dllPathWindows + pluginName + ".dll " +
+                             // Dependency folders
+                             "\"" + riskOfRain2Install + "\" " +
+                             dllPathWindows + " " +
+                             "\"" + Environment.GetEnvironmentVariable("HOMEPATH") + "\\.nuget\\packages\\\"";
+weaver.StartInfo.UseShellExecute = true;
+weaver.Start();
+weaver.WaitForExit();
+
+Console.WriteLine("Creating " + pluginName + ".Zip");
 if (File.Exists(targetFile)) File.Delete(targetFile);
 
 ZipArchive archive = ZipFile.Open(targetFile, ZipArchiveMode.Create);
 
-archive.CreateEntryFromFile(chunkyDiffIcon.FullName, chunkyDiffIcon.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(changelog.FullName, changelog.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(readme.FullName, readme.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(chunkyModeDLL.FullName, chunkyModeDLL.Name, CompressionLevel.Optimal);
-archive.CreateEntryFromFile(icon.FullName, "icon.png", CompressionLevel.Optimal);
-archive.CreateEntryFromFile(languageFile.FullName, languageFile.Name, CompressionLevel.Optimal);
+archive.CreateEntryFromFile(changelog, "CHANGELOG.md", CompressionLevel.Optimal);
+archive.CreateEntryFromFile(readme, "README.md", CompressionLevel.Optimal);
+archive.CreateEntryFromFile(dllPath + pluginName + ".dll", pluginName + ".dll", CompressionLevel.Optimal);
+archive.CreateEntryFromFile(icon, "icon.png", CompressionLevel.Optimal);
+
+foreach (FileInfo file in extraFiles) {
+	archive.CreateEntryFromFile(file.FullName, file.Name, CompressionLevel.Optimal);
+}
+
 ZipArchiveEntry manifest = archive.CreateEntry("manifest.json", CompressionLevel.Optimal);
 using (StreamWriter writer = new StreamWriter(manifest.Open())) {
 	writer.WriteLine("{");
-	writer.WriteLine("\t\"author\": \"" + manifestAuthor + "\",");
-	writer.WriteLine("\t\"name\": \"" + manifestName + "\",");
-	writer.WriteLine("\t\"version_number\": \"" + manifestVersionNumber + "\",");
+	writer.WriteLine("\t\"author\": \"" + pluginAuthor + "\",");
+	writer.WriteLine("\t\"name\": \"" + pluginName + "\",");
+	writer.WriteLine("\t\"version_number\": \"" + pluginVersion + "\",");
 	writer.WriteLine("\t\"website_url\": \"" + manifestWebsiteUrl + "\",");
 	writer.WriteLine("\t\"description\": \"" + manifestDescription + "\",");
 	writer.WriteLine("\t\"dependencies\": " + manifestDependencies);

@@ -20,6 +20,10 @@
       <ProjectReference Include="..\ChunkyMode\ChunkyMode.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="NetWeaver\" />
+    </ItemGroup>
+
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
       <Exec Command="..\CompressToZip\bin\net8.0\CompressToZip.exe" />
     </Target>
