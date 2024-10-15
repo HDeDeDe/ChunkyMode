@@ -62,70 +62,46 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 
 	// Thanks to Bubbet for the suggestion to do this
 	internal class ChunkyCheckBoxOption : CheckBoxOption {
-		public ChunkyCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry)
-		{
+		public ChunkyCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry) {
+			RoR2.Language.onCurrentLanguageChanged+= ResetDescription;
 		}
 
-		public override void RegisterTokens()
-		{
+		public override void RegisterTokens() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
 
-        /*public new string Description {
-			get => RoR2.Language.GetString(GetDescriptionToken());
-			set => Log.Warning("Risk Of Options attempted to write the following to " + GetDescriptionToken() + ":\n" + value);
+		private void ResetDescription() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
-
-        public override void SetDescription(string fallback, BaseOptionConfig config) {
-	        if (!string.IsNullOrEmpty(config.description))
-		        Description = config.description;
-	        else
-		        Description = fallback;
-        }*/
 	}
 	
 	internal class ChunkyIntSliderOption : IntSliderOption {
 
-		public ChunkyIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config)
-		{
+		public ChunkyIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config) {
+			RoR2.Language.onCurrentLanguageChanged+= ResetDescription;
 		}
 
-		public override void RegisterTokens()
-		{
+		public override void RegisterTokens() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
 		
-		/*public new string Description {
-			get => RoR2.Language.GetString(GetDescriptionToken());
-			set => Log.Warning("Risk Of Options attempted to write the following to " + GetDescriptionToken() + ":\n" + value);
+		private void ResetDescription() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
-		
-		public override void SetDescription(string fallback, BaseOptionConfig config) {
-			if (!string.IsNullOrEmpty(config.description))
-				Description = config.description;
-			else
-				Description = fallback;
-		}*/
 	}
 	
 	internal class ChunkySliderOption : SliderOption {
 
-		public ChunkySliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config)
-		{
+		public ChunkySliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config) {
+			RoR2.Language.onCurrentLanguageChanged+= ResetDescription;
 		}
 
-		public override void RegisterTokens()
-		{
+		public override void RegisterTokens() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
 		
-		/*public new string Description {
-			get => RoR2.Language.GetString(GetDescriptionToken());
-			set => Log.Warning("Risk Of Options attempted to write the following to " + GetDescriptionToken() + ":\n" + value);
+		private void ResetDescription() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
-		
-		public override void SetDescription(string fallback, BaseOptionConfig config) {
-			if (!string.IsNullOrEmpty(config.description))
-				Description = config.description;
-			else
-				Description = fallback;
-		}*/
 	}
 }}
