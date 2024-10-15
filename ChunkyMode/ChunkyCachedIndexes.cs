@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using RoR2;
 
 namespace HDeMods {
-	internal enum BodyCache{
+	internal enum BodyCache {
 		None,
 		BeetleGuard,
 		Vagrant,
