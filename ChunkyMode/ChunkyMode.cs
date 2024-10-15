@@ -48,6 +48,7 @@ namespace HDeMods
         private static float stagePunishTimer;
         private static bool teleporterHit;
         private static float enemyWaveTimerRefresh;
+        //private static float enemyStrengthWeight;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -110,9 +111,10 @@ namespace HDeMods
                 new Color32(61, 25, 255, 255),
                 "cm",
                 true
-            );
-            ChunkyModeDifficultyDef.iconSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon");
-            ChunkyModeDifficultyDef.foundIconSprite = true;
+            ) {
+                iconSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"),
+                foundIconSprite = true
+            };
             ChunkyModeDifficultyIndex = DifficultyAPI.AddDifficulty(ChunkyModeDifficultyDef);
         }
 
@@ -194,7 +196,7 @@ namespace HDeMods
             teleporterHit = false;
             teleporterExists = false;
             getFuckedLMAO = false;
-            ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit;
+            ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
@@ -224,9 +226,9 @@ namespace HDeMods
 
             if (ChunkyRunInfo.Instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)
-                TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = (int)(ogMonsterCap * 1.5);
-                TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = (int)(ogMonsterCap * 1.5);
-                TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = (int)(ogMonsterCap * 1.5);
+                TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
+                TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
+                TeamCatalog.GetTeamDef(TeamIndex.Lunar)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
             }
 
             HealthComponentAPI.GetHealthStats += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
@@ -254,9 +256,9 @@ namespace HDeMods
             ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
             
-            TeamCatalog.GetTeamDef(TeamIndex.Monster).softCharacterLimit = ogMonsterCap;
-            TeamCatalog.GetTeamDef(TeamIndex.Void).softCharacterLimit = ogMonsterCap;
-            TeamCatalog.GetTeamDef(TeamIndex.Lunar).softCharacterLimit = ogMonsterCap;
+            TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = ogMonsterCap;
+            TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = ogMonsterCap;
+            TeamCatalog.GetTeamDef(TeamIndex.Lunar)!.softCharacterLimit = ogMonsterCap;
             
             HealthComponentAPI.GetHealthStats -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
             IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= ChunkyILHooks.REXHealPulse;
