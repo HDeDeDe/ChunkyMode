@@ -1,87 +1,72 @@
 using RoR2;
-using UnityEngine.Bindings;
 using UnityEngine.Networking;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HDeMods {
 	public class ChunkyChatEnemyYap: ChatMessageBase {
 		public string baseToken;
 		public string enemyToken;
+		private int m_eliteLength;
+		public List<BuffIndex> eliteAffix;
 
 		public override string ConstructChatString() {
-			return Language.GetStringFormatted("CHUNKYMODEDIFFMOD_YAP_FORMAT", Language.GetString(enemyToken), Language.GetString(baseToken));
+			string enemyName = enemyToken;
+			foreach (BuffIndex buffIndex in eliteAffix) {
+				enemyName = Language.GetStringFormatted(BuffCatalog.GetBuffDef(buffIndex).eliteDef.modifierToken, enemyName);
+			}
+			return Language.GetStringFormatted("CHUNKYMODEDIFFMOD_YAP_FORMAT", Language.GetStringFormatted(enemyName), Language.GetString(baseToken));
 		}
 		
 		public override void Serialize(NetworkWriter writer) {
 			writer.Write(baseToken);
 			writer.Write(enemyToken);
+			writer.Write(eliteAffix.Count);
+			foreach (BuffIndex buffIndex in eliteAffix) {
+				writer.Write((int)buffIndex);
+			}
 		}
 
 		public override void Deserialize(NetworkReader reader) {
 			baseToken = reader.ReadString();
 			enemyToken = reader.ReadString();
+			m_eliteLength = reader.ReadInt32();
+			if (m_eliteLength == 0) return;
+			for (int i = 0; i < m_eliteLength; i++) {
+				eliteAffix.Add((BuffIndex)reader.ReadInt32());
+			}
 		}
 	}
 
+	[SuppressMessage("ReSharper", "StringLiteralTypo")]
 	internal static class ChunkyYap {
-		public static void DoYapping([NotNull]string enemyToken) {
+		public static void DoYapping([UnityEngine.Bindings.NotNull]string enemyToken, List<BuffIndex> eliteAffix) {
 #if DEBUG
 			Log.Debug("Speaking now");
 #endif
-			string baseToken = "";
-			int randomNumber = UnityEngine.Random.RandomRangeInt(0, 100000) % 16;
-			switch (randomNumber) {
-				case 0:
-					baseToken = "BROTHER_SPAWN_PHASE1_1";
-					break;
-				case 1:
-					baseToken = "BROTHER_SPAWN_PHASE1_2";
-					break;
-				case 2:
-					baseToken = "BROTHER_SPAWN_PHASE1_3";
-					break;
-				case 3:
-					baseToken = "BROTHER_SPAWN_PHASE1_4";
-					break;
-				case 4:
-					baseToken = "BROTHER_DAMAGEDEALT_7";
-					break;
-				case 5:
-					baseToken = "BROTHER_DAMAGEDEALT_6";
-					break;
-				case 6:
-					baseToken = "BROTHER_DAMAGEDEALT_2";
-					break;
-				case 7:
-					baseToken = "BROTHER_KILL_1";
-					break;
-				case 8:
-					baseToken = "BROTHER_DAMAGEDEALT_3";
-					break;
-				case 9:
-					baseToken = "FALSESONBOSS_SPAWN_3";
-					break;
-				case 10:
-					baseToken = "FALSESONBOSS_EARLYPHASE_HURT_2";
-					break;
-				case 11:
-					baseToken = "FALSESONBOSS_EARLYPHASE_HURT_7";
-					break;
-				case 12:
-					baseToken = "FALSESONBOSS_FINALPHASE_HURT_6";
-					break;
-				case 13:
-					baseToken = "FALSESONBOSS_EARLYPHASE_PLAYERDEATH_4";
-					break;
-				case 14:
-					baseToken = "FALSESONBOSS_EARLYPHASE_PLAYERDEATH_5";
-					break;
-				case 15:
-					baseToken = "FALSESONBOSS_DRONEDEATH_2";
-					break;
-			}
+			string baseToken = (UnityEngine.Random.RandomRangeInt(0, 100000) % 16) switch {
+				0 => "BROTHER_SPAWN_PHASE1_1",
+				1 => "BROTHER_SPAWN_PHASE1_2",
+				2 => "BROTHER_SPAWN_PHASE1_3",
+				3 => "BROTHER_SPAWN_PHASE1_4",
+				4 => "BROTHER_DAMAGEDEALT_7",
+				5 => "BROTHER_DAMAGEDEALT_6",
+				6 => "BROTHER_DAMAGEDEALT_2",
+				7 => "BROTHER_KILL_1",
+				8 => "BROTHER_DAMAGEDEALT_3",
+				9 => "FALSESONBOSS_SPAWN_3",
+				10 => "FALSESONBOSS_EARLYPHASE_HURT_2",
+				11 => "FALSESONBOSS_EARLYPHASE_HURT_7",
+				12 => "FALSESONBOSS_FINALPHASE_HURT_6",
+				13 => "FALSESONBOSS_EARLYPHASE_PLAYERDEATH_4",
+				14 => "FALSESONBOSS_EARLYPHASE_PLAYERDEATH_5",
+				15 => "FALSESONBOSS_DRONEDEATH_2",
+				_ => ""
+			};
 			Chat.SendBroadcastChat(new ChunkyChatEnemyYap() {
 				baseToken = baseToken,
-				enemyToken = enemyToken
+				enemyToken = enemyToken,
+				eliteAffix = eliteAffix
 			});
 		}
 

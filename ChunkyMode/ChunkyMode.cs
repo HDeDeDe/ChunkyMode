@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
@@ -286,7 +289,9 @@ namespace HDeMods
             
             if (NetworkServer.active && funko < yap && ChunkyRunInfo.Instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
                 enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.enemyYapCooldownThisRun;
-                ChunkyYap.DoYapping(sender.baseNameToken);
+                List<BuffIndex> eliteAffix = new List<BuffIndex>();
+                if(sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(buffIndex => sender.HasBuff(buffIndex)));
+                ChunkyYap.DoYapping(sender.baseNameToken, eliteAffix);
             }
 
             if (!ChunkyRunInfo.Instance.doNerfsThisRun) {
