@@ -53,8 +53,12 @@ weaver.StartInfo.Arguments = "\"" + riskOfRain2Install + "UnityEngine.CoreModule
                              "\"" + riskOfRain2Install + "\" " +
                              dllPathWindows + " " +
                              "\"" + Environment.GetEnvironmentVariable("HOMEPATH") + "\\.nuget\\packages\\\"";
-weaver.StartInfo.UseShellExecute = true;
+weaver.StartInfo.RedirectStandardOutput = true;
 weaver.Start();
+string output;
+while ((output = weaver.StandardOutput.ReadLine()) != null) {
+	Console.WriteLine(output);
+}
 weaver.WaitForExit();
 
 Console.WriteLine("Creating " + pluginName + ".Zip");
