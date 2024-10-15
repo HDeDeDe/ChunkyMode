@@ -5,7 +5,7 @@ namespace HDeMods {
 	internal class ChunkyRunInfo : NetworkBehaviour {
 		// This is the instance of RunInfo
 		[IgnoreDataMember]
-		public static ChunkyRunInfo Instance;
+		public static ChunkyRunInfo instance;
 		// This should only be true if ProperSave is present and added settings
 		[IgnoreDataMember]
 		public static bool preSet;
@@ -32,7 +32,7 @@ namespace HDeMods {
 		public float loiterPenaltySeverityThisRun;
 
 		public void Awake() {
-			if (Instance == null) Instance = this;
+			if (instance == null) instance = this;
 			else Destroy(this);
 		}
 	}

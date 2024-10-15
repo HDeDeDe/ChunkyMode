@@ -213,19 +213,19 @@ namespace HDeMods
             
             if (!ChunkyRunInfo.preSet) {
                 Config.Reload();
-                ChunkyRunInfo.Instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
-                ChunkyRunInfo.Instance.doHealBuffThisRun = doHealingBuffs.Value;
-                ChunkyRunInfo.Instance.doGoldThisRun = doGoldPenalty.Value;
-                ChunkyRunInfo.Instance.doNerfsThisRun = doEnemyNerfs.Value;
-                ChunkyRunInfo.Instance.doLoiterThisRun = doLoiterPenalty.Value;
-                ChunkyRunInfo.Instance.enemyChanceToYapThisRun = enemyChanceToYap.Value;
-                ChunkyRunInfo.Instance.enemyYapCooldownThisRun = enemyYapCooldown.Value;
-                ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
-                ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
-                ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
+                ChunkyRunInfo.instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
+                ChunkyRunInfo.instance.doHealBuffThisRun = doHealingBuffs.Value;
+                ChunkyRunInfo.instance.doGoldThisRun = doGoldPenalty.Value;
+                ChunkyRunInfo.instance.doNerfsThisRun = doEnemyNerfs.Value;
+                ChunkyRunInfo.instance.doLoiterThisRun = doLoiterPenalty.Value;
+                ChunkyRunInfo.instance.enemyChanceToYapThisRun = enemyChanceToYap.Value;
+                ChunkyRunInfo.instance.enemyYapCooldownThisRun = enemyYapCooldown.Value;
+                ChunkyRunInfo.instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
+                ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
+                ChunkyRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
             }
 
-            if (ChunkyRunInfo.Instance.doEnemyBoostThisRun){ 
+            if (ChunkyRunInfo.instance.doEnemyBoostThisRun){ 
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
@@ -233,7 +233,7 @@ namespace HDeMods
             }
 
             HealthComponentAPI.GetHealthStats += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
-            if (ChunkyRunInfo.Instance.doHealBuffThisRun){ 
+            if (ChunkyRunInfo.instance.doHealBuffThisRun){ 
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer += ChunkyILHooks.REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += ChunkyILHooks.AcridRegenBuff; 
@@ -244,7 +244,7 @@ namespace HDeMods
             HealthComponentAPI.GetHealStats += ChunkyILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
             
-            if (!ChunkyRunInfo.Instance.doLoiterThisRun) return;
+            if (!ChunkyRunInfo.instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
@@ -284,17 +284,17 @@ namespace HDeMods
             if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
             
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
-            int yap = ChunkyRunInfo.Instance.enemyChanceToYapThisRun;
+            int yap = ChunkyRunInfo.instance.enemyChanceToYapThisRun;
             if (getFuckedLMAO) yap *= 2;
             
-            if (NetworkServer.active && funko < yap && ChunkyRunInfo.Instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
-                enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.enemyYapCooldownThisRun;
+            if (NetworkServer.active && funko < yap && ChunkyRunInfo.instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
+                enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.enemyYapCooldownThisRun;
                 List<BuffIndex> eliteAffix = new List<BuffIndex>();
                 if(sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(buffIndex => sender.HasBuff(buffIndex)));
                 ChunkyYap.DoYapping(sender.baseNameToken, eliteAffix);
             }
 
-            if (!ChunkyRunInfo.Instance.doNerfsThisRun) {
+            if (!ChunkyRunInfo.instance.doNerfsThisRun) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
                 args.cooldownReductionAdd += 0.5f;
@@ -352,7 +352,7 @@ namespace HDeMods
         private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            if(ChunkyRunInfo.Instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
+            if(ChunkyRunInfo.instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
@@ -368,7 +368,7 @@ namespace HDeMods
 #if DEBUG
             Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
 #endif
-            if (!ChunkyRunInfo.Instance.doLoiterThisRun) {
+            if (!ChunkyRunInfo.instance.doLoiterThisRun) {
                 beginStage(self);
                 return;
             }
@@ -384,7 +384,7 @@ namespace HDeMods
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
         private void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
-            stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyTimeThisRun;
+            stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyTimeThisRun;
             Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
             teleporterPlaced(self, sceneDirector, thing);
         }
@@ -398,7 +398,7 @@ namespace HDeMods
 #if DEBUG
             Log.Debug("Attempting to spawn enemy wave");
 #endif
-            float newCreditBalance = ChunkyRunInfo.Instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient;
+            float newCreditBalance = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient;
             float oldTimer = self.monsterSpawnTimer - deltaTime;
             DirectorCard oldEnemy = self.currentMonsterCard;
             DirectorCard newEnemy = self.SelectMonsterCardForCombatShrine(newCreditBalance);
@@ -413,7 +413,7 @@ namespace HDeMods
 #if DEBUG
             Log.Debug("Spawning enemy wave");
 #endif
-            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.Instance.loiterPenaltyFrequencyThisRun;
+            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
             
             //Thank you .score for pointing out CombatDirector.CombatShrineActivation
             self.monsterSpawnTimer = 0f;
@@ -442,7 +442,7 @@ namespace HDeMods
 #endif
                 return;
             }
-            if (!ChunkyRunInfo.Instance.doLoiterThisRun) {
+            if (!ChunkyRunInfo.instance.doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
 #endif
