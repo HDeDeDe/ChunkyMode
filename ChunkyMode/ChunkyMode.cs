@@ -21,6 +21,9 @@ namespace HDeMods
     [BepInDependency("com.rob.Hunk", BepInDependency.DependencyFlags.SoftDependency)]
     //[BepInDependency(EnrageArtifact.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public class ChunkyMode : BaseUnityPlugin
     {
         // Plugin details
