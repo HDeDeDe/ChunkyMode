@@ -56,7 +56,7 @@ weaver.StartInfo.Arguments = "\"" + riskOfRain2Install + "UnityEngine.CoreModule
 weaver.StartInfo.RedirectStandardOutput = true;
 weaver.Start();
 string output;
-while ((output = weaver.StandardOutput.ReadLine()) != null) {
+while ((output = weaver.StandardOutput.ReadLine()!) != null) {
 	Console.WriteLine(output);
 }
 weaver.WaitForExit();
