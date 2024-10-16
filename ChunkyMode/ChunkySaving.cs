@@ -14,20 +14,9 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void LoadFromSave(SaveFile save) {
 			if (!Loading.IsLoading) return;
-			ChunkySaveData tempRun = save.GetModdedData<ChunkySaveData>("CHUNKYMODE_RunInfo");
-			if (!tempRun.isValidSave) return;
-			
-			ChunkyRunInfo.instance.doEnemyBoostThisRun = tempRun.doEnemyBoostThisRun;
-			ChunkyRunInfo.instance.doHealBuffThisRun = tempRun.doHealBuffThisRun;
-			ChunkyRunInfo.instance.doGoldThisRun = tempRun.doGoldThisRun;
-			ChunkyRunInfo.instance.doNerfsThisRun = tempRun.doNerfsThisRun;
-			ChunkyRunInfo.instance.doLoiterThisRun = tempRun.doLoiterThisRun;
-			ChunkyRunInfo.instance.enemyChanceToYapThisRun = tempRun.enemyChanceToYapThisRun;
-			ChunkyRunInfo.instance.enemyYapCooldownThisRun = tempRun.enemyYapCooldownThisRun;
-			ChunkyRunInfo.instance.loiterPenaltyTimeThisRun = tempRun.loiterPenaltyTimeThisRun;
-			ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun = tempRun.loiterPenaltyFrequencyThisRun;
-			ChunkyRunInfo.instance.loiterPenaltySeverityThisRun = tempRun.loiterPenaltySeverityThisRun;
-			
+			ChunkySaveData saveData = save.GetModdedData<ChunkySaveData>("CHUNKYMODE_RunInfo");
+			if (!saveData.isValidSave) return;
+			ChunkyRunInfo.saveData = saveData;
 			ChunkyRunInfo.preSet = true;
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

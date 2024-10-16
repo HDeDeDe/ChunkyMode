@@ -4,11 +4,11 @@ using UnityEngine.Networking;
 namespace HDeMods {
 	internal class ChunkyRunInfo : NetworkBehaviour {
 		// This is the instance of RunInfo
-		[IgnoreDataMember]
 		public static ChunkyRunInfo instance;
 		// This should only be true if ProperSave is present and added settings
-		[IgnoreDataMember]
 		public static bool preSet;
+		public static ChunkySaveData saveData;
+		
 		// These are to prevent changing settings mid run
 		[SyncVar]
 		public bool doLoiterThisRun; 
@@ -32,8 +32,18 @@ namespace HDeMods {
 		public float loiterPenaltySeverityThisRun;
 
 		public void Awake() {
-			if (instance == null) instance = this;
-			else Destroy(this);
+            instance = this;
+            if (!preSet) return;
+            doEnemyBoostThisRun = saveData.doEnemyBoostThisRun;
+            doHealBuffThisRun = saveData.doHealBuffThisRun;
+            doGoldThisRun = saveData.doGoldThisRun;
+            doNerfsThisRun = saveData.doNerfsThisRun;
+            doLoiterThisRun = saveData.doLoiterThisRun;
+            enemyChanceToYapThisRun = saveData.enemyChanceToYapThisRun;
+            enemyYapCooldownThisRun = saveData.enemyYapCooldownThisRun;
+            loiterPenaltyTimeThisRun = saveData.loiterPenaltyTimeThisRun;
+            loiterPenaltyFrequencyThisRun = saveData.loiterPenaltyFrequencyThisRun;
+            loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
 		}
 	}
 

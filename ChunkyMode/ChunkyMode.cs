@@ -38,7 +38,8 @@ namespace HDeMods
         public AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
-        public static readonly GameObject ChunkyInfo = new GameObject();
+        public static GameObject ChunkyInfo;
+        private static GameObject m_chunkyInfo;
         
         // Run start checks
         private static bool shouldRun;
@@ -78,7 +79,13 @@ namespace HDeMods
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
             BindSettings();
+
+            GameObject temp = new GameObject("thing");
+            temp.AddComponent<NetworkIdentity>();
+            ChunkyInfo = temp.InstantiateClone("ChunkyRunInfo");
+            Destroy(temp);
             ChunkyInfo.AddComponent<ChunkyRunInfo>();
+            
             if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
 
             
@@ -209,6 +216,9 @@ namespace HDeMods
             reportErrorAnyway = true;
 #endif
             if (!NetworkServer.active) return;
+
+            m_chunkyInfo = Instantiate(ChunkyInfo);
+            NetworkServer.Spawn(m_chunkyInfo);
             
             if (!ChunkyRunInfo.preSet) {
                 Config.Reload();
@@ -255,6 +265,7 @@ namespace HDeMods
             shouldRun = false;
             ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
+            Destroy(m_chunkyInfo);
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = ogMonsterCap;
