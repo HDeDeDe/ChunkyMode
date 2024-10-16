@@ -3,6 +3,8 @@ using System.IO.Compression;
 using System.Diagnostics;
 
 //-----------------------------------------------------Customize--------------------------------------------------------
+const bool giveMePDBs = true;
+
 const string pluginName = HDeMods.ChunkyMode.PluginName;
 const string pluginAuthor = HDeMods.ChunkyMode.PluginAuthor;
 const string pluginVersion = HDeMods.ChunkyMode.PluginVersion;
@@ -45,7 +47,8 @@ if(File.Exists(dllPath + pluginName + ".prepatch")) File.Delete(dllPath + plugin
 File.Copy(dllPath + pluginName + ".dll", dllPath + pluginName + ".prepatch");
 
 Process weaver = new Process();
-weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver2.exe";
+if (giveMePDBs) weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver2.exe";
+else weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver.exe";
 weaver.StartInfo.Arguments = "\"" + riskOfRain2Install + "UnityEngine.CoreModule.dll\" " +
                              "\"" + riskOfRain2Install + "com.unity.multiplayer-hlapi.Runtime.dll\" " +
                              dllPathWindows + " " +
@@ -70,7 +73,7 @@ ZipArchive archive = ZipFile.Open(targetFile, ZipArchiveMode.Create);
 archive.CreateEntryFromFile(changelog, "CHANGELOG.md", CompressionLevel.Optimal);
 archive.CreateEntryFromFile(readme, "README.md", CompressionLevel.Optimal);
 archive.CreateEntryFromFile(dllPath + pluginName + ".dll", pluginName + ".dll", CompressionLevel.Optimal);
-archive.CreateEntryFromFile(dllPath + pluginName + ".pdb", pluginName + ".pdb", CompressionLevel.Optimal);
+if (giveMePDBs) archive.CreateEntryFromFile(dllPath + pluginName + ".pdb", pluginName + ".pdb", CompressionLevel.Optimal);
 archive.CreateEntryFromFile(icon, "icon.png", CompressionLevel.Optimal);
 
 foreach (FileInfo file in extraFiles) {
