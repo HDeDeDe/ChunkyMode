@@ -30,8 +30,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 #endif
 		}
 		
-		public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum) {
-			ChunkySliderOption sliderOption = new ChunkySliderOption(option, new SliderConfig() {min = minimum, max = maximum});
+		public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum, string format = "{0:0}%") {
+			ChunkySliderOption sliderOption = new ChunkySliderOption(option, new SliderConfig() {min = minimum, max = maximum, FormatString = format});
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG

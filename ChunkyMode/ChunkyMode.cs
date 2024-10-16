@@ -185,9 +185,9 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddCheck(doGoldPenalty);
             ChunkyOptionalMods.RoO.AddCheck(doEnemyNerfs);
             ChunkyOptionalMods.RoO.AddInt(enemyChanceToYap, 0, 100000);
-            ChunkyOptionalMods.RoO.AddFloat(enemyYapCooldown, 0f, 600f);
-            ChunkyOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f);
-            ChunkyOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f);
+            ChunkyOptionalMods.RoO.AddFloat(enemyYapCooldown, 0f, 600f, "{0}");
+            ChunkyOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f, "{0}");
+            ChunkyOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
             ChunkyOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
             ChunkyOptionalMods.RoO.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
