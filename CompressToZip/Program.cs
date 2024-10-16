@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Diagnostics;
 
 //-----------------------------------------------------Customize--------------------------------------------------------
+// ReSharper disable once InconsistentNaming
 const bool giveMePDBs = true;
 
 const string pluginName = HDeMods.ChunkyMode.PluginName;

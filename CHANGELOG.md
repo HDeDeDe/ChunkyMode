@@ -3,6 +3,7 @@
 - Enemies now have a few more lines they can yap.
 - Converted run info to sync with UNetWeaver instead of INetRequest.
 - Fixed mod option descriptions not being localized.
+- Improved error logging with included pdb
 ## 0.2.3
 - Added +50% Ally Barrier Decay Rate
 - Nerfed Bastard Pest
