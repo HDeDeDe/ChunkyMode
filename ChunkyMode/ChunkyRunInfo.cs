@@ -33,6 +33,7 @@ namespace HDeMods {
 
 		public void Awake() {
             instance = this;
+            DontDestroyOnLoad(this);
             if (!preSet) return;
             doEnemyBoostThisRun = saveData.doEnemyBoostThisRun;
             doHealBuffThisRun = saveData.doHealBuffThisRun;
