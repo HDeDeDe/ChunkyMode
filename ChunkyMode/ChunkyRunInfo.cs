@@ -30,6 +30,10 @@ namespace HDeMods {
 		public float loiterPenaltyFrequencyThisRun;
 		[SyncVar]
 		public float loiterPenaltySeverityThisRun;
+		[SyncVar]
+		public bool experimentCursePenaltyThisRun;
+		[SyncVar]
+		public float experimentCurseRateThisRun;
 
 		public void Awake() {
             instance = this;
@@ -45,6 +49,8 @@ namespace HDeMods {
             loiterPenaltyTimeThisRun = saveData.loiterPenaltyTimeThisRun;
             loiterPenaltyFrequencyThisRun = saveData.loiterPenaltyFrequencyThisRun;
             loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
+            experimentCursePenaltyThisRun = saveData.experimentCursePenaltyThisRun;
+            experimentCurseRateThisRun = saveData.experimentCurseRateThisRun;
 		}
 	}
 
@@ -71,6 +77,10 @@ namespace HDeMods {
 		public float loiterPenaltyFrequencyThisRun;
 		[DataMember(Name = "loiterSeverity")]
 		public float loiterPenaltySeverityThisRun;
+		[DataMember(Name = "exCurse")]
+		public bool experimentCursePenaltyThisRun;
+		[DataMember(Name = "exCurseRate")]
+		public float experimentCurseRateThisRun;
 	}
 	
 }

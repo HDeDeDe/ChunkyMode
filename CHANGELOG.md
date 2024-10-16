@@ -4,6 +4,7 @@
 - Converted run info to sync with UNetWeaver instead of INetRequest.
 - Fixed mod option descriptions not being localized.
 - Improved error logging with included pdb
+- Added experimental curse penalty. It can be enabled in the settings.
 ## 0.2.3
 - Added +50% Ally Barrier Decay Rate
 - Nerfed Bastard Pest

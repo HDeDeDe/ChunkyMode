@@ -53,6 +53,7 @@ namespace HDeMods
         private static bool teleporterHit;
         private static float enemyWaveTimerRefresh;
         //private static float enemyStrengthWeight;
+        private static float allyCurse;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -69,6 +70,8 @@ namespace HDeMods
         public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
         public static ConfigEntry<float> loiterPenaltyFrequency { get; set; }
         public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
+        public static ConfigEntry<bool> experimentCursePenalty { get; set; }
+        public static ConfigEntry<float> experimentCurseRate { get; set; }
         
         public void Awake()
         {
@@ -178,6 +181,16 @@ namespace HDeMods
                 "Loiter penalty severity",
                 40f,
                 "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
+            experimentCursePenalty = Config.Bind<bool>(
+                "Curse",
+                "Experimental Curse Penalty",
+                false,
+                "Enable experimental curse penalty. This will not be a part of standard gameplay.");
+            experimentCurseRate = Config.Bind<float>(
+                "Curse",
+                "Experimental Curse Rate",
+                0.025f,
+                "The amount of curse applied each loiter tick.");
             if (!ChunkyOptionalMods.RoO.Enabled) return;
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doLoiterPenalty);
@@ -189,6 +202,8 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f, "{0}");
             ChunkyOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
             ChunkyOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
+            ChunkyOptionalMods.RoO.AddCheck(experimentCursePenalty);
+            ChunkyOptionalMods.RoO.AddFloat(experimentCurseRate, 0f, 1f, "{0}");
             ChunkyOptionalMods.RoO.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
@@ -232,6 +247,8 @@ namespace HDeMods
                 ChunkyRunInfo.instance.loiterPenaltyTimeThisRun = timeUntilLoiterPenalty.Value;
                 ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun = loiterPenaltyFrequency.Value;
                 ChunkyRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
+                ChunkyRunInfo.instance.experimentCursePenaltyThisRun = experimentCursePenalty.Value;
+                ChunkyRunInfo.instance.experimentCurseRateThisRun = experimentCurseRate.Value;
             }
 
             if (ChunkyRunInfo.instance.doEnemyBoostThisRun){ 
@@ -291,8 +308,12 @@ namespace HDeMods
         public static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender,
             RecalculateStatsAPI.StatHookEventArgs args) {
             if (!sender) return;
-            if (sender.teamComponent.teamIndex == TeamIndex.Player) return;
             
+            if (sender.teamComponent.teamIndex != TeamIndex.Player) goto ENEMYSTATS;
+            args.baseCurseAdd += allyCurse;
+            return;
+            
+ENEMYSTATS:
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
             int yap = ChunkyRunInfo.instance.enemyChanceToYapThisRun;
             if (getFuckedLMAO) yap *= 2;
@@ -424,6 +445,7 @@ namespace HDeMods
             Log.Debug("Spawning enemy wave");
 #endif
             enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
+            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
             
             //Thank you .score for pointing out CombatDirector.CombatShrineActivation
             self.monsterSpawnTimer = 0f;
@@ -441,6 +463,7 @@ namespace HDeMods
         private static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
             getFuckedLMAO = false;
             teleporterHit = true;
+            allyCurse = 0;
             interact(teleporterState, interactor);
         }
         
