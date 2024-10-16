@@ -22,7 +22,6 @@ namespace HDeMods
     [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("_com.prodzpod.ProdzpodSpikestripContent", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.rob.Hunk", BepInDependency.DependencyFlags.SoftDependency)]
-    //[BepInDependency(EnrageArtifact.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
@@ -81,7 +80,7 @@ namespace HDeMods
             BindSettings();
             ChunkyInfo.AddComponent<ChunkyRunInfo>();
             if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
-            //if (ChunkyEnrage.enabled) ChunkyEnrage.PerformCrime();
+
             
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
