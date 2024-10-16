@@ -49,7 +49,9 @@ File.Copy(dllPath + pluginName + ".dll", dllPath + pluginName + ".prepatch");
 
 Process weaver = new Process();
 if (giveMePDBs) weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver2.exe";
+#pragma warning disable CS0162 // Unreachable code detected
 else weaver.StartInfo.FileName = @".\NetWeaver\Unity.UNetWeaver.exe";
+#pragma warning restore CS0162 // Unreachable code detected
 weaver.StartInfo.Arguments = "\"" + riskOfRain2Install + "UnityEngine.CoreModule.dll\" " +
                              "\"" + riskOfRain2Install + "com.unity.multiplayer-hlapi.Runtime.dll\" " +
                              dllPathWindows + " " +
