@@ -4,16 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
 	public static class Saving {
-		private static bool? enabled;
-
-		public static bool Enabled {
-			get {
-				if (enabled == null) {
-					enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ProperSavePlugin.GUID);
-				}
-				return (bool)enabled;
-			}
-		}
+		public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(ProperSavePlugin.GUID);
 		
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SetUp() {

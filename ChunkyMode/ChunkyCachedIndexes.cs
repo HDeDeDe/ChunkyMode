@@ -28,8 +28,8 @@ namespace HDeMods {
 			body.Add(BodyCatalog.FindBodyIndex("BellBody"), BodyCache.Bell);
 			body.Add(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
 			body.Add(BodyCatalog.FindBodyIndex("BisonBody"), BodyCache.Bison);
-			if (ChunkyOptionalMods.Hunk.enabled) body.Add(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
-			if (ChunkyOptionalMods.Spikestrip.enabled) body.Add(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
+			if (ChunkyOptionalMods.Hunk.Enabled) body.Add(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
+			if (ChunkyOptionalMods.Spikestrip.Enabled) body.Add(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
 		}
 	}
 }

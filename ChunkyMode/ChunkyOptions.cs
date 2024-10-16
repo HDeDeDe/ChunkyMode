@@ -7,16 +7,7 @@ using UnityEngine;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
 	internal static class RoO {
-		private static bool? _enabled;
-
-		public static bool enabled {
-			get {
-				if (_enabled == null) {
-					_enabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
-				}
-				return (bool)_enabled;
-			}
-		}
+		public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
 
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddCheck(ConfigEntry<bool> option) {

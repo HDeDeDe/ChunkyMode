@@ -171,7 +171,7 @@ namespace HDeMods
                 "Loiter penalty severity",
                 40f,
                 "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
-            if (!ChunkyOptionalMods.RoO.enabled) return;
+            if (!ChunkyOptionalMods.RoO.Enabled) return;
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doLoiterPenalty);
             ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
