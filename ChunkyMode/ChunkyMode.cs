@@ -53,7 +53,6 @@ namespace HDeMods
         private static bool teleporterHit;
         private static float enemyWaveTimerRefresh;
         //private static float enemyStrengthWeight;
-        private static float allyCurse;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -310,7 +309,7 @@ namespace HDeMods
             if (!sender) return;
             
             if (sender.teamComponent.teamIndex != TeamIndex.Player) goto ENEMYSTATS;
-            args.baseCurseAdd += allyCurse;
+            args.baseCurseAdd += ChunkyRunInfo.instance.allyCurse;
             return;
             
 ENEMYSTATS:
@@ -445,7 +444,7 @@ ENEMYSTATS:
             Log.Debug("Spawning enemy wave");
 #endif
             enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
-            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
+            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) ChunkyRunInfo.instance.allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
             
             //Thank you .score for pointing out CombatDirector.CombatShrineActivation
             self.monsterSpawnTimer = 0f;
@@ -463,7 +462,7 @@ ENEMYSTATS:
         private static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
             getFuckedLMAO = false;
             teleporterHit = true;
-            allyCurse = 0;
+            ChunkyRunInfo.instance.allyCurse = 0f;
             interact(teleporterState, interactor);
         }
         

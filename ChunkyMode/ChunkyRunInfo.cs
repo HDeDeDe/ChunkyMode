@@ -34,6 +34,10 @@ namespace HDeMods {
 		public bool experimentCursePenaltyThisRun;
 		[SyncVar]
 		public float experimentCurseRateThisRun;
+		
+		//This value is only synced not saved
+		[SyncVar]
+		public float allyCurse = 0f;
 
 		public void Awake() {
             instance = this;
