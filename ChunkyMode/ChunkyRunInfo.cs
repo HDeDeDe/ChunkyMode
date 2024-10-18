@@ -41,6 +41,7 @@ namespace HDeMods {
 		[SyncVar]
 		public float loiterTick = 0f;
 		[SyncVar]
+		// ReSharper disable once InconsistentNaming
 		public bool getFuckedLMAO = false;
 		[SyncVar]
 		public bool dirtyStats = false;

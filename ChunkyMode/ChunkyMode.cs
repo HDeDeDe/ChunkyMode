@@ -448,10 +448,10 @@ ENEMYSTATS:
 #endif
             int gougeCount = 1;
             
-            foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
+            /*foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
                 if (!teamComponent.body.inventory) continue;
                 gougeCount += teamComponent.body.inventory.GetItemCount(RoR2Content.Items.MonstersOnShrineUse);
-            }
+            }*/
             
             float newCreditBalance = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient * gougeCount;
             float oldTimer = self.monsterSpawnTimer - deltaTime;
