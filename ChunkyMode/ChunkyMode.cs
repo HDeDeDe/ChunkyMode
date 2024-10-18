@@ -278,6 +278,8 @@ namespace HDeMods
                 ChunkyRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
                 ChunkyRunInfo.instance.experimentCursePenaltyThisRun = experimentCursePenalty.Value;
                 ChunkyRunInfo.instance.experimentCurseRateThisRun = experimentCurseRate.Value;
+                ChunkyRunInfo.instance.experimentLimitPestsThisRun = experimentLimitPest.Value;
+                ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun = experimentLimitPestAmount.Value;
             }
 
             if (ChunkyRunInfo.instance.doEnemyBoostThisRun){ 

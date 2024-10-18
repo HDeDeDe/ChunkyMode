@@ -26,7 +26,6 @@ namespace HDeMods {
 			injector = ProjectileCatalog.FindProjectileIndex("SyringeProjectileHealing");
 			
 			AddToCollection(BodyCatalog.FindBodyIndex("BeetleGuardBody"), BodyCache.BeetleGuard);
-			AddToCollection(BodyCatalog.FindBodyIndex("BeetleGuardBody"), BodyCache.BeetleGuard);
 			AddToCollection(BodyCatalog.FindBodyIndex("VagrantBody"), BodyCache.Vagrant);
 			AddToCollection(BodyCatalog.FindBodyIndex("BellBody"), BodyCache.Bell);
 			AddToCollection(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
