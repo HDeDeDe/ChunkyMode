@@ -111,7 +111,7 @@ namespace HDeMods
         }
         
 #if DEBUG
-        public void KillOnThreePercentBug(On.RoR2.SteamworksClientManager.orig_ctor ctor, SteamworksClientManager self) {
+        public static void KillOnThreePercentBug(On.RoR2.SteamworksClientManager.orig_ctor ctor, SteamworksClientManager self) {
             try {
                 ctor(self);
             }
@@ -127,7 +127,7 @@ namespace HDeMods
         public static void Reload(ConCommandArgs args) => HotCompilerNamespace.HotCompiler.CompileIt();
 #endif
 
-        public void AddDifficulty() {
+        public static void AddDifficulty() {
             ChunkyModeDifficultyDef = new DifficultyDef(4f,
                 "CHUNKYMODEDIFFMOD_NAME",
                 "CHUNKYMODEDIFFMOD_ICON",
@@ -142,65 +142,65 @@ namespace HDeMods
             ChunkyModeDifficultyIndex = DifficultyAPI.AddDifficulty(ChunkyModeDifficultyDef);
         }
 
-        public void BindSettings() {
-            doHealingBuffs = Config.Bind<bool>(
+        public static void BindSettings() {
+            doHealingBuffs = instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Healing Buffs",
                 true,
                 "Enables buffs to some survivor healing skills. Disable if you want a harder challenge.");
-            doLoiterPenalty = Config.Bind<bool>(
+            doLoiterPenalty = instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Loiter Penalty",
                 true,
                 "Enables a 5 minute loiter penalty on stages with a teleporter. Not recommended to disable.");
-            doEnemyLimitBoost = Config.Bind<bool>(
+            doEnemyLimitBoost = instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Enemy Limit Boost",
                 true,
                 "Enables enemy limit increase. If your computer is struggling to run on Chunky Mode, consider disabling this.");
-            doGoldPenalty = Config.Bind<bool>(
+            doGoldPenalty = instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Gold Penalty",
                 true,
                 "Enables a -10% gold penalty. Disable to speed up gameplay.");
-            doEnemyNerfs = Config.Bind<bool>(
+            doEnemyNerfs = instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Enemy Nerfs",
                 true,
                 "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
-            enemyChanceToYap = Config.Bind<int>(
+            enemyChanceToYap = instance.Config.Bind<int>(
                 "Yapping",
                 "Enemy Yap Chance",
                 30,
                 "The probability of enemies to yap. Set to 0 to stop the yapping.");
-            enemyYapCooldown = Config.Bind<float>(
+            enemyYapCooldown = instance.Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Cooldown",
                 30f,
                 "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping.");
-            timeUntilLoiterPenalty = Config.Bind<float>(
+            timeUntilLoiterPenalty = instance.Config.Bind<float>(
                 "Loitering",
                 "Time until loiter penalty",
                 300f,
                 "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds.");
-            loiterPenaltyFrequency = Config.Bind<float>(
+            loiterPenaltyFrequency = instance.Config.Bind<float>(
                 "Loitering",
                 "Loiter penalty frequency",
                 5f,
                 "The amount of time between forced enemy spawns.");
-            loiterPenaltySeverity = Config.Bind<float>(
+            loiterPenaltySeverity = instance.Config.Bind<float>(
                 "Loitering",
                 "Loiter penalty severity",
                 40f,
                 "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
-            experimentCursePenalty = Config.Bind<bool>(
-                "Curse",
-                "Experimental Curse Penalty",
+            experimentCursePenalty = instance.Config.Bind<bool>(
+                "Experiments",
+                "Curse Penalty",
                 false,
                 "Enable experimental curse penalty. This will not be a part of standard gameplay.");
-            experimentCurseRate = Config.Bind<float>(
-                "Curse",
-                "Experimental Curse Rate",
+            experimentCurseRate = instance.Config.Bind<float>(
+                "Experiments",
+                "Curse Rate",
                 0.035f,
                 "The amount of curse applied each loiter tick.");
             if (!ChunkyOptionalMods.RoO.Enabled) return;
