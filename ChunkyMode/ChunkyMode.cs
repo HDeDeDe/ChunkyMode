@@ -23,6 +23,7 @@ namespace HDeMods
     [BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("_com.prodzpod.ProdzpodSpikestripContent", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.rob.Hunk", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("bubbet.riskui", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
@@ -36,7 +37,7 @@ namespace HDeMods
         public const string PluginVersion = "0.2.5";
 
         // Difficulty related variables
-        public AssetBundle ChunkyModeDifficultyModBundle;
+        public static AssetBundle ChunkyModeDifficultyModBundle;
         public static DifficultyDef ChunkyModeDifficultyDef;
         public static DifficultyIndex ChunkyModeDifficultyIndex;
         public static GameObject ChunkyInfo;
@@ -95,6 +96,9 @@ namespace HDeMods
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
+
+            if (ChunkyOptionalMods.RiskUI.Enabled)
+                ChunkyOptionalMods.RiskUI.providedSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
             
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
@@ -224,6 +228,8 @@ namespace HDeMods
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             Log.Info("Chunky Mode Run started");
             shouldRun = true;
+            if (ChunkyOptionalMods.RiskUI.Enabled)
+                On.RoR2.DifficultyDef.GetIconSprite += ChunkyOptionalMods.RiskUI.ProvideIcon;
             
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
 #if DEBUG
@@ -279,6 +285,7 @@ namespace HDeMods
             if (!shouldRun) return;
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
+            On.RoR2.DifficultyDef.GetIconSprite -= ChunkyOptionalMods.RiskUI.ProvideIcon;
             ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
             Destroy(m_chunkyInfo);

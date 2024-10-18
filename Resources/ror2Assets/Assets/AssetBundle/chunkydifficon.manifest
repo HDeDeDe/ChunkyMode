@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1988231811
+CRC: 840653039
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7cbeaf98597fb76b4cf6d3ec60baa8a4
+    Hash: 7076ef98116b5740d1382d5af8312069
   TypeTreeHash:
     serializedVersion: 2
     Hash: c21d61fe394c58399df3c6fb5c7c99b3
@@ -15,5 +15,6 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/ChunkyDiffAssets/ChunkyDiffBundle/texChunkyModeRiskUI.png
 - Assets/ChunkyDiffAssets/ChunkyDiffBundle/texChunkyModeDiffIcon.png
 Dependencies: []
