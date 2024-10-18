@@ -35,9 +35,11 @@ namespace HDeMods {
 		[SyncVar]
 		public float experimentCurseRateThisRun;
 		
-		//This value is only synced not saved
+		//These values is only synced not saved
 		[SyncVar]
 		public float allyCurse = 0f;
+		[SyncVar]
+		public float loiterTick;
 
 		public void Awake() {
             instance = this;

@@ -1,3 +1,4 @@
+// ReSharper disable once RedundantUsingDirective
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -51,7 +52,6 @@ namespace HDeMods
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
-        private static float enemyWaveTimerRefresh;
         //private static float enemyStrengthWeight;
         
         // These are related to random enemy speaking
@@ -403,7 +403,7 @@ ENEMYSTATS:
                 return;
             }
 
-            enemyWaveTimerRefresh = 0f;
+            ChunkyRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
             getFuckedLMAO = false;
@@ -421,7 +421,7 @@ ENEMYSTATS:
         
         // The loitering penalty
         private static void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
-            if (!getFuckedLMAO || teleporterHit || Run.instance.NetworkfixedTime < enemyWaveTimerRefresh) {
+            if (!getFuckedLMAO || teleporterHit || Run.instance.NetworkfixedTime < ChunkyRunInfo.instance.loiterTick) {
                 simulate(self, deltaTime);
                 return;
             }
@@ -443,8 +443,9 @@ ENEMYSTATS:
 #if DEBUG
             Log.Debug("Spawning enemy wave");
 #endif
-            enemyWaveTimerRefresh = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
-            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) ChunkyRunInfo.instance.allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
+            ChunkyRunInfo.instance.loiterTick = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
+            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) 
+                ChunkyRunInfo.instance.allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
             
             //Thank you .score for pointing out CombatDirector.CombatShrineActivation
             self.monsterSpawnTimer = 0f;
@@ -469,6 +470,14 @@ ENEMYSTATS:
         // Enforcing loitering penalty
         private void FixedUpdate() {
             if (!shouldRun) return;
+            if (ChunkyRunInfo.instance.loiterTick < Run.instance.NetworkfixedTime && ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
+#if DEBUG
+                Log.Debug("Dirtying stats.");
+#endif
+                foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
+                    teamComponent.body.statsDirty = true;
+                }
+            }
             if (!NetworkServer.active) {
 #if DEBUG
                 ReportLoiterError("Client can not enforce loiter penalty.");
