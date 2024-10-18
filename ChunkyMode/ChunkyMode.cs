@@ -201,7 +201,7 @@ namespace HDeMods
             experimentCurseRate = Config.Bind<float>(
                 "Curse",
                 "Experimental Curse Rate",
-                0.025f,
+                0.035f,
                 "The amount of curse applied each loiter tick.");
             if (!ChunkyOptionalMods.RoO.Enabled) return;
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
