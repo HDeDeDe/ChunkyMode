@@ -1,3 +1,4 @@
+#if DEBUG
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using EntityStates;
@@ -107,3 +108,4 @@ namespace HotCompilerNamespace
         }
     }
 }
+#endif
