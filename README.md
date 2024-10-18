@@ -46,5 +46,5 @@ If you do not have r2modman, then make sure you have the required dependencies (
 ## Feedback
 Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/ChunkyMode) or @ me on the modding discord (hdedede).
 
-### One more thing
+## One more thing
 ![Experimental Curse Penalty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/cursePreview.gif?raw=true)
