@@ -50,7 +50,6 @@ namespace HDeMods
         private static int ogRunLevelCap;
         
         // These are related to the loitering penalty
-        private static bool getFuckedLMAO;
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
@@ -232,7 +231,6 @@ namespace HDeMods
             shouldRun = false;
             teleporterHit = false;
             teleporterExists = false;
-            getFuckedLMAO = false;
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
@@ -325,22 +323,25 @@ namespace HDeMods
             RecalculateStatsAPI.StatHookEventArgs args) {
             if (!sender) return;
             
-            if (sender.teamComponent.teamIndex != TeamIndex.Player) goto ENEMYSTATS;
-            args.baseCurseAdd += ChunkyRunInfo.instance.allyCurse;
-            return;
+            if (sender.teamComponent.teamIndex == TeamIndex.Player) {
+                args.baseCurseAdd += ChunkyRunInfo.instance.allyCurse;
+                return;
+            }
+
+            if (!NetworkServer.active) goto ENEMYSTATS;
             
-ENEMYSTATS:
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
             int yap = ChunkyRunInfo.instance.enemyChanceToYapThisRun;
-            if (getFuckedLMAO) yap *= 2;
+            if (ChunkyRunInfo.instance.getFuckedLMAO) yap *= 2;
             
-            if (NetworkServer.active && funko < yap && ChunkyRunInfo.instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
+            if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYapThisRun > 0 && enemyYapTimer < Run.instance.NetworkfixedTime) {
                 enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.enemyYapCooldownThisRun;
                 List<BuffIndex> eliteAffix = new List<BuffIndex>();
                 if(sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(sender.HasBuff));
                 ChunkyYap.DoYapping(sender.baseNameToken, eliteAffix);
             }
-
+            
+ENEMYSTATS:
             if (!ChunkyRunInfo.instance.doNerfsThisRun) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
@@ -445,7 +446,14 @@ ENEMYSTATS:
 #if DEBUG
             Log.Debug("Attempting to spawn enemy wave");
 #endif
-            float newCreditBalance = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient;
+            int gougeCount = 1;
+            
+            foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
+                if (!teamComponent.body.inventory) continue;
+                gougeCount += teamComponent.body.inventory.GetItemCount(RoR2Content.Items.MonstersOnShrineUse);
+            }
+            
+            float newCreditBalance = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient * gougeCount;
             float oldTimer = self.monsterSpawnTimer - deltaTime;
             DirectorCard oldEnemy = self.currentMonsterCard;
             DirectorCard newEnemy = self.SelectMonsterCardForCombatShrine(newCreditBalance);
@@ -461,8 +469,11 @@ ENEMYSTATS:
             Log.Debug("Spawning enemy wave");
 #endif
             ChunkyRunInfo.instance.loiterTick = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
-            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) 
+            if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
                 ChunkyRunInfo.instance.allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
+                ChunkyRunInfo.instance.dirtyStats = true;
+            }
+                
             
             //Thank you .score for pointing out CombatDirector.CombatShrineActivation
             self.monsterSpawnTimer = 0f;
@@ -481,6 +492,7 @@ ENEMYSTATS:
             ChunkyRunInfo.instance.getFuckedLMAO = false;
             teleporterHit = true;
             ChunkyRunInfo.instance.allyCurse = 0f;
+            ChunkyRunInfo.instance.dirtyStats = true;
             interact(teleporterState, interactor);
         }
         
@@ -488,20 +500,7 @@ ENEMYSTATS:
 
         internal static void EnforceLoiter() {
             if (!shouldRun) return;
-            if (ChunkyRunInfo.instance.loiterTick < Run.instance.NetworkfixedTime && ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
-#if DEBUG
-                Log.Debug("Dirtying stats.");
-#endif
-                foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
-                    teamComponent.body.statsDirty = true;
-                }
-            }
-            if (!NetworkServer.active) {
-#if DEBUG
-                ReportLoiterError("Client can not enforce loiter penalty.");
-#endif
-                return;
-            }
+            
             if (!ChunkyRunInfo.instance.doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
@@ -511,6 +510,21 @@ ENEMYSTATS:
             if (Run.instance.isGameOverServer) {
 #if DEBUG
                 ReportLoiterError("Game Over");
+#endif
+                return;
+            }
+            if (ChunkyRunInfo.instance.dirtyStats) {
+#if DEBUG
+                Log.Debug("Dirtying stats.");
+#endif
+                foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
+                    teamComponent.body.statsDirty = true;
+                }
+                if(NetworkServer.active) ChunkyRunInfo.instance.dirtyStats = false;
+            }
+            if (!NetworkServer.active) {
+#if DEBUG
+                ReportLoiterError("Client can not enforce loiter penalty.");
 #endif
                 return;
             }

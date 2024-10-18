@@ -39,7 +39,11 @@ namespace HDeMods {
 		[SyncVar]
 		public float allyCurse = 0f;
 		[SyncVar]
-		public float loiterTick;
+		public float loiterTick = 0f;
+		[SyncVar]
+		public bool getFuckedLMAO = false;
+		[SyncVar]
+		public bool dirtyStats = false;
 
 		public void Awake() {
             instance = this;
