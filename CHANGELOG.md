@@ -1,3 +1,11 @@
+## 0.2.5
+- RiskUI support (lmao)
+- Experimental Curse Penalty is more responsive now
+- Experimental Curse Penalty now causes loiter punishment to become more intense the more defiant gouges you have.
+- Experimental Curse Penalty Rate defaults to 0.035 instead of 0.025
+- Moved Experimental Curse Penalty options from Curse to Experiments
+- Added Experimental Blind Pest limit, can be turned on in the mod options.
+- Decreased minimum Loiter Penalty time from 60 seconds to 15 seconds.
 ## 0.2.4
 - Enemy yapping now includes elite affixes.
 - Enemies now have a few more lines they can yap.
