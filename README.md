@@ -6,7 +6,10 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 ![difficulty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/DifficultyPreview.png?raw=true)
 
 ![Death from nowhere](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-05%2012-24-11%20AM.gif?raw=true)
-![Overwhelming mushrooms](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-00%202-36-20%20AM.gif?raw=true)
+![Overwhelming numbers](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-40-47%20PM.gif?raw=true)
+![Enemies will shred you](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-34-46%20AM.gif?raw=true)
+They yap at you
+![Yapping pest](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-08-36%20PM.gif?raw=true)
 
 ## Changes
 ### Player / Ally changes
@@ -42,3 +45,6 @@ If you do not have r2modman, then make sure you have the required dependencies (
 
 ## Feedback
 Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/ChunkyMode) or @ me on the modding discord (hdedede).
+
+### One more thing
+![Experimental Curse Penalty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/cursePreview.gif?raw=true)
