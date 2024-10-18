@@ -54,7 +54,6 @@ namespace HDeMods
         private static float stagePunishTimer;
         private static bool teleporterHit;
         private static int totalBlindPest;
-        //private static float enemyStrengthWeight;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -215,7 +214,7 @@ namespace HDeMods
                 "Experiments",
                 "Blind Pest Amount",
                 10f,
-                "The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");;
+                "The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");
             if (!ChunkyOptionalMods.RoO.Enabled) return;
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doLoiterPenalty);
