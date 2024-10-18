@@ -449,10 +449,7 @@ ENEMYSTATS:
             int gougeCount = 1;
 
             if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
-                foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
-                    if (!teamComponent.body.inventory) continue;
-                    gougeCount += teamComponent.body.inventory.GetItemCount(RoR2Content.Items.MonstersOnShrineUse);
-                }
+                gougeCount += Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.MonstersOnShrineUse.itemIndex, false);
             }
 
             float newCreditBalance = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun * Stage.instance.entryDifficultyCoefficient * gougeCount;
