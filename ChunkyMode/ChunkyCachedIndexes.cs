@@ -15,7 +15,8 @@ namespace HDeMods {
 		Bison
 	}
 	internal static class ChunkyCachedIndexes {
-		public static readonly Dictionary<BodyIndex, BodyCache> body = new Dictionary<BodyIndex, BodyCache>();
+		public static readonly Dictionary<BodyIndex, BodyCache> bodyIndex = new Dictionary<BodyIndex, BodyCache>();
+		public static readonly Dictionary<BodyCache, BodyIndex> bodyCache = new Dictionary<BodyCache, BodyIndex>();
 		public static int injector;
 
 		public static void GenerateCache() {
@@ -23,13 +24,20 @@ namespace HDeMods {
 			Log.Fatal("Generating Cache!");
 #endif
 			injector = ProjectileCatalog.FindProjectileIndex("SyringeProjectileHealing");
-			body.Add(BodyCatalog.FindBodyIndex("BeetleGuardBody"), BodyCache.BeetleGuard);
-			body.Add(BodyCatalog.FindBodyIndex("VagrantBody"), BodyCache.Vagrant);
-			body.Add(BodyCatalog.FindBodyIndex("BellBody"), BodyCache.Bell);
-			body.Add(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
-			body.Add(BodyCatalog.FindBodyIndex("BisonBody"), BodyCache.Bison);
-			if (ChunkyOptionalMods.Hunk.Enabled) body.Add(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
-			if (ChunkyOptionalMods.Spikestrip.Enabled) body.Add(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
+			
+			AddToCollection(BodyCatalog.FindBodyIndex("BeetleGuardBody"), BodyCache.BeetleGuard);
+			AddToCollection(BodyCatalog.FindBodyIndex("BeetleGuardBody"), BodyCache.BeetleGuard);
+			AddToCollection(BodyCatalog.FindBodyIndex("VagrantBody"), BodyCache.Vagrant);
+			AddToCollection(BodyCatalog.FindBodyIndex("BellBody"), BodyCache.Bell);
+			AddToCollection(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
+			AddToCollection(BodyCatalog.FindBodyIndex("BisonBody"), BodyCache.Bison);
+			if (ChunkyOptionalMods.Hunk.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
+			if (ChunkyOptionalMods.Spikestrip.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
+		}
+
+		private static void AddToCollection(BodyIndex index, BodyCache cache) {
+			bodyIndex.Add(index, cache);
+			bodyCache.Add(cache, index);
 		}
 	}
 }

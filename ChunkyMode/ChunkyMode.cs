@@ -349,7 +349,7 @@ ENEMYSTATS:
                 return;
             }
 
-            ChunkyCachedIndexes.body.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
+            ChunkyCachedIndexes.bodyIndex.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
 #if DEBUG
             Log.Debug(sender.name + ", " + sender.bodyIndex);
             Log.Debug(bodyIndex);
