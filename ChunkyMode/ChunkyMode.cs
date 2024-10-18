@@ -35,6 +35,7 @@ namespace HDeMods
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
         public const string PluginVersion = "0.2.5";
+        public static ChunkyMode instance;
 
         // Difficulty related variables
         public static AssetBundle ChunkyModeDifficultyModBundle;
