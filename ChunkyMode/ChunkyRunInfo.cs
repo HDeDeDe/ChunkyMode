@@ -35,6 +35,10 @@ namespace HDeMods {
 		public bool experimentCursePenaltyThisRun;
 		[SyncVar]
 		public float experimentCurseRateThisRun;
+		[SyncVar]
+		public bool experimentLimitPestsThisRun;
+		[SyncVar]
+		public float experimentLimitPestsAmountThisRun;
 		
 		//These values is only synced not saved
 		[SyncVar]
@@ -61,6 +65,8 @@ namespace HDeMods {
             loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
             experimentCursePenaltyThisRun = saveData.experimentCursePenaltyThisRun;
             experimentCurseRateThisRun = saveData.experimentCurseRateThisRun;
+            experimentLimitPestsThisRun = saveData.experimentLimitPestsThisRun;
+            experimentLimitPestsAmountThisRun = saveData.experimentLimitPestsAmountThisRun;
 		}
 
 
@@ -104,6 +110,10 @@ namespace HDeMods {
 		public bool experimentCursePenaltyThisRun;
 		[DataMember(Name = "exCurseRate")]
 		public float experimentCurseRateThisRun;
+		[DataMember(Name = "exLimitPest")]
+		public bool experimentLimitPestsThisRun;
+		[DataMember(Name = "exPestCount")]
+		public float experimentLimitPestsAmountThisRun;
 	}
 	
 }

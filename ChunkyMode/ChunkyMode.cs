@@ -53,6 +53,7 @@ namespace HDeMods
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
+        private static int totalBlindPest;
         //private static float enemyStrengthWeight;
         
         // These are related to random enemy speaking
@@ -72,6 +73,8 @@ namespace HDeMods
         public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
         public static ConfigEntry<bool> experimentCursePenalty { get; set; }
         public static ConfigEntry<float> experimentCurseRate { get; set; }
+        public static ConfigEntry<bool> experimentLimitPest { get; set; }
+        public static ConfigEntry<float> experimentLimitPestAmount { get; set; }
         
         public void Awake()
         {
@@ -203,6 +206,16 @@ namespace HDeMods
                 "Curse Rate",
                 0.035f,
                 "The amount of curse applied each loiter tick.");
+            experimentLimitPest = instance.Config.Bind<bool>(
+                "Experiments",
+                "Limit Blind Pest",
+                false,
+                "Enable experimental Blind Pest limit. This might be a part of standard gameplay.");
+            experimentLimitPestAmount = instance.Config.Bind<float>(
+                "Experiments",
+                "Blind Pest Amount",
+                10f,
+                "The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");;
             if (!ChunkyOptionalMods.RoO.Enabled) return;
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doLoiterPenalty);
@@ -211,11 +224,13 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddCheck(doEnemyNerfs);
             ChunkyOptionalMods.RoO.AddInt(enemyChanceToYap, 0, 100000);
             ChunkyOptionalMods.RoO.AddFloat(enemyYapCooldown, 0f, 600f, "{0}");
-            ChunkyOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 60f, 600f, "{0}");
+            ChunkyOptionalMods.RoO.AddFloat(timeUntilLoiterPenalty, 15f, 600f, "{0}");
             ChunkyOptionalMods.RoO.AddFloat(loiterPenaltyFrequency, 0f, 60f, "{0}");
             ChunkyOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
             ChunkyOptionalMods.RoO.AddCheck(experimentCursePenalty);
             ChunkyOptionalMods.RoO.AddFloat(experimentCurseRate, 0f, 1f, "{0}");
+            ChunkyOptionalMods.RoO.AddCheck(experimentLimitPest);
+            ChunkyOptionalMods.RoO.AddFloat(experimentLimitPestAmount, 0f, 100f);
             ChunkyOptionalMods.RoO.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
@@ -231,6 +246,7 @@ namespace HDeMods
             shouldRun = false;
             teleporterHit = false;
             teleporterExists = false;
+            totalBlindPest = 0;
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
@@ -287,6 +303,8 @@ namespace HDeMods
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
+            CharacterBody.onBodyStartGlobal += TrackShittersAdd;
+            CharacterBody.onBodyDestroyGlobal += TrackShittersRemove;
         }
 
         internal static void Run_onRunDestroyGlobal(Run run) {
@@ -316,6 +334,15 @@ namespace HDeMods
             On.RoR2.Run.BeginStage -= Run_BeginStage;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin -= OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
+            CharacterBody.onBodyStartGlobal -= TrackShittersAdd;
+            CharacterBody.onBodyDestroyGlobal -= TrackShittersRemove;
+        }
+        
+        internal static void TrackShittersAdd(CharacterBody body) {
+            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest++;
+        }
+        internal static void TrackShittersRemove(CharacterBody body) {
+            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest--;
         }
         
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
@@ -463,6 +490,21 @@ ENEMYSTATS:
 #endif
                 simulate(self, deltaTime);
                 return;
+            }
+            
+            if (newEnemy.spawnCard.prefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) &&
+                ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
+                int totalEnemies = 0;
+                
+                totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Monster).Count;
+                totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Void).Count;
+                totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Lunar).Count;
+
+                if (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)) {
+                    Log.Warning("Too many bastards. Retrying in the next update");
+                    simulate(self, deltaTime);
+                    return;
+                }
             }
 #if DEBUG
             Log.Debug("Spawning enemy wave");
