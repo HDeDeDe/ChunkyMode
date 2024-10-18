@@ -473,7 +473,7 @@ ENEMYSTATS:
             ChunkyRunInfo.instance.loiterTick = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
             if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
                 ChunkyRunInfo.instance.allyCurse += ChunkyRunInfo.instance.experimentCurseRateThisRun;
-                ChunkyRunInfo.instance.dirtyStats = true;
+                ChunkyRunInfo.instance.RpcDirtyAss();
             }
                 
             
@@ -494,7 +494,7 @@ ENEMYSTATS:
             ChunkyRunInfo.instance.getFuckedLMAO = false;
             teleporterHit = true;
             ChunkyRunInfo.instance.allyCurse = 0f;
-            ChunkyRunInfo.instance.dirtyStats = true;
+            ChunkyRunInfo.instance.RpcDirtyAss();
             interact(teleporterState, interactor);
         }
         
@@ -514,15 +514,6 @@ ENEMYSTATS:
                 ReportLoiterError("Game Over");
 #endif
                 return;
-            }
-            if (ChunkyRunInfo.instance.dirtyStats) {
-#if DEBUG
-                Log.Debug("Dirtying stats.");
-#endif
-                foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
-                    teamComponent.body.statsDirty = true;
-                }
-                if(NetworkServer.active) ChunkyRunInfo.instance.dirtyStats = false;
             }
             if (!NetworkServer.active) {
 #if DEBUG

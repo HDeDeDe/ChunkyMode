@@ -1,5 +1,6 @@
 using System.Runtime.Serialization;
 using UnityEngine.Networking;
+using RoR2;
 
 namespace HDeMods {
 	internal class ChunkyRunInfo : NetworkBehaviour {
@@ -43,8 +44,6 @@ namespace HDeMods {
 		[SyncVar]
 		// ReSharper disable once InconsistentNaming
 		public bool getFuckedLMAO = false;
-		[SyncVar]
-		public bool dirtyStats = false;
 
 		public void Awake() {
             instance = this;
@@ -62,6 +61,19 @@ namespace HDeMods {
             loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
             experimentCursePenaltyThisRun = saveData.experimentCursePenaltyThisRun;
             experimentCurseRateThisRun = saveData.experimentCurseRateThisRun;
+		}
+
+
+
+		[ClientRpc]
+		public void RpcDirtyAss() {
+			DirtyAss();
+		}
+
+		public void DirtyAss() {
+			foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
+				teamComponent.body.MarkAllStatsDirty();
+			}
 		}
 	}
 
