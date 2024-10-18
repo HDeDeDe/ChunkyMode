@@ -453,6 +453,7 @@ ENEMYSTATS:
             ChunkyRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
+            ChunkyRunInfo.instance.allyCurse = 0;
             ChunkyRunInfo.instance.getFuckedLMAO = false;
             Log.Info("Stage begin! Waiting for Teleporter to be created.");
             beginStage(self);
