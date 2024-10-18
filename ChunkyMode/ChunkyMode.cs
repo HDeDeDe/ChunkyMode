@@ -76,7 +76,9 @@ namespace HDeMods
         public void Awake()
         {
             Log.Init(Logger);
+            instance = this;
 #if DEBUG
+            HotCompilerNamespace.HotCompiler.CompileIt();
             On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
 #endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
@@ -104,6 +106,10 @@ namespace HDeMods
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
         }
         
+        private void FixedUpdate() {
+            EnforceLoiter();
+        }
+        
 #if DEBUG
         public void KillOnThreePercentBug(On.RoR2.SteamworksClientManager.orig_ctor ctor, SteamworksClientManager self) {
             try {
@@ -116,6 +122,9 @@ namespace HDeMods
             }
             On.RoR2.SteamworksClientManager.ctor -= KillOnThreePercentBug;
         }
+        
+        [ConCommand(commandName = "hotReloadChunky", flags = ConVarFlags.Engine, helpText = "Hot Reload ChunkyMode")]
+        public static void Reload(ConCommandArgs args) => HotCompilerNamespace.HotCompiler.CompileIt();
 #endif
 
         public void AddDifficulty() {
@@ -211,14 +220,14 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
-        private void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
+        internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
         {
             if (arg1.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap += 9900;
         }
 
-        private void Run_onRunStartGlobal(Run run) {
+        internal static void Run_onRunStartGlobal(Run run) {
             shouldRun = false;
             teleporterHit = false;
             teleporterExists = false;
@@ -241,7 +250,7 @@ namespace HDeMods
             NetworkServer.Spawn(m_chunkyInfo);
             
             if (!ChunkyRunInfo.preSet) {
-                Config.Reload();
+                instance.Config.Reload();
                 ChunkyRunInfo.instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
                 ChunkyRunInfo.instance.doHealBuffThisRun = doHealingBuffs.Value;
                 ChunkyRunInfo.instance.doGoldThisRun = doGoldPenalty.Value;
@@ -281,7 +290,7 @@ namespace HDeMods
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
         }
 
-        private static void Run_onRunDestroyGlobal(Run run) {
+        internal static void Run_onRunDestroyGlobal(Run run) {
             if (!shouldRun) return;
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
@@ -386,7 +395,7 @@ ENEMYSTATS:
         }
 
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
-        private static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
+        internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
             if(ChunkyRunInfo.instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
@@ -394,13 +403,13 @@ ENEMYSTATS:
         }
 
         // This handles the +20% Loot Spawn Rate stat
-        private static void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
+        internal static void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
             self.interactableCredit = (int)(self.interactableCredit * 1.2);
             Log.Info("Updated Credits: " + self.interactableCredit);
         }
 
         // Set up Loitering Punishment
-        private static void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
+        internal static void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
             enemyYapTimer = self.NetworkfixedTime + 10f;
 #if DEBUG
             Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
@@ -413,13 +422,13 @@ ENEMYSTATS:
             ChunkyRunInfo.instance.loiterTick = 0f;
             teleporterHit = false;
             teleporterExists = false;
-            getFuckedLMAO = false;
+            ChunkyRunInfo.instance.getFuckedLMAO = false;
             Log.Info("Stage begin! Waiting for Teleporter to be created.");
             beginStage(self);
         }
         
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
-        private static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
+        internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
             stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyTimeThisRun;
             Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
@@ -427,8 +436,8 @@ ENEMYSTATS:
         }
         
         // The loitering penalty
-        private static void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
-            if (!getFuckedLMAO || teleporterHit || Run.instance.NetworkfixedTime < ChunkyRunInfo.instance.loiterTick) {
+        internal static void CombatDirector_Simulate(On.RoR2.CombatDirector.orig_Simulate simulate, CombatDirector self, float deltaTime) {
+            if (!ChunkyRunInfo.instance.getFuckedLMAO || teleporterHit || Run.instance.NetworkfixedTime < ChunkyRunInfo.instance.loiterTick) {
                 simulate(self, deltaTime);
                 return;
             }
@@ -467,15 +476,16 @@ ENEMYSTATS:
         
         // Disable loitering penalty when the teleporter is interacted with
         // ReSharper disable once IdentifierTypo
-        private static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
-            getFuckedLMAO = false;
+        internal static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
+            ChunkyRunInfo.instance.getFuckedLMAO = false;
             teleporterHit = true;
             ChunkyRunInfo.instance.allyCurse = 0f;
             interact(teleporterState, interactor);
         }
         
         // Enforcing loitering penalty
-        private void FixedUpdate() {
+
+        internal static void EnforceLoiter() {
             if (!shouldRun) return;
             if (ChunkyRunInfo.instance.loiterTick < Run.instance.NetworkfixedTime && ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
 #if DEBUG
@@ -515,7 +525,7 @@ ENEMYSTATS:
 #endif
                 return;
             }
-            if (getFuckedLMAO){
+            if (ChunkyRunInfo.instance.getFuckedLMAO){
 #if DEBUG
                 ReportLoiterError("Time's up");
 #endif
@@ -528,7 +538,7 @@ ENEMYSTATS:
                 return;
             }
             Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
-            getFuckedLMAO = true;
+            ChunkyRunInfo.instance.getFuckedLMAO = true;
             ChunkyYap.DoWarning();
         }
         
