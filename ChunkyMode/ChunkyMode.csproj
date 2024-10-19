@@ -8,6 +8,10 @@
 		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
 	</PropertyGroup>
 
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+	  <DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.0.*">
 			<PrivateAssets>all</PrivateAssets>
