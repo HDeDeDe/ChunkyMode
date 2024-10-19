@@ -6,7 +6,7 @@
 - Moved Experimental Curse Penalty options from Curse to Experiments
 - Added Experimental Blind Pest limit, can be turned on in the mod options.
 - Decreased minimum Loiter Penalty time from 60 seconds to 15 seconds.
-- Fixed Curse Penalty not resetting each stage
+- Fixed a bug where Curse Penalty would not reset if you left a stage with a teleporter without activating the teleporter
 ## 0.2.4
 - Enemy yapping now includes elite affixes.
 - Enemies now have a few more lines they can yap.
