@@ -473,7 +473,7 @@ ENEMYSTATS:
                 return;
             }
 #if DEBUG
-            Log.Debug("Attempting to spawn enemy wave");
+            Log.Warning("Attempting to spawn enemy wave");
 #endif
             int gougeCount = 1;
 
@@ -493,17 +493,25 @@ ENEMYSTATS:
                 simulate(self, deltaTime);
                 return;
             }
-            
-            if (newEnemy.spawnCard.prefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) &&
-                ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
+#if DEBUG
+            Log.Warning("Checking if " + newEnemy.spawnCard.prefab.name + " is a Blind Pest.");
+#endif
+            if (newEnemy.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) && ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
+#if DEBUG
+                Log.Warning("Bastards detected, checking if we have too many.");
+#endif
                 int totalEnemies = 0;
                 
                 totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Monster).Count;
                 totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Void).Count;
                 totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Lunar).Count;
 
+#if DEBUG
+                Log.Warning("Total enemies: " + totalEnemies);
+                Log.Warning("Too many? " + (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)));
+#endif
                 if (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)) {
-                    Log.Warning("Too many bastards. Retrying in the next update");
+                    Log.Warning("Too many bastards. Retrying in the next update.");
                     simulate(self, deltaTime);
                     return;
                 }
