@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using RoR2;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -24,6 +25,7 @@ namespace HDeMods {
         }
         
         // This buffs REX's Tangling Growth
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static void REXHealPulse(ILContext il) {
             ILCursor c = new ILCursor(il);
             c.GotoNext(
@@ -45,6 +47,7 @@ namespace HDeMods {
         }
         
         // This buffs REX's DIRECTIVE: Inject
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static void REXPrimaryAttack(ILContext il) {
             ILCursor c = new ILCursor(il);
             c.GotoNext(
