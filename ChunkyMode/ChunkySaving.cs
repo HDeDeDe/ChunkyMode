@@ -15,11 +15,14 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void LoadFromSave(SaveFile save) {
 			if (!Loading.IsLoading) return;
-			if (Run.instance.selectedDifficulty != ChunkyMode.ChunkyModeDifficultyIndex) return;
-			ChunkySaveData saveData = save.GetModdedData<ChunkySaveData>("CHUNKYMODE_RunInfo");
-			if (!saveData.isValidSave) return;
-			ChunkyRunInfo.saveData = saveData;
-			ChunkyRunInfo.preSet = true;
+			
+			if (save.ModdedData.TryGetValue("CHUNKYMODE_RunInfo", out ProperSave.Data.ModdedData rawData) &&
+			    rawData?.Value is ChunkySaveData saveData && saveData.isValidSave) {
+				ChunkyRunInfo.saveData = saveData;
+				ChunkyRunInfo.preSet = true;
+			}
+			
+            Log.Warning("Chunky RunInfo not present, skipping step.");
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void SaveRunInfo(Dictionary<string, object> save) {

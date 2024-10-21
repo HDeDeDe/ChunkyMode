@@ -1,3 +1,6 @@
+## 0.2.6
+- Updated minimum version of HealthComponentAPI
+- Fixed game breaking issue with ProperSaves on non ChunkyMode difficulties.
 ## 0.2.5
 - RiskUI support (lmao)
 - Experimental Curse Penalty is more responsive now
