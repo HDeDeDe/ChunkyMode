@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ProperSave;
 using System.Runtime.CompilerServices;
+using RoR2;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
 	public static class Saving {
@@ -14,6 +15,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void LoadFromSave(SaveFile save) {
 			if (!Loading.IsLoading) return;
+			if (Run.instance.selectedDifficulty != ChunkyMode.ChunkyModeDifficultyIndex) return;
 			ChunkySaveData saveData = save.GetModdedData<ChunkySaveData>("CHUNKYMODE_RunInfo");
 			if (!saveData.isValidSave) return;
 			ChunkyRunInfo.saveData = saveData;
@@ -21,6 +23,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void SaveRunInfo(Dictionary<string, object> save) {
+			if (Run.instance.selectedDifficulty != ChunkyMode.ChunkyModeDifficultyIndex) return;
 			ChunkySaveData tempRun = new ChunkySaveData {
 				isValidSave = true,
 				doEnemyBoostThisRun = ChunkyRunInfo.instance.doEnemyBoostThisRun,
@@ -32,7 +35,11 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 				enemyYapCooldownThisRun = ChunkyRunInfo.instance.enemyYapCooldownThisRun,
 				loiterPenaltyTimeThisRun = ChunkyRunInfo.instance.loiterPenaltyTimeThisRun,
 				loiterPenaltyFrequencyThisRun = ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun,
-				loiterPenaltySeverityThisRun = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun
+				loiterPenaltySeverityThisRun = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun,
+				experimentCursePenaltyThisRun = ChunkyRunInfo.instance.experimentCursePenaltyThisRun,
+				experimentCurseRateThisRun = ChunkyRunInfo.instance.experimentCurseRateThisRun,
+				experimentLimitPestsThisRun = ChunkyRunInfo.instance.experimentLimitPestsThisRun,
+				experimentLimitPestsAmountThisRun = ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun
 			};
 
 			save.Add("CHUNKYMODE_RunInfo",tempRun);
