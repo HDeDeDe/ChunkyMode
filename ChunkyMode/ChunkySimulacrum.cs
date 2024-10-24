@@ -16,7 +16,7 @@ namespace HDeMods {
 			if (!c.TryGotoNext(moveType: MoveType.After,
 			    x => x.MatchLdfld<Run>("difficultyCoefficient"))
 			    ) {
-				Log.Fatal("Failed to hook into InfiniteTowerWaveController.Initialize!");
+				CM.Log.Fatal("Failed to hook into InfiniteTowerWaveController.Initialize!");
 				return;
 			}
 
@@ -28,7 +28,7 @@ namespace HDeMods {
 			if (!c.TryGotoNext(moveType: MoveType.After,
 				    x => x.MatchLdfld<InfiniteTowerWaveController>("maxSquadSize"))
 			   ) {
-				Log.Fatal("Failed to hook into InfiniteTowerWaveController.FixedUpdate!");
+				CM.Log.Fatal("Failed to hook into InfiniteTowerWaveController.FixedUpdate!");
 				return;
 			}
 

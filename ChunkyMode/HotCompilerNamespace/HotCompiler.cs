@@ -28,7 +28,7 @@ namespace HotCompilerNamespace
 
             if (ass == null)
             {
-                HDeMods.Log.Error($"Failed hot compiling assembly");
+                HDeMods.CM.Log.Error($"Failed hot compiling assembly");
                 return;
             }
 
@@ -38,13 +38,13 @@ namespace HotCompilerNamespace
 
             if (entryPoint == null)
             {
-                HDeMods.Log.Error($"Failed getting entrypoint");
+                HDeMods.CM.Log.Error($"Failed getting entrypoint");
                 return;
             }
 
             var res = entryPoint.Invoke(null, null);
 
-            HDeMods.Log.Info($"CompilationCount: {CompilationCount++}");
+            HDeMods.CM.Log.Info($"CompilationCount: {CompilationCount++}");
         }
 
         public static Module CompileString(string code)
@@ -113,7 +113,7 @@ namespace HotCompilerNamespace
                 {
                     foreach (Diagnostic diag in res.Diagnostics)
                     {
-                        HDeMods.Log.Error(diag);
+                        HDeMods.CM.Log.Error(diag);
                     }
         
                     return null;

@@ -22,7 +22,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 				ChunkyRunInfo.preSet = true;
 			}
 			
-            Log.Warning("Chunky RunInfo not present, skipping step.");
+			CM.Log.Warning("Chunky RunInfo not present, skipping step.");
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void SaveRunInfo(Dictionary<string, object> save) {

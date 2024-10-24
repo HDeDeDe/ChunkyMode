@@ -42,7 +42,7 @@ namespace HDeMods {
 	internal static class ChunkyYap {
 		public static void DoYapping([UnityEngine.Bindings.NotNull]string enemyToken, List<BuffIndex> eliteAffix) {
 #if DEBUG
-			Log.Debug("Speaking now");
+			CM.Log.Debug("Speaking now");
 #endif
 			string baseToken = (UnityEngine.Random.RandomRangeInt(0, 100000) % 16) switch {
 				0 => "BROTHER_SPAWN_PHASE1_1",
@@ -72,7 +72,7 @@ namespace HDeMods {
 
 		public static void DoWarning() {
 #if DEBUG
-			Log.Debug("Warning now");
+			CM.Log.Debug("Warning now");
 #endif
 			Chat.SendBroadcastChat(new Chat.NpcChatMessage() {
 				baseToken = "CHUNKYMODEDIFFMOD_WARNING",

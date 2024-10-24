@@ -79,7 +79,7 @@ namespace HDeMods
         
         public void Awake()
         {
-            Log.Init(Logger);
+            CM.Log.Init(Logger);
             instance = this;
 #if DEBUG
             HotCompilerNamespace.HotCompiler.CompileIt();
@@ -120,7 +120,7 @@ namespace HDeMods
                 ctor(self);
             }
             catch (Exception err) {
-                Log.Fatal(err);
+                CM.Log.Fatal(err);
                 Application.Quit();
                 throw;
             }
@@ -252,7 +252,7 @@ namespace HDeMods
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
-            Log.Info("Chunky Mode Run started");
+            CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
             if (ChunkyOptionalMods.RiskUI.Enabled)
                 On.RoR2.DifficultyDef.GetIconSprite += ChunkyOptionalMods.RiskUI.ProvideIcon;
@@ -325,7 +325,7 @@ namespace HDeMods
 
         internal static void Run_onRunDestroyGlobal(Run run) {
             if (!shouldRun) return;
-            Log.Info("Chunky Mode Run ended");
+            CM.Log.Info("Chunky Mode Run ended");
             shouldRun = false;
             isSimulacrumRun = false;
             On.RoR2.DifficultyDef.GetIconSprite -= ChunkyOptionalMods.RiskUI.ProvideIcon;
@@ -403,8 +403,8 @@ ENEMYSTATS:
 
             ChunkyCachedIndexes.bodyIndex.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
 #if DEBUG
-            Log.Debug(sender.name + ", " + sender.bodyIndex);
-            Log.Debug(bodyIndex);
+            CM.Log.Debug(sender.name + ", " + sender.bodyIndex);
+            CM.Log.Debug(bodyIndex);
 #endif
             switch (bodyIndex) {
                 case BodyCache.BeetleGuard:
@@ -459,14 +459,14 @@ ENEMYSTATS:
         // This handles the +20% Loot Spawn Rate stat
         internal static void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
             self.interactableCredit = (int)(self.interactableCredit * 1.2);
-            Log.Info("Updated Credits: " + self.interactableCredit);
+            CM.Log.Info("Updated Credits: " + self.interactableCredit);
         }
 
         // Set up Loitering Punishment
         internal static void Run_BeginStage(On.RoR2.Run.orig_BeginStage beginStage, Run self) {
             enemyYapTimer = self.NetworkfixedTime + 10f;
 #if DEBUG
-            Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
+            CM.Log.Debug("Stage begin, setting allowedToSpeakTimer to " + enemyYapTimer);
 #endif
             if (!ChunkyRunInfo.instance.doLoiterThisRun) {
                 beginStage(self);
@@ -478,7 +478,7 @@ ENEMYSTATS:
             teleporterExists = false;
             ChunkyRunInfo.instance.allyCurse = 0;
             ChunkyRunInfo.instance.getFuckedLMAO = false;
-            Log.Info("Stage begin! Waiting for Teleporter to be created.");
+            CM.Log.Info("Stage begin! Waiting for Teleporter to be created.");
             beginStage(self);
         }
         
@@ -486,7 +486,7 @@ ENEMYSTATS:
         internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
             stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyTimeThisRun;
-            Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
+            CM.Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
             teleporterPlaced(self, sceneDirector, thing);
         }
         
@@ -497,7 +497,7 @@ ENEMYSTATS:
                 return;
             }
 #if DEBUG
-            Log.Warning("Attempting to spawn enemy wave");
+            CM.Log.Warning("Attempting to spawn enemy wave");
 #endif
             int gougeCount = 1;
 
@@ -512,17 +512,17 @@ ENEMYSTATS:
 
             if (newEnemy == null) {
 #if DEBUG
-                Log.Error("Invalid enemy. Retrying next update.");
+                CM.Log.Error("Invalid enemy. Retrying next update.");
 #endif
                 simulate(self, deltaTime);
                 return;
             }
 #if DEBUG
-            Log.Warning("Checking if " + newEnemy.spawnCard.prefab.name + " is a Blind Pest.");
+            CM.Log.Warning("Checking if " + newEnemy.spawnCard.prefab.name + " is a Blind Pest.");
 #endif
             if (newEnemy.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) && ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
 #if DEBUG
-                Log.Warning("Bastards detected, checking if we have too many.");
+                CM.Log.Warning("Bastards detected, checking if we have too many.");
 #endif
                 int totalEnemies = 0;
                 
@@ -531,17 +531,17 @@ ENEMYSTATS:
                 totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Lunar).Count;
 
 #if DEBUG
-                Log.Warning("Total enemies: " + totalEnemies);
-                Log.Warning("Too many? " + (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)));
+                CM.Log.Warning("Total enemies: " + totalEnemies);
+                CM.Log.Warning("Too many? " + (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)));
 #endif
                 if (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)) {
-                    Log.Warning("Too many bastards. Retrying in the next update.");
+                    CM.Log.Warning("Too many bastards. Retrying in the next update.");
                     simulate(self, deltaTime);
                     return;
                 }
             }
 #if DEBUG
-            Log.Debug("Spawning enemy wave");
+            CM.Log.Debug("Spawning enemy wave");
 #endif
             ChunkyRunInfo.instance.loiterTick = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun;
             if (ChunkyRunInfo.instance.experimentCursePenaltyThisRun) {
@@ -624,7 +624,7 @@ ENEMYSTATS:
 #endif
                 return;
             }
-            Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
+            CM.Log.Info("Time's up! Loitering penalty has been applied. StagePunishTimer " + stagePunishTimer);
             ChunkyRunInfo.instance.getFuckedLMAO = true;
             ChunkyYap.DoWarning();
         }
@@ -635,7 +635,7 @@ ENEMYSTATS:
         private static bool reportErrorAnyway;
         private static void ReportLoiterError(string err) {
             if ((reportErrorTime >= Run.instance.NetworkfixedTime || isSimulacrumRun) && !reportErrorAnyway) return;
-            Log.Debug(err);
+            CM.Log.Debug(err);
             reportErrorTime = Run.instance.NetworkfixedTime + 5f;
             reportErrorAnyway = false;
         }

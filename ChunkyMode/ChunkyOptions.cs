@@ -14,8 +14,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			ChunkyCheckBoxOption boxOption = new ChunkyCheckBoxOption(option);
 			ModSettingsManager.AddOption(boxOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 #if DEBUG
-			Log.Info(boxOption.GetNameToken());
-			Log.Info(boxOption.GetDescriptionToken());
+			CM.Log.Info(boxOption.GetNameToken());
+			CM.Log.Info(boxOption.GetDescriptionToken());
 #endif
 		}
 		
@@ -25,8 +25,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG
-			Log.Info(sliderOption.GetNameToken());
-			Log.Info(sliderOption.GetDescriptionToken());
+			CM.Log.Info(sliderOption.GetNameToken());
+			CM.Log.Info(sliderOption.GetDescriptionToken());
 #endif
 		}
 		
@@ -35,8 +35,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
 			
 #if DEBUG
-			Log.Info(sliderOption.GetNameToken());
-			Log.Info(sliderOption.GetDescriptionToken());
+			CM.Log.Info(sliderOption.GetNameToken());
+			CM.Log.Info(sliderOption.GetDescriptionToken());
 #endif
 		}
 		
