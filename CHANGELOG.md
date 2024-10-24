@@ -3,6 +3,7 @@
 - -10% gold penalty no longer applies in Simulacrum.
 - -50% ally healing is now only active during a wave in Simulacrum.
 - Enemy limit boost now applies to the enemy cap in Simulacrum.
+- Most IL hooks should no longer explode.
 ## 0.2.6
 - Updated minimum version of HealthComponentAPI
 - Fixed game breaking issue with ProperSaves on non ChunkyMode difficulties.
