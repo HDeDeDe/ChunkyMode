@@ -307,8 +307,8 @@ namespace HDeMods
                 waveStarted = false;
                 InfiniteTowerRun.onAllEnemiesDefeatedServer += ChunkySimulacrum.OnAllEnemiesDefeatedServer;
                 On.RoR2.InfiniteTowerRun.BeginNextWave += ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
-                /*IL.RoR2.InfiniteTowerWaveController.Initialize +=
-                    ChunkySimulacrum.InfiniteTowerWaveController_Initialize;*/
+                IL.RoR2.InfiniteTowerWaveController.Initialize +=
+                    ChunkySimulacrum.InfiniteTowerWaveController_Initialize;
                 IL.RoR2.InfiniteTowerWaveController.FixedUpdate +=
                     ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
                 //On.RoR2.CombatDirector.PrepareNewMonsterWave += ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
@@ -356,8 +356,8 @@ namespace HDeMods
             
             InfiniteTowerRun.onAllEnemiesDefeatedServer -= ChunkySimulacrum.OnAllEnemiesDefeatedServer;
             On.RoR2.InfiniteTowerRun.BeginNextWave -= ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
-            /*IL.RoR2.InfiniteTowerWaveController.Initialize -=
-                ChunkySimulacrum.InfiniteTowerWaveController_Initialize;*/
+            IL.RoR2.InfiniteTowerWaveController.Initialize -=
+                ChunkySimulacrum.InfiniteTowerWaveController_Initialize;
             IL.RoR2.InfiniteTowerWaveController.FixedUpdate -=
                 ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
             //On.RoR2.CombatDirector.PrepareNewMonsterWave -= ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;

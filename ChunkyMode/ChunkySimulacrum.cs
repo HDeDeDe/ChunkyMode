@@ -11,7 +11,7 @@ namespace HDeMods {
 			ChunkyMode.waveStarted = true;
 			beginNextWave(self);
 		}
-		/*public static void InfiniteTowerWaveController_Initialize(ILContext il) {
+		public static void InfiniteTowerWaveController_Initialize(ILContext il) {
 			ILCursor c = new ILCursor(il);
 			if (!c.TryGotoNext(moveType: MoveType.After,
 			    x => x.MatchLdfld<Run>("difficultyCoefficient"))
@@ -21,7 +21,7 @@ namespace HDeMods {
 			}
 
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, float>>(b => b * 1.1f);
-		}*/
+		}
 
 		public static void InfiniteTowerWaveController_FixedUpdate(ILContext il) {
 			ILCursor c = new ILCursor(il);
@@ -40,7 +40,7 @@ namespace HDeMods {
 
 		/*public static void CombatDirector_PrepareNewMonsterWave(On.RoR2.CombatDirector.orig_PrepareNewMonsterWave prep,
 			CombatDirector self, DirectorCard card) {
-			Log.Debug("New Wave starting!");
+			CM.Log.Debug("New Wave starting!");
 			prep(self, card);
 		}*/
 	}
