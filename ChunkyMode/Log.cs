@@ -5,19 +5,19 @@ namespace HDeMods {
 	{
 		internal static class Log
 		{
-			private static ManualLogSource _logSource;
+			private static ManualLogSource logSource;
 
-			internal static void Init(ManualLogSource logSource)
+			internal static void Init(ManualLogSource log)
 			{
-				_logSource = logSource;
+				logSource = log;
 			}
 
-			internal static void Debug(object data) => _logSource.LogDebug(data);
-			internal static void Error(object data) => _logSource.LogError(data);
-			internal static void Fatal(object data) => _logSource.LogFatal(data);
-			internal static void Info(object data) => _logSource.LogInfo(data);
-			internal static void Message(object data) => _logSource.LogMessage(data);
-			internal static void Warning(object data) => _logSource.LogWarning(data);
+			internal static void Debug(object data) => logSource.LogDebug(data);
+			internal static void Error(object data) => logSource.LogError(data);
+			internal static void Fatal(object data) => logSource.LogFatal(data);
+			internal static void Info(object data) => logSource.LogInfo(data);
+			internal static void Message(object data) => logSource.LogMessage(data);
+			internal static void Warning(object data) => logSource.LogWarning(data);
 		}
 	}
 }
