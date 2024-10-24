@@ -1,4 +1,4 @@
-#if DEBUG
+/*#if DEBUG
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis;
@@ -57,7 +57,7 @@ namespace HotCompilerNamespace
             CSharpCompilationOptions compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
                 metadataImportOptions: MetadataImportOptions.All)
                 .WithOptimizationLevel(OptimizationLevel.Release)
-                .WithPlatform(Microsoft.CodeAnalysis.Platform.AnyCpu /* Keep The Microsoft.CodeAnalysis part. */)
+                .WithPlatform(Microsoft.CodeAnalysis.Platform.AnyCpu /* Keep The Microsoft.CodeAnalysis part. #1#)
                 .WithAssemblyIdentityComparer(DesktopAssemblyIdentityComparer.Default)
                 .WithAllowUnsafe(true)
                 .WithWarningLevel(0);
@@ -125,4 +125,4 @@ namespace HotCompilerNamespace
         }
     }
 }
-#endif
+#endif*/

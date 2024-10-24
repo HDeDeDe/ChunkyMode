@@ -82,7 +82,7 @@ namespace HDeMods
             CM.Log.Init(Logger);
             instance = this;
 #if DEBUG
-            HotCompilerNamespace.HotCompiler.CompileIt();
+            //HotCompilerNamespace.HotCompiler.CompileIt();
             On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
 #endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
@@ -127,8 +127,8 @@ namespace HDeMods
             On.RoR2.SteamworksClientManager.ctor -= KillOnThreePercentBug;
         }
         
-        [ConCommand(commandName = "hotReloadChunky", flags = ConVarFlags.Engine, helpText = "Hot Reload ChunkyMode")]
-        public static void Reload(ConCommandArgs args) => HotCompilerNamespace.HotCompiler.CompileIt();
+        /*[ConCommand(commandName = "hotReloadChunky", flags = ConVarFlags.Engine, helpText = "Hot Reload ChunkyMode")]
+        public static void Reload(ConCommandArgs args) => HotCompilerNamespace.HotCompiler.CompileIt();*/
 #endif
 
         public static void AddDifficulty() {
