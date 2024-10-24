@@ -30,14 +30,17 @@ namespace HDeMods {
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static void REXHealPulse(ILContext il) {
             ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchConvR4(),
-                x => x.MatchMul(),
-                // Inserting here
-                x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue"),
-                x => x.MatchLdloc(2),
-                x => x.MatchLdcR4(0.3f)
-            );
+            if (!c.TryGotoNext(
+                    x => x.MatchConvR4(),
+                    x => x.MatchMul(),
+                    // Inserting here
+                    x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue"),
+                    x => x.MatchLdloc(2),
+                    x => x.MatchLdcR4(0.3f)
+                )) {
+                CM.Log.Error("Failed to hook Tangling Growth!");
+                return;
+            }
             c.Index += 2;
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile, float>>(
@@ -53,14 +56,17 @@ namespace HDeMods {
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static void REXPrimaryAttack(ILContext il) {
             ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchLdfld<RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted>("fractionOfDamage"),
-                x => x.MatchMul(),
-                // Inserting here
-                x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue"),
-                x => x.MatchLdloc(1),
-                x => x.MatchLdcR4(0.3f)
-            );
+            if (!c.TryGotoNext(
+                    x => x.MatchLdfld<RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted>("fractionOfDamage"),
+                    x => x.MatchMul(),
+                    // Inserting here
+                    x => x.MatchStfld<RoR2.Orbs.HealOrb>("healValue"),
+                    x => x.MatchLdloc(1),
+                    x => x.MatchLdcR4(0.3f)
+                )) {
+                CM.Log.Error("Failed to hook DIRECTIVE: Inject!");
+                return;
+            }
             c.Index += 2;
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted,
@@ -77,16 +83,19 @@ namespace HDeMods {
         // This buffs Acrid's Vicious Wounds and Ravenous Bite
         public static void AcridRegenBuff(ILContext il) {
             ILCursor c = new ILCursor(il);
-            c.GotoNext(
-                x => x.MatchCall<CharacterBody>("GetBuffCount"),
-                x => x.MatchConvR4(),
-                x => x.MatchLdarg(0),
-                x => x.MatchCall<CharacterBody>("get_maxHealth"),
-                x => x.MatchMul(),
-                x => x.MatchLdcR4(0.1f),
-                //Insert Here
-                x => x.MatchMul()
-            );
+            if (!c.TryGotoNext(
+                    x => x.MatchCall<CharacterBody>("GetBuffCount"),
+                    x => x.MatchConvR4(),
+                    x => x.MatchLdarg(0),
+                    x => x.MatchCall<CharacterBody>("get_maxHealth"),
+                    x => x.MatchMul(),
+                    x => x.MatchLdcR4(0.1f),
+                    //Insert Here
+                    x => x.MatchMul()
+                )) {
+                CM.Log.Error("Failed to hook CrocoRegen!");
+                return;
+            }
             c.Index += 6;
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
