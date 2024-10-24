@@ -48,6 +48,8 @@ namespace HDeMods
         private static bool shouldRun;
         private static int ogMonsterCap;
         private static int ogRunLevelCap;
+        internal static bool isSimulacrumRun;
+        internal static bool waveStarted;
         
         // These are related to the loitering penalty
         private static bool teleporterExists;
@@ -237,6 +239,7 @@ namespace HDeMods
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
         {
             if (arg1.selectedDifficulty != ChunkyModeDifficultyIndex) return;
+            if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
             ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap += 9900;
         }
@@ -299,6 +302,18 @@ namespace HDeMods
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             HealthComponentAPI.GetHealStats += ChunkyILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
+                
+            if (isSimulacrumRun) {
+                waveStarted = false;
+                InfiniteTowerRun.onAllEnemiesDefeatedServer += ChunkySimulacrum.OnAllEnemiesDefeatedServer;
+                On.RoR2.InfiniteTowerRun.BeginNextWave += ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
+                /*IL.RoR2.InfiniteTowerWaveController.Initialize +=
+                    ChunkySimulacrum.InfiniteTowerWaveController_Initialize;*/
+                IL.RoR2.InfiniteTowerWaveController.FixedUpdate +=
+                    ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
+                //On.RoR2.CombatDirector.PrepareNewMonsterWave += ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
+                return;
+            }
             
             if (!ChunkyRunInfo.instance.doLoiterThisRun) return;
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
@@ -312,6 +327,7 @@ namespace HDeMods
             if (!shouldRun) return;
             Log.Info("Chunky Mode Run ended");
             shouldRun = false;
+            isSimulacrumRun = false;
             On.RoR2.DifficultyDef.GetIconSprite -= ChunkyOptionalMods.RiskUI.ProvideIcon;
             ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
@@ -337,6 +353,14 @@ namespace HDeMods
             On.RoR2.CombatDirector.Simulate -= CombatDirector_Simulate;
             CharacterBody.onBodyStartGlobal -= TrackShittersAdd;
             CharacterBody.onBodyDestroyGlobal -= TrackShittersRemove;
+            
+            InfiniteTowerRun.onAllEnemiesDefeatedServer -= ChunkySimulacrum.OnAllEnemiesDefeatedServer;
+            On.RoR2.InfiniteTowerRun.BeginNextWave -= ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
+            /*IL.RoR2.InfiniteTowerWaveController.Initialize -=
+                ChunkySimulacrum.InfiniteTowerWaveController_Initialize;*/
+            IL.RoR2.InfiniteTowerWaveController.FixedUpdate -=
+                ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
+            //On.RoR2.CombatDirector.PrepareNewMonsterWave -= ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
         }
         
         internal static void TrackShittersAdd(CharacterBody body) {
@@ -428,7 +452,7 @@ ENEMYSTATS:
         internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            if(ChunkyRunInfo.instance.doGoldThisRun) self.goldRewardCoefficient *= 0.9f;
+            if(ChunkyRunInfo.instance.doGoldThisRun && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
@@ -552,6 +576,12 @@ ENEMYSTATS:
         internal static void EnforceLoiter() {
             if (!shouldRun) return;
             
+            if (isSimulacrumRun) {
+#if DEBUG
+                ReportLoiterError("Can't do loiter penalty in Simulacrum");
+#endif
+                return;
+            }
             if (!ChunkyRunInfo.instance.doLoiterThisRun) {
 #if DEBUG
                 ReportLoiterError("Loiter penalty disabled");
@@ -566,7 +596,7 @@ ENEMYSTATS:
             }
             if (!NetworkServer.active) {
 #if DEBUG
-                ReportLoiterError("Client can not enforce loiter penalty.");
+                ReportLoiterError("Client can not enforce loiter penalty");
 #endif
                 return;
             }
@@ -604,7 +634,7 @@ ENEMYSTATS:
         private static float reportErrorTime;
         private static bool reportErrorAnyway;
         private static void ReportLoiterError(string err) {
-            if (reportErrorTime >= Run.instance.NetworkfixedTime && !reportErrorAnyway) return;
+            if ((reportErrorTime >= Run.instance.NetworkfixedTime || isSimulacrumRun) && !reportErrorAnyway) return;
             Log.Debug(err);
             reportErrorTime = Run.instance.NetworkfixedTime + 5f;
             reportErrorAnyway = false;

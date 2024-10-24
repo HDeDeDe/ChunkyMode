@@ -1,3 +1,8 @@
+## 0.2.7
+- Loiter penalty is now explicitly disabled in Simulacrum.
+- -10% gold penalty no longer applies in Simulacrum.
+- -50% ally healing is now only active during a wave in Simulacrum.
+- Enemy limit boost now applies to the enemy cap in Simulacrum.
 ## 0.2.6
 - Updated minimum version of HealthComponentAPI
 - Fixed game breaking issue with ProperSaves on non ChunkyMode difficulties.

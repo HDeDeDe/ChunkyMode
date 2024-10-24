@@ -13,6 +13,7 @@ namespace HDeMods {
         // This handles the -50% Ally Healing stat
         public static void HealingOverride(HealthComponent sender, HealthComponentAPI.HealEventArgs args) {
             if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
+            if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return;
             args.enableEclipseHealReduction = true;
         }
 
@@ -21,6 +22,7 @@ namespace HDeMods {
             HealthComponentAPI.UpdateHealthEventArgs args) {
             if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
             args.barrierDecayRateMultAdd += barrierDecayOverride;
+            if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return;
             args.shieldRechargeRateMultAdd += shieldRechargeOverride;
         }
         
@@ -41,6 +43,7 @@ namespace HDeMods {
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile, float>>(
                 (toHeal, tbf) => {
                     if (!tbf.owner) return toHeal;
+                    if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                     if (tbf.owner.GetComponent<CharacterBody>().teamComponent.teamIndex != TeamIndex.Player) return toHeal;
                     return toHeal * rexHealOverride;
                 });
@@ -63,6 +66,7 @@ namespace HDeMods {
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted,
                 float>>(
                 (toHeal,self) => {
+                    if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                     if (self.projectileController.catalogIndex != ChunkyCachedIndexes.injector) return toHeal;
                     if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
                         TeamIndex.Player) return toHeal;
@@ -87,6 +91,7 @@ namespace HDeMods {
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
                 (toHeal, cb) => {
+                    if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                     if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
                     return toHeal * acridHealOverride;
                 });
