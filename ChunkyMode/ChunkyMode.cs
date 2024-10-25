@@ -31,7 +31,7 @@ namespace HDeMods
     public class ChunkyMode : BaseUnityPlugin
     {
         // Plugin details
-        public const string PluginGUID = PluginAuthor + "." + PluginName;
+        public const string PluginGUID = "com." + PluginAuthor + "." + PluginName;
         public const string PluginAuthor = "HDeDeDe";
         public const string PluginName = "ChunkyMode";
         public const string PluginVersion = "0.3.0";
