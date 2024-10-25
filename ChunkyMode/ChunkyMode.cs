@@ -36,6 +36,7 @@ namespace HDeMods
         public const string PluginName = "ChunkyMode";
         public const string PluginVersion = "0.3.0";
         public static ChunkyMode instance;
+        public static ConfigFile experiments;
 
         // Difficulty related variables
         public static AssetBundle ChunkyModeDifficultyModBundle;
@@ -72,6 +73,7 @@ namespace HDeMods
         public static ConfigEntry<float> timeUntilLoiterPenalty { get; set; }
         public static ConfigEntry<float> loiterPenaltyFrequency { get; set; }
         public static ConfigEntry<float> loiterPenaltySeverity { get; set; }
+        
         public static ConfigEntry<bool> experimentCursePenalty { get; set; }
         public static ConfigEntry<float> experimentCurseRate { get; set; }
         public static ConfigEntry<bool> experimentLimitPest { get; set; }
@@ -79,6 +81,12 @@ namespace HDeMods
         
         public void Awake()
         {
+            if (instance != null) {
+                CM.Log.Error("There can be only 1 instance of " + PluginName + "!");
+                Destroy(this);
+                return;
+            }
+            
             CM.Log.Init(Logger);
             instance = this;
 #if DEBUG
@@ -87,7 +95,7 @@ namespace HDeMods
 #endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
-            BindSettings();
+            //BindSettings();
 
             GameObject temp = new GameObject("thing");
             temp.AddComponent<NetworkIdentity>();
@@ -147,6 +155,8 @@ namespace HDeMods
         }
 
         public static void BindSettings() {
+            experiments = new ConfigFile(Paths.ConfigPath + @"\" + PluginGUID + ".experiments.cfg", false, instance.Info.Metadata);
+            
             doHealingBuffs = instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Healing Buffs",
@@ -197,22 +207,23 @@ namespace HDeMods
                 "Loiter penalty severity",
                 40f,
                 "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
-            experimentCursePenalty = instance.Config.Bind<bool>(
+            
+            experimentCursePenalty = experiments.Bind<bool>(
                 "Experiments",
                 "Curse Penalty",
                 false,
                 "Enable experimental curse penalty. This will not be a part of standard gameplay.");
-            experimentCurseRate = instance.Config.Bind<float>(
+            experimentCurseRate = experiments.Bind<float>(
                 "Experiments",
                 "Curse Rate",
                 0.035f,
                 "The amount of curse applied each loiter tick.");
-            experimentLimitPest = instance.Config.Bind<bool>(
+            experimentLimitPest = experiments.Bind<bool>(
                 "Experiments",
                 "Limit Blind Pest",
                 false,
                 "Enable experimental Blind Pest limit. This might be a part of standard gameplay.");
-            experimentLimitPestAmount = instance.Config.Bind<float>(
+            experimentLimitPestAmount = experiments.Bind<float>(
                 "Experiments",
                 "Blind Pest Amount",
                 10f,
