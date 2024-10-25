@@ -1,4 +1,7 @@
-## 0.2.7
+## 0.3.0
+- Changed Plugin GUID from `HDeDeDe.ChunkyMode` to `com.HDeDeDe.ChunkyMode`, configs will be reset due to this and any
+mods checking for the original may break.
+- Experiment options are now in their own config file
 - Loiter penalty is now explicitly disabled in Simulacrum.
 - -10% gold penalty no longer applies in Simulacrum.
 - -50% ally healing is now only active during a wave in Simulacrum.
