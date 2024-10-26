@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
@@ -56,7 +57,8 @@ namespace HDeMods
         private static bool teleporterExists;
         private static float stagePunishTimer;
         private static bool teleporterHit;
-        private static int totalBlindPest;
+        internal static int totalBlindPest;
+        internal static int totalLemurians;
         
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -95,7 +97,7 @@ namespace HDeMods
 #endif
             ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
             AddDifficulty();
-            //BindSettings();
+            BindSettings();
 
             GameObject temp = new GameObject("thing");
             temp.AddComponent<NetworkIdentity>();
@@ -260,6 +262,7 @@ namespace HDeMods
             teleporterHit = false;
             teleporterExists = false;
             totalBlindPest = 0;
+            totalLemurians = 0;
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
@@ -313,16 +316,24 @@ namespace HDeMods
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
             HealthComponentAPI.GetHealStats += ChunkyILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
+
+            if (ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
+                CharacterBody.onBodyStartGlobal += TrackShittersAdd;
+                CharacterBody.onBodyDestroyGlobal += TrackShittersRemove;
+            }
                 
             if (isSimulacrumRun) {
                 waveStarted = false;
+                
                 InfiniteTowerRun.onAllEnemiesDefeatedServer += ChunkySimulacrum.OnAllEnemiesDefeatedServer;
                 On.RoR2.InfiniteTowerRun.BeginNextWave += ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
                 IL.RoR2.InfiniteTowerWaveController.Initialize +=
                     ChunkySimulacrum.InfiniteTowerWaveController_Initialize;
                 IL.RoR2.InfiniteTowerWaveController.FixedUpdate +=
                     ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
-                //On.RoR2.CombatDirector.PrepareNewMonsterWave += ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
+                IL.RoR2.CombatDirector.AttemptSpawnOnTarget +=
+                    ChunkySimulacrum.ExtractRNGFromCombatDirector;
+                On.RoR2.CombatDirector.PrepareNewMonsterWave += ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
                 return;
             }
             
@@ -330,8 +341,6 @@ namespace HDeMods
             On.RoR2.Run.OnServerTeleporterPlaced += Run_OnServerTeleporterPlaced;
             On.RoR2.TeleporterInteraction.IdleState.OnInteractionBegin += OnInteractTeleporter;
             On.RoR2.CombatDirector.Simulate += CombatDirector_Simulate;
-            CharacterBody.onBodyStartGlobal += TrackShittersAdd;
-            CharacterBody.onBodyDestroyGlobal += TrackShittersRemove;
         }
 
         internal static void Run_onRunDestroyGlobal(Run run) {
@@ -371,14 +380,18 @@ namespace HDeMods
                 ChunkySimulacrum.InfiniteTowerWaveController_Initialize;
             IL.RoR2.InfiniteTowerWaveController.FixedUpdate -=
                 ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
-            //On.RoR2.CombatDirector.PrepareNewMonsterWave -= ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
+            IL.RoR2.CombatDirector.AttemptSpawnOnTarget -=
+                ChunkySimulacrum.ExtractRNGFromCombatDirector;
+            On.RoR2.CombatDirector.PrepareNewMonsterWave -= ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
         }
         
         internal static void TrackShittersAdd(CharacterBody body) {
             if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest++;
+            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.Lemurian]) totalLemurians++;
         }
         internal static void TrackShittersRemove(CharacterBody body) {
             if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest--;
+            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.Lemurian]) totalLemurians--;
         }
         
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
@@ -414,8 +427,10 @@ ENEMYSTATS:
 
             ChunkyCachedIndexes.bodyIndex.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
 #if DEBUG
-            CM.Log.Debug(sender.name + ", " + sender.bodyIndex);
-            CM.Log.Debug(bodyIndex);
+            if (!isSimulacrumRun) {
+               CM.Log.Debug(sender.name + ", " + sender.bodyIndex);
+               CM.Log.Debug(bodyIndex); 
+            }
 #endif
             switch (bodyIndex) {
                 case BodyCache.BeetleGuard:

@@ -6,6 +6,8 @@ mods checking for the original may break.
 - -10% gold penalty no longer applies in Simulacrum.
 - -50% ally healing is now only active during a wave in Simulacrum.
 - Enemy limit boost now applies to the enemy cap in Simulacrum.
+- Experimental Pest Limit now applies in Simulacrum.
+- Experimental Pest Limit now applies to Lemurians in Simulacrum.
 - Most IL hooks should no longer explode.
 ## 0.2.6
 - Updated minimum version of HealthComponentAPI

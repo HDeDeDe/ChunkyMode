@@ -12,7 +12,8 @@ namespace HDeMods {
 		RobNemesis,
 		SigmaConstruct,
 		FlyingVermin,
-		Bison
+		Bison,
+		Lemurian
 	}
 	internal static class ChunkyCachedIndexes {
 		public static readonly Dictionary<BodyIndex, BodyCache> bodyIndex = new Dictionary<BodyIndex, BodyCache>();
@@ -30,6 +31,7 @@ namespace HDeMods {
 			AddToCollection(BodyCatalog.FindBodyIndex("BellBody"), BodyCache.Bell);
 			AddToCollection(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
 			AddToCollection(BodyCatalog.FindBodyIndex("BisonBody"), BodyCache.Bison);
+			AddToCollection(BodyCatalog.FindBodyIndex("LemurianBody"), BodyCache.Lemurian);
 			if (ChunkyOptionalMods.Hunk.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
 			if (ChunkyOptionalMods.Spikestrip.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
 		}
