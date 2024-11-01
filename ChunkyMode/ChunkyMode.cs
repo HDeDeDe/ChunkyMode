@@ -113,8 +113,7 @@ namespace HDeMods
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
 
-            if (ChunkyOptionalMods.RiskUI.Enabled)
-                ChunkyOptionalMods.RiskUI.providedSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
+            if (ChunkyOptionalMods.RiskUI.Enabled) ChunkyOptionalMods.RiskUI.AddChunkyMode();
             
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
@@ -268,8 +267,6 @@ namespace HDeMods
             if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            if (ChunkyOptionalMods.RiskUI.Enabled)
-                On.RoR2.DifficultyDef.GetIconSprite += ChunkyOptionalMods.RiskUI.ProvideIcon;
             
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
 #if DEBUG
@@ -348,7 +345,6 @@ namespace HDeMods
             CM.Log.Info("Chunky Mode Run ended");
             shouldRun = false;
             isSimulacrumRun = false;
-            On.RoR2.DifficultyDef.GetIconSprite -= ChunkyOptionalMods.RiskUI.ProvideIcon;
             ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
             Destroy(m_chunkyInfo);

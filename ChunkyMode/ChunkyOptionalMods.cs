@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using RoR2;
+using MaterialHud;
 using UnityEngine;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
@@ -14,11 +15,11 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 
     internal static class RiskUI {
         public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("bubbet.riskui");
-        public static Sprite providedSprite;
 
-        public static Sprite ProvideIcon(On.RoR2.DifficultyDef.orig_GetIconSprite getIconSprite, DifficultyDef self) {
-            if (self != ChunkyMode.ChunkyModeDifficultyDef) return getIconSprite(self);
-            return providedSprite;
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void AddChunkyMode() {
+            RiskUIPlugin.DifficultyIconMap["CHUNKYMODEDIFFMOD_NAME"] =
+                ChunkyMode.ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
         }
     }
 } }

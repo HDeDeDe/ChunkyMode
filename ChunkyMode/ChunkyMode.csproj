@@ -42,6 +42,9 @@
 	  <Reference Include="ProperSave">
 	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
 	  </Reference>
+	  <Reference Include="RiskUI">
+	    <HintPath>..\Resources\libs\RiskUI.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 	
 	<ItemGroup>
