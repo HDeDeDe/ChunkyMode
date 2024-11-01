@@ -4,7 +4,7 @@ using MaterialHud;
 using UnityEngine;
 
 namespace HDeMods { namespace ChunkyOptionalMods {
-	internal static class Hunk {
+    internal static class Hunk {
         public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Hunk");
     }
     
