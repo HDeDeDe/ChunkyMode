@@ -20,6 +20,7 @@
     <Content Include="cursePreview.gif" />
     <Content Include="icon.png" />
     <Content Include="libs\ProperSave.dll" />
+    <Content Include="libs\RiskUI.dll" />
     <Content Include="Risk of Rain 2 - 2024-08-00 2-36-20 AM.gif" />
     <Content Include="Risk of Rain 2 - 2024-08-05 12-24-11 AM.gif" />
     <Content Include="Risk of Rain 2 - 2024-10-18 12-08-36 PM.gif" />
