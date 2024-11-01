@@ -350,3 +350,10 @@ Resources/ror2Assets/*.sln
 /Resources/ror2Assets/Assets/LunarBottledChaos.meta
 /Resources/ror2Assets/Assets/AssetBundle/lunarbottledchaos.manifest.meta
 /Resources/ror2Assets/Assets/AssetBundle/lunarbottledchaos.meta
+/Resources/ror2Assets/Assets/AssetBundle/intericons
+/Resources/ror2Assets/Assets/AssetBundle/intericons.manifest
+/Resources/ror2Assets/Assets/AssetBundle/intericons.manifest.meta
+/Resources/ror2Assets/Assets/AssetBundle/intericons.meta
+/Resources/ror2Assets/Assets/InterlopingArtifact.meta
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperIconsBundle/texInterDeselectedIcon.png
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperIconsBundle/texInterSelectedIcon.png
