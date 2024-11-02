@@ -78,8 +78,8 @@ namespace HDeMods
         
         public static ConfigEntry<bool> experimentCursePenalty { get; set; }
         public static ConfigEntry<float> experimentCurseRate { get; set; }
-        public static ConfigEntry<bool> experimentLimitPest { get; set; }
-        public static ConfigEntry<float> experimentLimitPestAmount { get; set; }
+        public static ConfigEntry<bool> limitPest { get; set; }
+        public static ConfigEntry<float> limitPestAmount { get; set; }
         
         public void Awake()
         {
@@ -208,6 +208,17 @@ namespace HDeMods
                 "Loiter penalty severity",
                 40f,
                 "The strength of spawned enemies. 40 is equal to 1 combat shrine.");
+            limitPest = instance.Config.Bind<bool>(
+                "Loitering",
+                "Limit Blind Pest",
+                true,
+                "Enable Blind Pest limit. This also affects Lemurians when playing Simulacrum.");
+            limitPestAmount = instance.Config.Bind<float>(
+                "Loitering",
+                "Blind Pest Amount",
+                10f,
+                "The percentage of enemies that are allowed to be blind pest. " +
+                "Only affects the Loitering penalty (unless playing Simulacrum).");
             
             experimentCursePenalty = experiments.Bind<bool>(
                 "Experiments",
@@ -219,16 +230,7 @@ namespace HDeMods
                 "Curse Rate",
                 0.035f,
                 "The amount of curse applied each loiter tick.");
-            experimentLimitPest = experiments.Bind<bool>(
-                "Experiments",
-                "Limit Blind Pest",
-                false,
-                "Enable experimental Blind Pest limit. This might be a part of standard gameplay.");
-            experimentLimitPestAmount = experiments.Bind<float>(
-                "Experiments",
-                "Blind Pest Amount",
-                10f,
-                "The percentage of enemies that are allowed to be blind pest. Only affects the Loitering penalty.");
+            
             if (!ChunkyOptionalMods.RoO.Enabled) return;
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doLoiterPenalty);
@@ -242,9 +244,8 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddFloat(loiterPenaltySeverity, 10f, 100f);
             ChunkyOptionalMods.RoO.AddCheck(experimentCursePenalty);
             ChunkyOptionalMods.RoO.AddFloat(experimentCurseRate, 0f, 1f, "{0}");
-            ChunkyOptionalMods.RoO.AddCheck(experimentLimitPest);
-            ChunkyOptionalMods.RoO.AddFloat(experimentLimitPestAmount, 0f, 100f);
-            ChunkyOptionalMods.RoO.SetSprite(ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
+            ChunkyOptionalMods.RoO.AddCheck(limitPest);
+            ChunkyOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
@@ -291,8 +292,8 @@ namespace HDeMods
                 ChunkyRunInfo.instance.loiterPenaltySeverityThisRun = loiterPenaltySeverity.Value;
                 ChunkyRunInfo.instance.experimentCursePenaltyThisRun = experimentCursePenalty.Value;
                 ChunkyRunInfo.instance.experimentCurseRateThisRun = experimentCurseRate.Value;
-                ChunkyRunInfo.instance.experimentLimitPestsThisRun = experimentLimitPest.Value;
-                ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun = experimentLimitPestAmount.Value;
+                ChunkyRunInfo.instance.limitPestsThisRun = limitPest.Value;
+                ChunkyRunInfo.instance.limitPestsAmountThisRun = limitPestAmount.Value;
             }
 
             if (ChunkyRunInfo.instance.doEnemyBoostThisRun){ 
@@ -314,7 +315,7 @@ namespace HDeMods
             HealthComponentAPI.GetHealStats += ChunkyILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
 
-            if (ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
+            if (ChunkyRunInfo.instance.limitPestsThisRun) {
                 CharacterBody.onBodyStartGlobal += TrackShittersAdd;
                 CharacterBody.onBodyDestroyGlobal += TrackShittersRemove;
             }
@@ -542,7 +543,7 @@ ENEMYSTATS:
 #if DEBUG
             CM.Log.Warning("Checking if " + newEnemy.spawnCard.prefab.name + " is a Blind Pest.");
 #endif
-            if (newEnemy.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) && ChunkyRunInfo.instance.experimentLimitPestsThisRun) {
+            if (newEnemy.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) && ChunkyRunInfo.instance.limitPestsThisRun) {
 #if DEBUG
                 CM.Log.Warning("Bastards detected, checking if we have too many.");
 #endif
@@ -554,9 +555,9 @@ ENEMYSTATS:
 
 #if DEBUG
                 CM.Log.Warning("Total enemies: " + totalEnemies);
-                CM.Log.Warning("Too many? " + (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)));
+                CM.Log.Warning("Too many? " + (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.limitPestsAmountThisRun / 100f)));
 #endif
-                if (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f)) {
+                if (totalBlindPest >= totalEnemies * (ChunkyRunInfo.instance.limitPestsAmountThisRun / 100f)) {
                     CM.Log.Warning("Too many bastards. Retrying in the next update.");
                     simulate(self, deltaTime);
                     return;

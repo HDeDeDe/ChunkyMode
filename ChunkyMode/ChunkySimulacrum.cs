@@ -65,7 +65,7 @@ namespace HDeMods {
 
 		public static void CombatDirector_PrepareNewMonsterWave(On.RoR2.CombatDirector.orig_PrepareNewMonsterWave prep,
 			CombatDirector self, DirectorCard card) {
-			if (!ChunkyRunInfo.instance.experimentLimitPestsThisRun || !rngExtracted) {
+			if (!ChunkyRunInfo.instance.limitPestsThisRun || !rngExtracted) {
 				prep(self, card);
 				return;
 			}
@@ -86,7 +86,7 @@ namespace HDeMods {
 				totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Lunar).Count;
 				
 				int tenPercent =
-					(int)(totalEnemies * (ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun / 100f));
+					(int)(totalEnemies * (ChunkyRunInfo.instance.limitPestsAmountThisRun / 100f));
 				
 #if DEBUG
 				CM.Log.Warning("Total enemies: " + totalEnemies);

@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
 using UnityEngine.Networking;
 using RoR2;
+using UnityEngine.Serialization;
 
 namespace HDeMods {
 	internal class ChunkyRunInfo : NetworkBehaviour {
@@ -35,10 +36,10 @@ namespace HDeMods {
 		public bool experimentCursePenaltyThisRun;
 		[SyncVar]
 		public float experimentCurseRateThisRun;
-		[SyncVar]
-		public bool experimentLimitPestsThisRun;
-		[SyncVar]
-		public float experimentLimitPestsAmountThisRun;
+		[FormerlySerializedAs("experimentLimitPestsThisRun")] [SyncVar]
+		public bool limitPestsThisRun;
+		[FormerlySerializedAs("experimentLimitPestsAmountThisRun")] [SyncVar]
+		public float limitPestsAmountThisRun;
 		
 		//These values is only synced not saved
 		[SyncVar]
@@ -65,8 +66,8 @@ namespace HDeMods {
             loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
             experimentCursePenaltyThisRun = saveData.experimentCursePenaltyThisRun;
             experimentCurseRateThisRun = saveData.experimentCurseRateThisRun;
-            experimentLimitPestsThisRun = saveData.experimentLimitPestsThisRun;
-            experimentLimitPestsAmountThisRun = saveData.experimentLimitPestsAmountThisRun;
+            limitPestsThisRun = saveData.limitPestsThisRun;
+            limitPestsAmountThisRun = saveData.limitPestsAmountThisRun;
 		}
 
 
@@ -111,9 +112,9 @@ namespace HDeMods {
 		[DataMember(Name = "exCurseRate")]
 		public float experimentCurseRateThisRun;
 		[DataMember(Name = "exLimitPest")]
-		public bool experimentLimitPestsThisRun;
+		public bool limitPestsThisRun;
 		[DataMember(Name = "exPestCount")]
-		public float experimentLimitPestsAmountThisRun;
+		public float limitPestsAmountThisRun;
 	}
 	
 }

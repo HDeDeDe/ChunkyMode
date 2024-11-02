@@ -41,8 +41,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 				loiterPenaltySeverityThisRun = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun,
 				experimentCursePenaltyThisRun = ChunkyRunInfo.instance.experimentCursePenaltyThisRun,
 				experimentCurseRateThisRun = ChunkyRunInfo.instance.experimentCurseRateThisRun,
-				experimentLimitPestsThisRun = ChunkyRunInfo.instance.experimentLimitPestsThisRun,
-				experimentLimitPestsAmountThisRun = ChunkyRunInfo.instance.experimentLimitPestsAmountThisRun
+				limitPestsThisRun = ChunkyRunInfo.instance.limitPestsThisRun,
+				limitPestsAmountThisRun = ChunkyRunInfo.instance.limitPestsAmountThisRun
 			};
 
 			save.Add("CHUNKYMODE_RunInfo",tempRun);
