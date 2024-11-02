@@ -23,7 +23,7 @@ namespace HDeMods {
 		
 		public static void GenerateCache() {
 #if DEBUG
-			CM.Log.Fatal("Generating Cache!");
+			CM.Log.Warning("Generating Cache!");
 #endif
 			injector = ProjectileCatalog.FindProjectileIndex("SyringeProjectileHealing");
 			
