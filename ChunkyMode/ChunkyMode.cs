@@ -507,7 +507,8 @@ ENEMYSTATS:
         }
         
         // If a teleporter does not exist on the stage the loitering penalty should not be applied
-        internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, SceneDirector sceneDirector, GameObject thing) {
+        internal static void Run_OnServerTeleporterPlaced(On.RoR2.Run.orig_OnServerTeleporterPlaced teleporterPlaced, Run self, 
+            SceneDirector sceneDirector, GameObject thing) {
             teleporterExists = true;
             stagePunishTimer = self.NetworkfixedTime + ChunkyRunInfo.instance.loiterPenaltyTimeThisRun;
             CM.Log.Info("Teleporter created! Timer set to " + stagePunishTimer);
@@ -544,7 +545,8 @@ ENEMYSTATS:
 #if DEBUG
             CM.Log.Warning("Checking if " + newEnemy.spawnCard.prefab.name + " is a Blind Pest.");
 #endif
-            if (newEnemy.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab == BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) && ChunkyRunInfo.instance.limitPestsThisRun) {
+            if (newEnemy.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab == BodyCatalog.GetBodyPrefab(
+                    ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) && ChunkyRunInfo.instance.limitPestsThisRun) {
 #if DEBUG
                 CM.Log.Warning("Bastards detected, checking if we have too many.");
 #endif
@@ -587,7 +589,8 @@ ENEMYSTATS:
         
         // Disable loitering penalty when the teleporter is interacted with
         // ReSharper disable once IdentifierTypo
-        internal static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, EntityStates.BaseState teleporterState, Interactor interactor) {
+        internal static void OnInteractTeleporter(On.RoR2.TeleporterInteraction.IdleState.orig_OnInteractionBegin interact, 
+            EntityStates.BaseState teleporterState, Interactor interactor) {
             ChunkyRunInfo.instance.getFuckedLMAO = false;
             teleporterHit = true;
             ChunkyRunInfo.instance.allyCurse = 0f;
