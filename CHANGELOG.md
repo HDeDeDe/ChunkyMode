@@ -1,3 +1,9 @@
+## 0.3.1
+- Improved RiskUI support (LMAO)
+- Updated description for `Time until loiter penalty` to accurately reflect minimum settings
+- Moved Limit Blind Pest and Blind Pest Amount from Experiments to Loitering
+- Limit Blind Pest is enabled by default
+- Fixed a bug where ChunkyMode claimed to fail to load from ProperSave regardless of if it actually did.
 ## 0.3.0
 - Changed Plugin GUID from `HDeDeDe.ChunkyMode` to `com.HDeDeDe.ChunkyMode`, configs will be reset due to this and any
 mods checking for the original may break.
