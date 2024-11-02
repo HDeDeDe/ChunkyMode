@@ -197,7 +197,7 @@ namespace HDeMods
                 "Loitering",
                 "Time until loiter penalty",
                 300f,
-                "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 60 seconds.");
+                "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 15 seconds.");
             loiterPenaltyFrequency = instance.Config.Bind<float>(
                 "Loitering",
                 "Loiter penalty frequency",
