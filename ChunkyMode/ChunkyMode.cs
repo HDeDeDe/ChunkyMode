@@ -40,11 +40,11 @@ namespace HDeMods
         public static ConfigFile experiments;
 
         // Difficulty related variables
-        public static AssetBundle ChunkyModeDifficultyModBundle;
-        public static DifficultyDef ChunkyModeDifficultyDef;
-        public static DifficultyIndex ChunkyModeDifficultyIndex;
-        public static GameObject ChunkyInfo;
-        private static GameObject m_chunkyInfo;
+        public static AssetBundle HurricaneBundle;
+        public static DifficultyDef LegacyDifficultyDef;
+        public static DifficultyIndex LegacyDifficultyIndex;
+        public static GameObject HurricaneInfo;
+        private static GameObject m_hurricaneInfo;
         
         // Run start checks
         private static bool shouldRun;
@@ -95,15 +95,15 @@ namespace HDeMods
             //HotCompilerNamespace.HotCompiler.CompileIt();
             On.RoR2.SteamworksClientManager.ctor += KillOnThreePercentBug;
 #endif
-            ChunkyModeDifficultyModBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
-            AddDifficulty();
+            HurricaneBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("ChunkyMode.dll", "chunkydifficon"));
+            AddLegacyDifficulty();
             BindSettings();
 
             GameObject temp = new GameObject("thing");
             temp.AddComponent<NetworkIdentity>();
-            ChunkyInfo = temp.InstantiateClone("ChunkyRunInfo");
+            HurricaneInfo = temp.InstantiateClone("ChunkyRunInfo");
             Destroy(temp);
-            ChunkyInfo.AddComponent<ChunkyRunInfo>();
+            HurricaneInfo.AddComponent<ChunkyRunInfo>();
             
             if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
 
@@ -113,7 +113,7 @@ namespace HDeMods
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
 
-            if (ChunkyOptionalMods.RiskUI.Enabled) ChunkyOptionalMods.RiskUI.AddChunkyMode();
+            if (ChunkyOptionalMods.RiskUI.Enabled) ChunkyOptionalMods.RiskUI.AddLegacyDifficulty();
             
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
@@ -140,8 +140,8 @@ namespace HDeMods
         public static void Reload(ConCommandArgs args) => HotCompilerNamespace.HotCompiler.CompileIt();*/
 #endif
 
-        public static void AddDifficulty() {
-            ChunkyModeDifficultyDef = new DifficultyDef(4f,
+        public static void AddLegacyDifficulty() {
+            LegacyDifficultyDef = new DifficultyDef(4f,
                 "CHUNKYMODEDIFFMOD_NAME",
                 "CHUNKYMODEDIFFMOD_ICON",
                 "CHUNKYMODEDIFFMOD_DESCRIPTION",
@@ -149,10 +149,10 @@ namespace HDeMods
                 "cm",
                 true
             ) {
-                iconSprite = ChunkyModeDifficultyModBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"),
+                iconSprite = HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"),
                 foundIconSprite = true
             };
-            ChunkyModeDifficultyIndex = DifficultyAPI.AddDifficulty(ChunkyModeDifficultyDef);
+            LegacyDifficultyIndex = DifficultyAPI.AddDifficulty(LegacyDifficultyDef);
         }
 
         public static void BindSettings() {
@@ -246,12 +246,13 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddFloat(experimentCurseRate, 0f, 1f, "{0}");
             ChunkyOptionalMods.RoO.AddCheck(limitPest);
             ChunkyOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
+            ChunkyOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
         
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2)
         {
-            if (arg1.selectedDifficulty != ChunkyModeDifficultyIndex) return;
+            if (arg1.selectedDifficulty != LegacyDifficultyIndex) return;
             if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
             ogRunLevelCap = Run.ambientLevelCap;
             Run.ambientLevelCap += 9900;
@@ -265,7 +266,7 @@ namespace HDeMods
             totalLemurians = 0;
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             
-            if (run.selectedDifficulty != ChunkyModeDifficultyIndex) return;
+            if (run.selectedDifficulty != LegacyDifficultyIndex) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
             
@@ -275,8 +276,8 @@ namespace HDeMods
 #endif
             if (!NetworkServer.active) return;
 
-            m_chunkyInfo = Instantiate(ChunkyInfo);
-            NetworkServer.Spawn(m_chunkyInfo);
+            m_hurricaneInfo = Instantiate(HurricaneInfo);
+            NetworkServer.Spawn(m_hurricaneInfo);
             
             if (!ChunkyRunInfo.preSet) {
                 instance.Config.Reload();
@@ -348,7 +349,7 @@ namespace HDeMods
             isSimulacrumRun = false;
             ChunkyRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
-            Destroy(m_chunkyInfo);
+            Destroy(m_hurricaneInfo);
             
             TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = ogMonsterCap;

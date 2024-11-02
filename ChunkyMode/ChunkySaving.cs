@@ -26,7 +26,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void SaveRunInfo(Dictionary<string, object> save) {
-			if (Run.instance.selectedDifficulty != ChunkyMode.ChunkyModeDifficultyIndex) return;
+			if (Run.instance.selectedDifficulty != ChunkyMode.LegacyDifficultyIndex) return;
 			ChunkySaveData tempRun = new ChunkySaveData {
 				isValidSave = true,
 				doEnemyBoostThisRun = ChunkyRunInfo.instance.doEnemyBoostThisRun,
