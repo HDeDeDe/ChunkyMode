@@ -20,6 +20,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			    rawData?.Value is ChunkySaveData saveData && saveData.isValidSave) {
 				ChunkyRunInfo.saveData = saveData;
 				ChunkyRunInfo.preSet = true;
+				return;
 			}
 			
 			CM.Log.Warning("Chunky RunInfo not present, skipping step.");
