@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3085403047
+CRC: 402643714
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,5 +9,5 @@ AssetBundleManifest:
       Name: lunarbottledchaos
       Dependencies: {}
     Info_2:
-      Name: intericons
+      Name: interloperassets
       Dependencies: {}

@@ -357,3 +357,13 @@ Resources/ror2Assets/*.sln
 /Resources/ror2Assets/Assets/InterlopingArtifact.meta
 /Resources/ror2Assets/Assets/InterlopingArtifact/InterloperIconsBundle/texInterDeselectedIcon.png
 /Resources/ror2Assets/Assets/InterlopingArtifact/InterloperIconsBundle/texInterSelectedIcon.png
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperIconsBundle/texObtainArtifactInterloperIcon.png
+/Resources/ror2Assets/Assets/AssetBundle/interloperassets
+/Resources/ror2Assets/Assets/AssetBundle/interloperassets.manifest
+/Resources/ror2Assets/Assets/AssetBundle/interloperassets.manifest.meta
+/Resources/ror2Assets/Assets/AssetBundle/interloperassets.meta
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperBundle/PickupInterloper.prefab
+/Resources/ror2Assets/ProjectSettings/SceneTemplateSettings.json
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperBundle/texInterDeselectedIcon.png
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperBundle/texInterSelectedIcon.png
+/Resources/ror2Assets/Assets/InterlopingArtifact/InterloperBundle/texObtainArtifactInterloperIcon.png
