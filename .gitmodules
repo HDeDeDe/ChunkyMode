@@ -1,3 +1,6 @@
 [submodule "HealthComponentAPI"]
 	path = HealthComponentAPI
 	url = https://github.com/HDeDeDe/HealthComponentAPI.git
+[submodule "InterlopingArtifact"]
+	path = InterlopingArtifact
+	url = https://github.com/HDeDeDe/InterlopingArtifact.git

@@ -9,6 +9,9 @@
     <Content Include="..\.gitignore">
       <Link>.gitignore</Link>
     </Content>
+    <Content Include="..\.gitmodules">
+      <Link>.gitmodules</Link>
+    </Content>
     <Content Include="..\CHANGELOG.md">
       <Link>CHANGELOG.md</Link>
     </Content>

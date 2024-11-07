@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthComponentAPI", "Healt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "HealthComponentAPI\Resources\Resources.csproj", "{165B062B-EB28-4127-A8D2-7AD30EB8AC68}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InterlopingArtifact", "InterlopingArtifact", "{36AD9C71-185E-4D58-B44A-6A163FF281E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterlopingArtifact", "InterlopingArtifact\InterlopingArtifact\InterlopingArtifact.csproj", "{59C00BD7-5BDC-4B36-92AA-C47C6C74C676}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "InterlopingArtifact\Resources\Resources.csproj", "{B9A09AD4-880C-4B86-AACF-E213EB11FC7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +45,14 @@ Global
 		{165B062B-EB28-4127-A8D2-7AD30EB8AC68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{165B062B-EB28-4127-A8D2-7AD30EB8AC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{165B062B-EB28-4127-A8D2-7AD30EB8AC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C00BD7-5BDC-4B36-92AA-C47C6C74C676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C00BD7-5BDC-4B36-92AA-C47C6C74C676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C00BD7-5BDC-4B36-92AA-C47C6C74C676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C00BD7-5BDC-4B36-92AA-C47C6C74C676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A09AD4-880C-4B86-AACF-E213EB11FC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A09AD4-880C-4B86-AACF-E213EB11FC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A09AD4-880C-4B86-AACF-E213EB11FC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A09AD4-880C-4B86-AACF-E213EB11FC7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +63,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D736C030-E0A5-45D4-90E9-FD4F00197BFF} = {A90FE074-F249-4166-ACEC-A32C82DC32B9}
 		{165B062B-EB28-4127-A8D2-7AD30EB8AC68} = {A90FE074-F249-4166-ACEC-A32C82DC32B9}
+		{59C00BD7-5BDC-4B36-92AA-C47C6C74C676} = {36AD9C71-185E-4D58-B44A-6A163FF281E7}
+		{B9A09AD4-880C-4B86-AACF-E213EB11FC7B} = {36AD9C71-185E-4D58-B44A-6A163FF281E7}
 	EndGlobalSection
 EndGlobal
