@@ -12,7 +12,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddCheck(ConfigEntry<bool> option) {
 			ChunkyCheckBoxOption boxOption = new ChunkyCheckBoxOption(option);
-			ModSettingsManager.AddOption(boxOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
+			ModSettingsManager.AddOption(boxOption, ChunkyModePlugin.PluginGUID, ChunkyModePlugin.PluginName);
 #if DEBUG
 			CM.Log.Info(boxOption.GetNameToken());
 			CM.Log.Info(boxOption.GetDescriptionToken());
@@ -22,7 +22,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
 			ChunkyIntSliderOption sliderOption = new ChunkyIntSliderOption(option, new IntSliderConfig() {min = minimum, max = maximum});
-			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
+			ModSettingsManager.AddOption(sliderOption, ChunkyModePlugin.PluginGUID, ChunkyModePlugin.PluginName);
 			
 #if DEBUG
 			CM.Log.Info(sliderOption.GetNameToken());
@@ -32,7 +32,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		
 		public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum, string format = "{0:0}%") {
 			ChunkySliderOption sliderOption = new ChunkySliderOption(option, new SliderConfig() {min = minimum, max = maximum, FormatString = format});
-			ModSettingsManager.AddOption(sliderOption, ChunkyMode.PluginGUID, ChunkyMode.PluginName);
+			ModSettingsManager.AddOption(sliderOption, ChunkyModePlugin.PluginGUID, ChunkyModePlugin.PluginName);
 			
 #if DEBUG
 			CM.Log.Info(sliderOption.GetNameToken());

@@ -34,14 +34,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 				doHealBuffThisRun = ChunkyRunInfo.instance.doHealBuffThisRun,
 				doGoldThisRun = ChunkyRunInfo.instance.doGoldThisRun,
 				doNerfsThisRun = ChunkyRunInfo.instance.doNerfsThisRun,
-				doLoiterThisRun = ChunkyRunInfo.instance.doLoiterThisRun,
 				enemyChanceToYapThisRun = ChunkyRunInfo.instance.enemyChanceToYapThisRun,
 				enemyYapCooldownThisRun = ChunkyRunInfo.instance.enemyYapCooldownThisRun,
-				loiterPenaltyTimeThisRun = ChunkyRunInfo.instance.loiterPenaltyTimeThisRun,
-				loiterPenaltyFrequencyThisRun = ChunkyRunInfo.instance.loiterPenaltyFrequencyThisRun,
-				loiterPenaltySeverityThisRun = ChunkyRunInfo.instance.loiterPenaltySeverityThisRun,
-				experimentCursePenaltyThisRun = ChunkyRunInfo.instance.experimentCursePenaltyThisRun,
-				experimentCurseRateThisRun = ChunkyRunInfo.instance.experimentCurseRateThisRun,
 				limitPestsThisRun = ChunkyRunInfo.instance.limitPestsThisRun,
 				limitPestsAmountThisRun = ChunkyRunInfo.instance.limitPestsAmountThisRun
 			};

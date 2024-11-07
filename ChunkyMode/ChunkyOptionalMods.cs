@@ -17,9 +17,7 @@ namespace HDeMods { namespace ChunkyOptionalMods {
         public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("bubbet.riskui");
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public static void AddLegacyDifficulty() {
-            RiskUIPlugin.DifficultyIconMap["CHUNKYMODEDIFFMOD_NAME"] =
-                ChunkyMode.HurricaneBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
-        }
+        public static void AddLegacyDifficulty() => RiskUIPlugin.DifficultyIconMap["CHUNKYMODEDIFFMOD_NAME"] = 
+            ChunkyMode.HurricaneBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
     }
 } }

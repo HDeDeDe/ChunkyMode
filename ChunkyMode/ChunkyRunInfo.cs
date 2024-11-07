@@ -13,8 +13,6 @@ namespace HDeMods {
 		
 		// These are to prevent changing settings mid run
 		[SyncVar]
-		public bool doLoiterThisRun; 
-		[SyncVar]
 		public bool doGoldThisRun;
 		[SyncVar]
 		public bool doNerfsThisRun;
@@ -26,16 +24,6 @@ namespace HDeMods {
 		public int enemyChanceToYapThisRun;
 		[SyncVar]
 		public float enemyYapCooldownThisRun;
-		[SyncVar]
-		public float loiterPenaltyTimeThisRun;
-		[SyncVar]
-		public float loiterPenaltyFrequencyThisRun;
-		[SyncVar]
-		public float loiterPenaltySeverityThisRun;
-		[SyncVar]
-		public bool experimentCursePenaltyThisRun;
-		[SyncVar]
-		public float experimentCurseRateThisRun;
 		[FormerlySerializedAs("experimentLimitPestsThisRun")] [SyncVar]
 		public bool limitPestsThisRun;
 		[FormerlySerializedAs("experimentLimitPestsAmountThisRun")] [SyncVar]
@@ -58,37 +46,16 @@ namespace HDeMods {
             doHealBuffThisRun = saveData.doHealBuffThisRun;
             doGoldThisRun = saveData.doGoldThisRun;
             doNerfsThisRun = saveData.doNerfsThisRun;
-            doLoiterThisRun = saveData.doLoiterThisRun;
             enemyChanceToYapThisRun = saveData.enemyChanceToYapThisRun;
             enemyYapCooldownThisRun = saveData.enemyYapCooldownThisRun;
-            loiterPenaltyTimeThisRun = saveData.loiterPenaltyTimeThisRun;
-            loiterPenaltyFrequencyThisRun = saveData.loiterPenaltyFrequencyThisRun;
-            loiterPenaltySeverityThisRun = saveData.loiterPenaltySeverityThisRun;
-            experimentCursePenaltyThisRun = saveData.experimentCursePenaltyThisRun;
-            experimentCurseRateThisRun = saveData.experimentCurseRateThisRun;
             limitPestsThisRun = saveData.limitPestsThisRun;
             limitPestsAmountThisRun = saveData.limitPestsAmountThisRun;
-		}
-
-
-
-		[ClientRpc]
-		public void RpcDirtyAss() {
-			DirtyAss();
-		}
-
-		public void DirtyAss() {
-			foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(TeamIndex.Player)) {
-				teamComponent.body.MarkAllStatsDirty();
-			}
 		}
 	}
 
 	public struct ChunkySaveData {
 		[DataMember(Name = "validCheck")]
 		public bool isValidSave;
-		[DataMember(Name = "loiter")]
-		public bool doLoiterThisRun; 
 		[DataMember(Name = "gold")]
 		public bool doGoldThisRun;
 		[DataMember(Name = "nerf")]
@@ -101,16 +68,6 @@ namespace HDeMods {
 		public int enemyChanceToYapThisRun;
 		[DataMember(Name = "yapTime")]
 		public float enemyYapCooldownThisRun;
-		[DataMember(Name = "loiterTime")]
-		public float loiterPenaltyTimeThisRun;
-		[DataMember(Name = "loiterFrequency")]
-		public float loiterPenaltyFrequencyThisRun;
-		[DataMember(Name = "loiterSeverity")]
-		public float loiterPenaltySeverityThisRun;
-		[DataMember(Name = "exCurse")]
-		public bool experimentCursePenaltyThisRun;
-		[DataMember(Name = "exCurseRate")]
-		public float experimentCurseRateThisRun;
 		[DataMember(Name = "exLimitPest")]
 		public bool limitPestsThisRun;
 		[DataMember(Name = "exPestCount")]
