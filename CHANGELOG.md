@@ -1,3 +1,12 @@
+## 0.4.0
+- Added Interloping Artifact as a dependency
+- Removed options relating to loiter penalty, as these are now handled by Interloping Artifact.
+- Loiter penalty is no longer optional, and as such now listed on the difficulty card as `Time Until Aggressive Spawns`.
+- Limit Blind Pest option has been moved to the simulacrum category, as the loiter version is now handled by Interloping Artifact.
+- Options controlling the loiter penalty can no longer be changed, unless using Artifact of Interloping.
+- Experimental Curse Penalty has been removed, but its effect can still be enabled by using Artifact of Interloping.
+- TODO:
+- (Starstorm 2) Buffed Chirr's Secondary
 ## 0.3.1
 - Improved RiskUI support (LMAO)
 - Updated description for `Time until loiter penalty` to accurately reflect minimum settings
