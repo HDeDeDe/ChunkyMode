@@ -39,6 +39,9 @@
 
 
 	<ItemGroup>
+	  <Reference Include="MMHOOK_Starstorm2">
+	    <HintPath>..\Resources\libs\MMHOOK_Starstorm2.dll</HintPath>
+	  </Reference>
 	  <Reference Include="ProperSave">
 	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
 	  </Reference>

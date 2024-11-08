@@ -20,7 +20,8 @@ internal static class Settings {
 
     public static readonly ArrayList extraFiles = new() {
         new FileInfo("../Resources/ChunkyMode.language"),
-        new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon")
+        new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon"),
+        new FileInfo("../Resources/libs/MMHOOK_Starstorm2.dll")
     };
 
     public const string manifestWebsiteUrl = "https://github.com/HDeDeDe/ChunkyMode";
@@ -36,6 +37,8 @@ internal static class Settings {
                                                "\t\t\"RiskofThunder-R2API_RecalculateStats-1.4.0\",\n" +
                                                "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
                                                "\t\t\"RiskofThunder-R2API_Director-2.3.1\",\n" +
-                                               "\t\t\"HDeDeDe-HealthComponentAPI-0.2.0\"\n" +
+                                               "\t\t\"HDeDeDe-HealthComponentAPI-0.2.0\",\n" +
+                                               //"\t\t\"HDeDeDe-InterlopingArtifact-0.1.1\",\n" +
+                                               "\t\t\"KingEnderBrine-ScrollableLobbyUI-1.9.1\"\n" +
                                                "\t]";
 }

@@ -11,6 +11,7 @@ namespace HDeMods {
 	[BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID)]
 	[BepInDependency(HealthComponentAPI.PluginGUID)]
 	[BepInDependency(InterlopingArtifactPlugin.PluginGUID)]
+	[BepInDependency("com.TeamMoonstorm", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("_com.prodzpod.ProdzpodSpikestripContent", BepInDependency.DependencyFlags.SoftDependency)]

@@ -5,7 +5,7 @@
 - Limit Blind Pest option has been moved to the simulacrum category, as the loiter version is now handled by Interloping Artifact.
 - Options controlling the loiter penalty can no longer be changed, unless using Artifact of Interloping.
 - Experimental Curse Penalty has been removed, but its effect can still be enabled by using Artifact of Interloping.
-- TODO:
+- Added Scrollable Lobby UI as a dependency
 - (Starstorm 2) Buffed Chirr's Secondary
 ## 0.3.1
 - Improved RiskUI support (LMAO)
