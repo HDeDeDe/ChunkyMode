@@ -28,15 +28,6 @@ namespace HDeMods {
 		public bool limitPestsThisRun;
 		[FormerlySerializedAs("experimentLimitPestsAmountThisRun")] [SyncVar]
 		public float limitPestsAmountThisRun;
-		
-		//These values is only synced not saved
-		[SyncVar]
-		public float allyCurse = 0f;
-		[SyncVar]
-		public float loiterTick = 0f;
-		[SyncVar]
-		// ReSharper disable once InconsistentNaming
-		public bool getFuckedLMAO = false;
 
 		public void Awake() {
             instance = this;

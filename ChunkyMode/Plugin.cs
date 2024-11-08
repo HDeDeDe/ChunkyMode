@@ -1,17 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using BepInEx;
-using BepInEx.Configuration;
 using R2API;
-using RoR2;
-using UnityEngine;
-using UnityEngine.Networking;
 
 namespace HDeMods {
 	[BepInDependency(DifficultyAPI.PluginGUID)]
@@ -20,6 +10,7 @@ namespace HDeMods {
 	[BepInDependency(DirectorAPI.PluginGUID)]
 	[BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID)]
 	[BepInDependency(HealthComponentAPI.PluginGUID)]
+	[BepInDependency(InterlopingArtifactPlugin.PluginGUID)]
 	[BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency(ProperSave.ProperSavePlugin.GUID, BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("_com.prodzpod.ProdzpodSpikestripContent", BepInDependency.DependencyFlags.SoftDependency)]

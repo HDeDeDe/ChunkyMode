@@ -22,8 +22,8 @@
 
 		<PackageReference Include="R2API.Difficulty" Version="1.1.2" />
 
-		<PackageReference Include="R2API.Director" Version="2.2.1" />
-		<PackageReference Include="R2API.Language" Version="1.0.*" />
+		<PackageReference Include="R2API.Director" Version="2.3.1" />
+		<PackageReference Include="R2API.Language" Version="1.0.1" />
 		<PackageReference Include="R2API.Networking" Version="1.0.2" />
 		<PackageReference Include="R2API.Prefab" Version="1.0.4" />
 		<PackageReference Include="R2API.RecalculateStats" Version="1.4.0" />
@@ -49,6 +49,7 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\HealthComponentAPI\HealthComponentAPI\HealthComponentAPI.csproj" />
+	  <ProjectReference Include="..\InterlopingArtifact\InterlopingArtifact\InterlopingArtifact.csproj" />
 	</ItemGroup>
 
 </Project>

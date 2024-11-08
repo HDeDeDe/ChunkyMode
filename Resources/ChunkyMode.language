@@ -1,15 +1,11 @@
 {
   "strings" : {
     "CHUNKYMODEDIFFMOD_NAME" : "ChunkyMode",
-    "CHUNKYMODEDIFFMOD_DESCRIPTION" : "<color=#C80000>For fools</color>. The nightmares this planet holds will devour you faster than ever before. You will be overwhelmed. You will suffer.\n\n<style=cStack>>Player Health Regeneration: <style=cIsHealth>-40%</style>\n>Difficulty Scaling: <style=cIsHealth>+100%</style>\n>Ally Healing: <style=cIsHealth>-50%</style>\n>Ally Shield Recharge Rate: <style=cIsHealth>-50%</style>\n>Ally Barrier Decay Rate: <style=cIsHealth>+50%</style>\n>Enemy Speed: <style=cIsHealth>+40%</style>\n>Enemy Cooldowns: <style=cIsHealth>-50%</style>\n>Enemy Attack Speed: <style=cIsHealth>+50%</style>\n>Enemy Spawn Rate: <style=cIsHealth>+10%</style>\n>Enemy Level Cap: <style=cIsHealth>+9900</style>\n>Loot Spawn Rate: <style=cIsHealing>+20%</style>\nand <style=cIsHealth>more</style>...</style>",
+    "CHUNKYMODEDIFFMOD_DESCRIPTION" : "<color=#C80000>For fools</color>. The nightmares this planet holds will devour you faster than ever before. You will be overwhelmed. You will suffer.\n\n<style=cStack>>Player Health Regeneration: <style=cIsHealth>-40%</style>\n>Difficulty Scaling: <style=cIsHealth>+100%</style>\n>Ally Healing: <style=cIsHealth>-50%</style>\n>Ally Shield Recharge Rate: <style=cIsHealth>-50%</style>\n>Ally Barrier Decay Rate: <style=cIsHealth>+50%</style>\n>Enemy Speed: <style=cIsHealth>+40%</style>\n>Enemy Cooldowns: <style=cIsHealth>-50%</style>\n>Enemy Attack Speed: <style=cIsHealth>+50%</style>\n>Enemy Spawn Rate: <style=cIsHealth>+10%</style>\n>Enemy Level Cap: <style=cIsHealth>+9900</style>\n>Time Until Aggressive Spawns: <style=cIsHealth>5 Minutes</style>\n>Loot Spawn Rate: <style=cIsHealing>+20%</style>\nand <style=cIsHealth>more</style>...</style>",
     "CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION" : "Options for Chunky Mode. These options can not be changed during a run.",
     "CHUNKYMODEDIFFMOD_YAP_FORMAT" : "<color=#c6d5ff><size=120%>{0}: {1}</color></size>",
-    "CHUNKYMODEDIFFMOD_WARNING_FORMAT" : "<color=#8654ff><size=150%>{0}</color></size>",
-    "CHUNKYMODEDIFFMOD_WARNING" : "GET OUT...",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_HEALING_BUFFS.CHECKBOX.NAME" : "Do Healing Buffs",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_HEALING_BUFFS.CHECKBOX.DESCRIPTION" : "Enables buffs to some survivor healing skills. Disable if you want a harder challenge.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_LOITER_PENALTY.CHECKBOX.NAME" : "Do Loiter Penalty",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_LOITER_PENALTY.CHECKBOX.DESCRIPTION" : "Enables a 5 minute loiter penalty on stages with a teleporter. Not recommended to disable. Does not apply in Simulacrum.",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_LIMIT_BOOST.CHECKBOX.NAME" : "Do Enemy Limit Boost",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_LIMIT_BOOST.CHECKBOX.DESCRIPTION" : "Enables enemy limit increase. If your computer is struggling to run on Chunky Mode, consider disabling this.",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_GOLD_PENALTY.CHECKBOX.NAME" : "Do Gold Penalty",
@@ -20,19 +16,9 @@
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_CHANCE.INT_SLIDER.DESCRIPTION" : "The probability of enemies to yap. Set to 0 to stop the yapping.",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_COOLDOWN.SLIDER.NAME" : "Enemy Yap Cooldown",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.YAPPING.ENEMY_YAP_COOLDOWN.SLIDER.DESCRIPTION" : "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.NAME" : "Time until loiter penalty",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.TIME_UNTIL_LOITER_PENALTY.SLIDER.DESCRIPTION" : "The amount of time from the start of the stage until the loiter penalty is enforced. Minimum of 15 seconds.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.NAME" : "Loiter penalty frequency",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_FREQUENCY.SLIDER.DESCRIPTION" : "The amount of time between forced enemy spawns.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_SEVERITY.SLIDER.NAME" : "Loiter penalty severity",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.LOITER_PENALTY_SEVERITY.SLIDER.DESCRIPTION" : "The strength of spawned enemies. 40 is equal to 1 combat shrine.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.EXPERIMENTS.CURSE_PENALTY.CHECKBOX.NAME" : "Curse Penalty",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.EXPERIMENTS.CURSE_PENALTY.CHECKBOX.DESCRIPTION" : "Enable experimental curse penalty. This will not be a part of standard gameplay. Use as if it were an artifact.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.EXPERIMENTS.CURSE_RATE.SLIDER.NAME" : "Curse Rate",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.EXPERIMENTS.CURSE_RATE.SLIDER.DESCRIPTION" : "The amount of curse applied each loiter tick.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.LIMIT_BLIND_PEST.CHECKBOX.NAME" : "Limit Blind Pest",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.LIMIT_BLIND_PEST.CHECKBOX.DESCRIPTION" : "Enable Blind Pest limit. Only affects the Loitering penalty, Blind Pest will still be able to spawn through natural means.",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.BLIND_PEST_AMOUNT.SLIDER.NAME" : "Blind Pest Amount",
-    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.LOITERING.BLIND_PEST_AMOUNT.SLIDER.DESCRIPTION" : "The percentage of enemies that are allowed to be blind pest."
+    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.SIMULACRUM.LIMIT_BLIND_PEST.CHECKBOX.NAME" : "Limit Blind Pest",
+    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.SIMULACRUM.LIMIT_BLIND_PEST.CHECKBOX.DESCRIPTION" : "Enable Blind Pest limit in Simulacrum. This also affects Lemurians.",
+    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.SIMULACRUM.BLIND_PEST_AMOUNT.SLIDER.NAME" : "Blind Pest Amount",
+    "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.SIMULACRUM.BLIND_PEST_AMOUNT.SLIDER.DESCRIPTION" : "The percentage of enemies that are allowed to be blind pest. Only affects Simulacrum."
   }
 }

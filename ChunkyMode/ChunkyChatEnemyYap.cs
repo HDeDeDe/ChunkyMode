@@ -69,17 +69,5 @@ namespace HDeMods {
 				eliteAffix = eliteAffix
 			});
 		}
-
-		public static void DoWarning() {
-#if DEBUG
-			CM.Log.Debug("Warning now");
-#endif
-			Chat.SendBroadcastChat(new Chat.NpcChatMessage() {
-				baseToken = "CHUNKYMODEDIFFMOD_WARNING",
-				formatStringToken = "CHUNKYMODEDIFFMOD_WARNING_FORMAT",
-				sender = null,
-				sound = null
-			});
-		}
 	}
 }

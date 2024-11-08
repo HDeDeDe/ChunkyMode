@@ -1,11 +1,10 @@
 // ReSharper disable once RedundantUsingDirective
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using BepInEx;
 using BepInEx.Configuration;
 using R2API;
 using RoR2;
@@ -30,14 +29,11 @@ namespace HDeMods
         private static int ogMonsterCap;
         private static int ogRunLevelCap;
         internal static bool isSimulacrumRun;
-        internal static bool waveStarted;
 
-        // These are related to the loitering penalty
-        private static bool teleporterExists;
-        private static float stagePunishTimer;
-        private static bool teleporterHit;
+        // These are related to simulacrum
         internal static int totalBlindPest;
         internal static int totalLemurians;
+        internal static bool waveStarted;
 
         // These are related to random enemy speaking
         private static float enemyYapTimer;
@@ -54,33 +50,68 @@ namespace HDeMods
         public static ConfigEntry<float> limitPestAmount { get; set; }
 
         internal static void StartUp() {
+            if (!File.Exists(Assembly.GetExecutingAssembly().Location
+                    .Replace("ChunkyMode.dll", "chunkydifficon"))) {
+                CM.Log.Fatal("Could not load asset bundle, aborting!");
+                return;
+            }
             HurricaneBundle = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location
                 .Replace("ChunkyMode.dll", "chunkydifficon"));
-            AddLegacyDifficulty();
-            BindSettings();
+            
+            CreateNetworkObject();
+            AddHooks();
+        }
 
+        private static void CreateNetworkObject() {
             GameObject temp = new GameObject("thing");
             temp.AddComponent<NetworkIdentity>();
             HurricaneInfo = temp.InstantiateClone("ChunkyRunInfo");
             GameObject.Destroy(temp);
             HurricaneInfo.AddComponent<ChunkyRunInfo>();
-
-            if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
-
-            Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
-            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
-            RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
-
-            if (ChunkyOptionalMods.RiskUI.Enabled) ChunkyOptionalMods.RiskUI.AddLegacyDifficulty();
-
+            
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap),
                 (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
         }
 
+        private static void AddHooks() {
+            On.RoR2.RewiredIntegrationManager.Init += VerifyInterloper;
+            Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
+            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+            RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
+        }
 
-        public static void AddLegacyDifficulty() {
+        private static void RemoveHooks() {
+            Run.onRunSetRuleBookGlobal -= Run_onRunSetRuleBookGlobal;
+            Run.onRunStartGlobal -= Run_onRunStartGlobal;
+            Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
+            RoR2Application.onLoad -= ChunkyCachedIndexes.GenerateCache;
+        }
+
+        private static void VerifyInterloper(On.RoR2.RewiredIntegrationManager.orig_Init init) {
+            if (!InterlopingArtifactPlugin.startupSuccess) {
+                CM.Log.Fatal("Artifact of Interloping did not start up successfully, aborting!");
+                RemoveHooks();
+                init();
+                return;
+            }
+            
+            BindSettings();
+            AddHurricaneDifficulty();
+            AddLegacyDifficulty();
+            
+            if (ChunkyOptionalMods.RoO.Enabled) AddOptions();
+            if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
+            if (ChunkyOptionalMods.RiskUI.Enabled) ChunkyOptionalMods.RiskUI.AddLegacyDifficulty();
+            init();
+        }
+
+        private static void AddHurricaneDifficulty() {
+            return;
+        }
+
+        private static void AddLegacyDifficulty() {
             LegacyDifficultyDef = new DifficultyDef(4f,
                 "CHUNKYMODEDIFFMOD_NAME",
                 "CHUNKYMODEDIFFMOD_ICON",
@@ -135,10 +166,10 @@ namespace HDeMods
                 "Simulacrum",
                 "Blind Pest Amount",
                 10f,
-                "The percentage of enemies that are allowed to be blind pest. " +
-                "Only affects Simulacrum.");
+                "The percentage of enemies that are allowed to be blind pest. Only affects Simulacrum.");
+        }
 
-            if (!ChunkyOptionalMods.RoO.Enabled) return;
+        private static void AddOptions() {
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
             ChunkyOptionalMods.RoO.AddCheck(doGoldPenalty);
@@ -154,19 +185,20 @@ namespace HDeMods
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
             if (arg1.selectedDifficulty != LegacyDifficultyIndex) return;
             if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
-            ogRunLevelCap = Run.ambientLevelCap;
-            Run.ambientLevelCap += 9900;
+            InterlopingArtifact.HurricaneRun = true;
         }
 
         internal static void Run_onRunStartGlobal(Run run) {
             shouldRun = false;
             totalBlindPest = 0;
             totalLemurians = 0;
+            ogRunLevelCap = Run.ambientLevelCap;
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
 
             if (run.selectedDifficulty != LegacyDifficultyIndex) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
+            Run.ambientLevelCap += 9900;
 
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             if (!NetworkServer.active) return;
@@ -277,7 +309,7 @@ namespace HDeMods
             if (!sender) return;
 
             if (sender.teamComponent.teamIndex == TeamIndex.Player) {
-                args.baseCurseAdd += ChunkyRunInfo.instance.allyCurse;
+                args.baseCurseAdd += InterRunInfo.instance.allyCurse;
                 return;
             }
 
@@ -285,7 +317,7 @@ namespace HDeMods
 
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
             int yap = ChunkyRunInfo.instance.enemyChanceToYapThisRun;
-            if (ChunkyRunInfo.instance.getFuckedLMAO) yap *= 2;
+            if (InterRunInfo.instance.loiterPenaltyActive) yap *= 2;
 
             if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYapThisRun > 0 &&
                 enemyYapTimer < Run.instance.NetworkfixedTime) {
