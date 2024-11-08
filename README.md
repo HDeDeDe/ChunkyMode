@@ -8,6 +8,7 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 ![Death from nowhere](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-05%2012-24-11%20AM.gif?raw=true)
 ![Overwhelming numbers](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-40-47%20PM.gif?raw=true)
 ![Enemies will shred you](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-34-46%20AM.gif?raw=true)
+
 They yap at you
 ![Yapping pest](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-08-36%20PM.gif?raw=true)
 
@@ -39,12 +40,9 @@ They yap at you
 ## Installation
 To install with r2modman automatically, either click the "Install with Mod Manager" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/) or search for ChunkyMode within r2modman.
 
-To install manually, either click the "Manual Download" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/), or download the latest release from [GitHub](https://github.com/HDeDeDe/ChunkyMode/releases). Once downloaded, if you are using r2modman, launch r2modman and navigate to your preferred Risk of Rain 2 profile. From there, go to Settings > Profile > Import local mod, and then select HDeDeDe-ChunkyMode-{Version_Number}.zip (or just ChunkyMode.zip) when prompted. Confirm the settings and you should be good to go.
+To install manually, either click the "Manual Download" button at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/), or download the latest release from [GitHub](https://github.com/HDeDeDe/ChunkyMode/releases). Once downloaded, if you are using r2modman, launch r2modman and navigate to your preferred Risk of Rain 2 profile. From there, go to Settings > Profile > Import local mod, and then select `HDeDeDe-ChunkyMode-{Version_Number}.zip` (or just `ChunkyMode.zip`) when prompted. Confirm the settings and you should be good to go.
 
-If you do not have r2modman, then make sure you have the required dependencies (they can be found at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/)), navigate to your Risk of Rain 2 install folder > BepInEx > plugins and extract the following files from ChunkyMode.zip to the same subfolder: ChunkyMode.dll, chunkydifficon, ChunkyMode.language
+If you do not have r2modman, then make sure you have the required dependencies (they can be found at the top of the page on [Thunderstore](https://thunderstore.io/package/HDeDeDe/ChunkyMode/)), navigate to your Risk of Rain 2 install folder > BepInEx > plugins and extract the following files from `ChunkyMode.zip` to the same subfolder: `ChunkyMode.dll, chunkydifficon, ChunkyMode.language, ChunkyMode.pdb`
 
 ## Feedback
 Any and all feedback is appreciated, if you want to let me know anything please feel free to open an issue on the [GitHub Page](https://github.com/HDeDeDe/ChunkyMode) or @ me on the modding discord (hdedede).
-
-## One more thing
-![Experimental Curse Penalty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/cursePreview.gif?raw=true)
