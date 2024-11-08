@@ -17,7 +17,7 @@ They yap at you
 
 - Ally Healing -50%
   - REX only gets -25% to DIRECTIVE: Inject and Tangling Growth
-  - Regenerative is unaffected
+  - Acrid's Regenerative is unaffected
   - Chirr's Soothing Venom is unaffected
 - Ally Shield Recharge Rate -50%
 - Ally Barrier Decay Rate +50%
