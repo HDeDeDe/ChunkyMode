@@ -18,7 +18,9 @@ namespace HDeMods {
             public static bool Enabled =>
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("_com.prodzpod.ProdzpodSpikestripContent");
 
+#pragma warning disable CS0414 // Field is assigned but its value is never used
             private static string unusedString = @"https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/922279cb37ba22c549cb24845246cab250b7a671b7e1997d10e742e81c945785_1.jpg?raw=true";
+#pragma warning restore CS0414 // Field is assigned but its value is never used
         }
 
         internal static class RiskUI {
