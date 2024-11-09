@@ -231,7 +231,7 @@ namespace HDeMods
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer +=
                     ChunkyILHooks.REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += ChunkyILHooks.AcridRegenBuff;
-                if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.SetHooks();
+                if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.TrySetHooks();
             }
 
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
@@ -273,7 +273,7 @@ namespace HDeMods
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -=
                 ChunkyILHooks.REXPrimaryAttack;
             IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
-            if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.RemoveHooks();
+            if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.TryRemoveHooks();
 
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
             HealthComponentAPI.GetHealStats -= ChunkyILHooks.HealingOverride;
