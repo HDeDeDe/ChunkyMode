@@ -1,3 +1,8 @@
+## 0.4.2
+- Buffed Alien Hominid's Chomp
+- Buffed Ravager's consume
+- Buffed Submariner's N'kuhanna's Restoration
+- Added options to alter survivor buffs (even into nerfs)
 ## 0.4.1
 - Forgot to add Interloping Artifact as a dependency
 ## 0.4.0

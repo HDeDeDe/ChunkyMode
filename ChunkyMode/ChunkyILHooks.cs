@@ -5,8 +5,6 @@ using MonoMod.Cil;
 namespace HDeMods {
 	internal static class ChunkyILHooks {
         // These are the override values
-        private const float rexHealOverride = 1.5f;
-        private const float acridHealOverride = 2f;
         private const float shieldRechargeOverride = -0.5f;
         private const float barrierDecayOverride = -0.5f;
 
@@ -48,7 +46,7 @@ namespace HDeMods {
                     if (!tbf.owner) return toHeal;
                     if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                     if (tbf.owner.GetComponent<CharacterBody>().teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                    return toHeal * rexHealOverride;
+                    return toHeal * ChunkyRunInfo.instance.rexHealOverride;
                 });
         }
         
@@ -76,7 +74,7 @@ namespace HDeMods {
                     if (self.projectileController.catalogIndex != ChunkyCachedIndexes.injector) return toHeal;
                     if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
                         TeamIndex.Player) return toHeal;
-                    return toHeal * rexHealOverride;
+                    return toHeal * ChunkyRunInfo.instance.rexHealOverride;
                 });
         }
         
@@ -102,7 +100,7 @@ namespace HDeMods {
                 (toHeal, cb) => {
                     if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                     if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                    return toHeal * acridHealOverride;
+                    return toHeal * ChunkyRunInfo.instance.acridHealOverride;
                 });
         }
 	}

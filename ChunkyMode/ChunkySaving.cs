@@ -30,14 +30,20 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			if (Run.instance.selectedDifficulty != ChunkyMode.LegacyDifficultyIndex) return;
 			ChunkySaveData tempRun = new ChunkySaveData {
 				isValidSave = true,
-				doEnemyBoostThisRun = ChunkyRunInfo.instance.doEnemyBoostThisRun,
-				doHealBuffThisRun = ChunkyRunInfo.instance.doHealBuffThisRun,
-				doGoldThisRun = ChunkyRunInfo.instance.doGoldThisRun,
-				doNerfsThisRun = ChunkyRunInfo.instance.doNerfsThisRun,
-				enemyChanceToYapThisRun = ChunkyRunInfo.instance.enemyChanceToYapThisRun,
-				enemyYapCooldownThisRun = ChunkyRunInfo.instance.enemyYapCooldownThisRun,
-				limitPestsThisRun = ChunkyRunInfo.instance.limitPestsThisRun,
-				limitPestsAmountThisRun = ChunkyRunInfo.instance.limitPestsAmountThisRun
+				doEnemyLimitBoost = ChunkyRunInfo.instance.doEnemyLimitBoost,
+				doHealingBuffs = ChunkyRunInfo.instance.doHealingBuffs,
+				doGoldPenalty = ChunkyRunInfo.instance.doGoldPenalty,
+				doEnemyNerfs = ChunkyRunInfo.instance.doEnemyNerfs,
+				enemyChanceToYap = ChunkyRunInfo.instance.enemyChanceToYap,
+				enemyYapCooldown = ChunkyRunInfo.instance.enemyYapCooldown,
+				limitPest = ChunkyRunInfo.instance.limitPest,
+				limitPestAmount = ChunkyRunInfo.instance.limitPestAmount,
+				rexHealOverride = ChunkyRunInfo.instance.rexHealOverride,
+				acridHealOverride = ChunkyRunInfo.instance.acridHealOverride,
+				chirrHealOverride = ChunkyRunInfo.instance.chirrHealOverride,
+				aliemHealOverride = ChunkyRunInfo.instance.aliemHealOverride,
+				submarinerHealOverride = ChunkyRunInfo.instance.submarinerHealOverride,
+				ravagerHealOverride = ChunkyRunInfo.instance.ravagerHealOverride,
 			};
 
 			save.Add("CHUNKYMODE_RunInfo",tempRun);

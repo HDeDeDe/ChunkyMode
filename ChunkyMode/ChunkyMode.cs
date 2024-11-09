@@ -81,6 +81,9 @@ namespace HDeMods
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
             if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.GenerateHooks();
+            if (ChunkyOptionalMods.AlienHominid.Enabled) ChunkyOptionalMods.AlienHominid.GenerateHooks();
+            if (ChunkyOptionalMods.Ravager.Enabled) ChunkyOptionalMods.Ravager.GenerateHooks();
+            if (ChunkyOptionalMods.Submariner.Enabled) ChunkyOptionalMods.Submariner.GenerateHooks();
         }
 
         private static void RemoveHooks() {
@@ -168,6 +171,7 @@ namespace HDeMods
                 "Blind Pest Amount",
                 10f,
                 "The percentage of enemies that are allowed to be blind pest. Only affects Simulacrum.");
+            ChunkySurvivorBuffs.RegisterOptions();
         }
 
         private static void AddOptions() {
@@ -179,6 +183,7 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddFloat(enemyYapCooldown, 0f, 600f, "{0}");
             ChunkyOptionalMods.RoO.AddCheck(limitPest);
             ChunkyOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
+            ChunkySurvivorBuffs.RegisterRiskOfOptions();
             ChunkyOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
         }
@@ -209,17 +214,24 @@ namespace HDeMods
 
             if (!ChunkyRunInfo.preSet) {
                 ChunkyModePlugin.instance.Config.Reload();
-                ChunkyRunInfo.instance.doEnemyBoostThisRun = doEnemyLimitBoost.Value;
-                ChunkyRunInfo.instance.doHealBuffThisRun = doHealingBuffs.Value;
-                ChunkyRunInfo.instance.doGoldThisRun = doGoldPenalty.Value;
-                ChunkyRunInfo.instance.doNerfsThisRun = doEnemyNerfs.Value;
-                ChunkyRunInfo.instance.enemyChanceToYapThisRun = enemyChanceToYap.Value;
-                ChunkyRunInfo.instance.enemyYapCooldownThisRun = enemyYapCooldown.Value;
-                ChunkyRunInfo.instance.limitPestsThisRun = limitPest.Value;
-                ChunkyRunInfo.instance.limitPestsAmountThisRun = limitPestAmount.Value;
+                ChunkyRunInfo.instance.doEnemyLimitBoost = doEnemyLimitBoost.Value;
+                ChunkyRunInfo.instance.doHealingBuffs = doHealingBuffs.Value;
+                ChunkyRunInfo.instance.doGoldPenalty = doGoldPenalty.Value;
+                ChunkyRunInfo.instance.doEnemyNerfs = doEnemyNerfs.Value;
+                ChunkyRunInfo.instance.enemyChanceToYap = enemyChanceToYap.Value;
+                ChunkyRunInfo.instance.enemyYapCooldown = enemyYapCooldown.Value;
+                ChunkyRunInfo.instance.limitPest = limitPest.Value;
+                ChunkyRunInfo.instance.limitPestAmount = limitPestAmount.Value;
+                ChunkySurvivorBuffs.ClampValues();
+                ChunkyRunInfo.instance.rexHealOverride = ChunkySurvivorBuffs.RexHealOverride.Value;
+                ChunkyRunInfo.instance.acridHealOverride = ChunkySurvivorBuffs.AcridHealOverride.Value;
+                ChunkyRunInfo.instance.chirrHealOverride = ChunkySurvivorBuffs.ChirrHealOverride.Value;
+                ChunkyRunInfo.instance.aliemHealOverride = ChunkySurvivorBuffs.AliemHealOverride.Value;
+                ChunkyRunInfo.instance.submarinerHealOverride = ChunkySurvivorBuffs.SubmarinerHealOverride.Value;
+                ChunkyRunInfo.instance.ravagerHealOverride = ChunkySurvivorBuffs.RavagerHealOverride.Value;
             }
 
-            if (ChunkyRunInfo.instance.doEnemyBoostThisRun) {
+            if (ChunkyRunInfo.instance.doEnemyLimitBoost) {
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
@@ -227,12 +239,15 @@ namespace HDeMods
             }
 
             HealthComponentAPI.GetHealthStats += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
-            if (ChunkyRunInfo.instance.doHealBuffThisRun) {
+            if (ChunkyRunInfo.instance.doHealingBuffs) {
                 IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer +=
                     ChunkyILHooks.REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += ChunkyILHooks.AcridRegenBuff;
                 if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.SetHooks();
+                if (ChunkyOptionalMods.AlienHominid.Enabled) ChunkyOptionalMods.AlienHominid.SetHooks();
+                if (ChunkyOptionalMods.Ravager.Enabled) ChunkyOptionalMods.Ravager.SetHooks();
+                if (ChunkyOptionalMods.Submariner.Enabled) ChunkyOptionalMods.Submariner.SetHooks();
             }
 
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
@@ -243,7 +258,7 @@ namespace HDeMods
             if (!isSimulacrumRun) return;
             waveStarted = false;
 
-            if (ChunkyRunInfo.instance.limitPestsThisRun) {
+            if (ChunkyRunInfo.instance.limitPest) {
                 CharacterBody.onBodyStartGlobal += TrackShittersAdd;
                 CharacterBody.onBodyDestroyGlobal += TrackShittersRemove;
             }
@@ -275,6 +290,9 @@ namespace HDeMods
                 ChunkyILHooks.REXPrimaryAttack;
             IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
             if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.RemoveHooks();
+            if (ChunkyOptionalMods.AlienHominid.Enabled) ChunkyOptionalMods.AlienHominid.RemoveHooks();
+            if (ChunkyOptionalMods.Ravager.Enabled) ChunkyOptionalMods.Ravager.RemoveHooks();
+            if (ChunkyOptionalMods.Submariner.Enabled) ChunkyOptionalMods.Submariner.RemoveHooks();
 
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
             HealthComponentAPI.GetHealStats -= ChunkyILHooks.HealingOverride;
@@ -319,19 +337,19 @@ namespace HDeMods
             if (!NetworkServer.active) goto ENEMYSTATS;
 
             int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
-            int yap = ChunkyRunInfo.instance.enemyChanceToYapThisRun;
+            int yap = ChunkyRunInfo.instance.enemyChanceToYap;
             if (InterRunInfo.instance.loiterPenaltyActive) yap *= 2;
 
-            if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYapThisRun > 0 &&
+            if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYap > 0 &&
                 enemyYapTimer < Run.instance.NetworkfixedTime) {
-                enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.enemyYapCooldownThisRun;
+                enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.enemyYapCooldown;
                 List<BuffIndex> eliteAffix = new List<BuffIndex>();
                 if (sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(sender.HasBuff));
                 ChunkyYap.DoYapping(sender.baseNameToken, eliteAffix);
             }
 
             ENEMYSTATS:
-            if (!ChunkyRunInfo.instance.doNerfsThisRun) {
+            if (!ChunkyRunInfo.instance.doEnemyNerfs) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
                 args.cooldownReductionAdd += 0.5f;
@@ -391,7 +409,7 @@ namespace HDeMods
         internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            if (ChunkyRunInfo.instance.doGoldThisRun && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
+            if (ChunkyRunInfo.instance.doGoldPenalty && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
