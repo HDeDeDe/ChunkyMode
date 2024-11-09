@@ -39,14 +39,23 @@
 
 
 	<ItemGroup>
+	  <Reference Include="AliemMod">
+	    <HintPath>..\Resources\libs\AliemMod.dll</HintPath>
+	  </Reference>
 	  <Reference Include="ProperSave">
 	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
+	  </Reference>
+	  <Reference Include="RedGuyMod">
+	    <HintPath>..\Resources\libs\RedGuyMod-nstrip.dll</HintPath>
 	  </Reference>
 	  <Reference Include="RiskUI">
 	    <HintPath>..\Resources\libs\RiskUI.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Starstorm2">
 	    <HintPath>..\Resources\libs\Starstorm2.dll</HintPath>
+	  </Reference>
+	  <Reference Include="SubmarinerMod">
+	    <HintPath>..\Resources\libs\SubmarinerMod-nstrip.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 	
