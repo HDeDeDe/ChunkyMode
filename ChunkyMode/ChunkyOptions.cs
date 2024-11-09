@@ -41,6 +41,20 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 		
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+		public static void AddFloatStep(ConfigEntry<float> option, float minimum, float maximum, float step,
+			string format = "{0:0}%") {
+			ChunkyStepSliderOption stepSliderOption = new ChunkyStepSliderOption(option, new StepSliderConfig()
+				{ min = minimum, max = maximum, FormatString = format, increment = step });
+			ModSettingsManager.AddOption(stepSliderOption, ChunkyModePlugin.PluginGUID,
+				ChunkyModePlugin.PluginName);
+
+#if DEBUG
+                CM.Log.Debug(stepSliderOption.GetNameToken());
+                CM.Log.Debug(stepSliderOption.GetDescriptionToken());
+#endif
+		}
+		
+		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void SetSprite(Sprite sprite) {
 			ModSettingsManager.SetModIcon(sprite);
 		}
@@ -91,6 +105,21 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
 		
+		private void ResetDescription() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
+		}
+	}
+	internal class ChunkyStepSliderOption : StepSliderOption {
+		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+		public ChunkyStepSliderOption(ConfigEntry<float> configEntry, StepSliderConfig config) : base(configEntry,
+			config) {
+			RoR2.Language.onCurrentLanguageChanged += ResetDescription;
+		}
+		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+		public override void RegisterTokens() {
+			Description = RoR2.Language.GetString(GetDescriptionToken());
+		}
+		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private void ResetDescription() {
 			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
