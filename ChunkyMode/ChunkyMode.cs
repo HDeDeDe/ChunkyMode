@@ -44,7 +44,7 @@ namespace HDeMods
         public static ConfigEntry<bool> doGoldPenalty { get; set; }
         public static ConfigEntry<bool> doEnemyNerfs { get; set; }
 
-        public static ConfigEntry<int> enemyChanceToYap { get; set; }
+        public static ConfigEntry<float> enemyChanceToYap { get; set; }
         public static ConfigEntry<float> enemyYapCooldown { get; set; }
         public static ConfigEntry<bool> limitPest { get; set; }
         public static ConfigEntry<float> limitPestAmount { get; set; }
@@ -151,10 +151,10 @@ namespace HDeMods
                 "Do Enemy Nerfs",
                 true,
                 "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
-            enemyChanceToYap = ChunkyModePlugin.instance.Config.Bind<int>(
+            enemyChanceToYap = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Chance",
-                30,
+                0.0003f,
                 "The probability of enemies to yap. Set to 0 to stop the yapping.");
             enemyYapCooldown = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Yapping",
@@ -335,9 +335,9 @@ namespace HDeMods
             }
 
             if (!NetworkServer.active) goto ENEMYSTATS;
-
-            int funko = UnityEngine.Random.RandomRangeInt(0, 100000);
-            int yap = ChunkyRunInfo.instance.enemyChanceToYap;
+            
+            float funko = UnityEngine.Random.Range(0f,1f);
+            float yap = ChunkyRunInfo.instance.enemyChanceToYap;
             if (InterRunInfo.instance.loiterPenaltyActive) yap *= 2;
 
             if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYap > 0 &&

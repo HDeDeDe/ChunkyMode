@@ -18,7 +18,7 @@ namespace HDeMods {
 		[FormerlySerializedAs("doGoldThisRun")] public bool doGoldPenalty;
 		[FormerlySerializedAs("doHealBuffThisRun")] public bool doHealingBuffs;
 		[FormerlySerializedAs("doEnemyBoostThisRun")] public bool doEnemyLimitBoost;
-		[FormerlySerializedAs("enemyChanceToYapThisRun")] public int enemyChanceToYap;
+		[FormerlySerializedAs("enemyChanceToYapThisRun")] public float enemyChanceToYap;
 		[FormerlySerializedAs("enemyYapCooldownThisRun")] public float enemyYapCooldown;
 		[FormerlySerializedAs("limitPestsThisRun")] public bool limitPest;
 		[FormerlySerializedAs("limitPestsAmountThisRun")] public float limitPestAmount;
@@ -63,7 +63,7 @@ namespace HDeMods {
 		[DataMember(Name = "boost")]
 		public bool doEnemyLimitBoost;
 		[DataMember(Name = "yapChance")]
-		public int enemyChanceToYap;
+		public float enemyChanceToYap;
 		[DataMember(Name = "yapTime")]
 		public float enemyYapCooldown;
 		[DataMember(Name = "exLimitPest")]
