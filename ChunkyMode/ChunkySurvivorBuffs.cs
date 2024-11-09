@@ -38,17 +38,17 @@ namespace HDeMods {
             AliemHealOverride = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Healing Buffs",
                 "Alien Hominid Override",
-                1.5f,
+                2f,
                 "The amount to multiply Chomp healing by.");
             SubmarinerHealOverride = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Healing Buffs",
                 "Submariner Override",
-                1.5f,
+                2f,
                 "The amount to multiply N'kuhanna's Restoration healing by.");
             RavagerHealOverride = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Healing Buffs",
                 "Ravager Override",
-                1.5f,
+                2f,
                 "The amount to multiply Consume healing by.");
         }
         
