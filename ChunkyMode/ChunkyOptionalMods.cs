@@ -8,15 +8,6 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 
-namespace HDeMods { namespace ChunkyOptionalMods {
-    internal static class Hunk {
-        public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Hunk");
-    }
-    
-    internal static class Spikestrip {
-        public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("_com.prodzpod.ProdzpodSpikestripContent");
-        
-    }
 namespace HDeMods { 
     namespace ChunkyOptionalMods {
         internal static class Hunk {
@@ -27,6 +18,7 @@ namespace HDeMods {
             public static bool Enabled =>
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("_com.prodzpod.ProdzpodSpikestripContent");
 
+            private static string unusedString = @"https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/922279cb37ba22c549cb24845246cab250b7a671b7e1997d10e742e81c945785_1.jpg?raw=true";
         }
 
         internal static class RiskUI {
