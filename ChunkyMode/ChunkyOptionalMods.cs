@@ -147,6 +147,22 @@ namespace HDeMods {
                         if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                         return toHeal * ChunkyRunInfo.instance.ravagerHealOverride;
                     });
+                
+                if (!c.TryGotoNext(
+                        moveType: MoveType.After,
+                        x => x.MatchLdfld<HurtBox>("healthComponent"),
+                        x => x.MatchLdcR4(out _)
+                    )) {
+                    CM.Log.Error("Failed to hook ConsumeOrb!");
+                    return;
+                }
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float,RoR2.Orbs.Orb, float>>(
+                    (toHeal, orb) => {
+                        if (orb.target.teamIndex != TeamIndex.Player) return toHeal;
+                        if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
+                        return toHeal * ChunkyRunInfo.instance.ravagerHealOverride;
+                    });
             }
         }
 
