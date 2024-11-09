@@ -1,3 +1,5 @@
+## 0.4.1
+- Forgot to add Interloping Artifact as a dependency
 ## 0.4.0
 - Added Interloping Artifact as a dependency
 - Removed options relating to loiter penalty, as these are now handled by Interloping Artifact.
