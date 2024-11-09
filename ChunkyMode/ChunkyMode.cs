@@ -179,10 +179,10 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
             ChunkyOptionalMods.RoO.AddCheck(doGoldPenalty);
             ChunkyOptionalMods.RoO.AddCheck(doEnemyNerfs);
-            ChunkyOptionalMods.RoO.AddInt(enemyChanceToYap, 0, 100000);
-            ChunkyOptionalMods.RoO.AddFloat(enemyYapCooldown, 0f, 600f, "{0}");
+            ChunkyOptionalMods.RoO.AddFloat(enemyChanceToYap, 0f, 1f, "{0}%");
+            ChunkyOptionalMods.RoO.AddFloatStep(enemyYapCooldown, 0f, 600f, 1, "{0}");
             ChunkyOptionalMods.RoO.AddCheck(limitPest);
-            ChunkyOptionalMods.RoO.AddFloat(limitPestAmount, 0f, 100f);
+            ChunkyOptionalMods.RoO.AddFloatStep(limitPestAmount, 0f, 100f, 1f);
             ChunkySurvivorBuffs.RegisterRiskOfOptions();
             ChunkyOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
