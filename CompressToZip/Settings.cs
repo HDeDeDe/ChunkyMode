@@ -20,8 +20,7 @@ internal static class Settings {
 
     public static readonly ArrayList extraFiles = new() {
         new FileInfo("../Resources/ChunkyMode.language"),
-        new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon"),
-        new FileInfo("../Resources/libs/MMHOOK_Starstorm2.dll")
+        new FileInfo("../Resources/ror2Assets/Assets/AssetBundle/chunkydifficon")
     };
 
     public const string manifestWebsiteUrl = "https://github.com/HDeDeDe/ChunkyMode";

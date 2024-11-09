@@ -39,14 +39,14 @@
 
 
 	<ItemGroup>
-	  <Reference Include="MMHOOK_Starstorm2">
-	    <HintPath>..\Resources\libs\MMHOOK_Starstorm2.dll</HintPath>
-	  </Reference>
 	  <Reference Include="ProperSave">
 	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
 	  </Reference>
 	  <Reference Include="RiskUI">
 	    <HintPath>..\Resources\libs\RiskUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Starstorm2">
+	    <HintPath>..\Resources\libs\Starstorm2.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 	
