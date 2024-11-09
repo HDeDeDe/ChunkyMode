@@ -174,6 +174,13 @@ namespace HDeMods
             ChunkySurvivorBuffs.RegisterOptions();
         }
 
+        private static void ClampConfigOptions() {
+            enemyChanceToYap.Value = Math.Clamp(enemyChanceToYap.Value, 0f, 1f);
+            enemyYapCooldown.Value = Math.Clamp(enemyYapCooldown.Value, 0f, 600f);
+            limitPestAmount.Value = Math.Clamp(limitPestAmount.Value, 0f, 100f);
+            ChunkySurvivorBuffs.ClampValues();
+        }
+
         private static void AddOptions() {
             ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
             ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
@@ -214,6 +221,7 @@ namespace HDeMods
 
             if (!ChunkyRunInfo.preSet) {
                 ChunkyModePlugin.instance.Config.Reload();
+                ClampConfigOptions();
                 ChunkyRunInfo.instance.doEnemyLimitBoost = doEnemyLimitBoost.Value;
                 ChunkyRunInfo.instance.doHealingBuffs = doHealingBuffs.Value;
                 ChunkyRunInfo.instance.doGoldPenalty = doGoldPenalty.Value;
@@ -222,7 +230,6 @@ namespace HDeMods
                 ChunkyRunInfo.instance.enemyYapCooldown = enemyYapCooldown.Value;
                 ChunkyRunInfo.instance.limitPest = limitPest.Value;
                 ChunkyRunInfo.instance.limitPestAmount = limitPestAmount.Value;
-                ChunkySurvivorBuffs.ClampValues();
                 ChunkyRunInfo.instance.rexHealOverride = ChunkySurvivorBuffs.RexHealOverride.Value;
                 ChunkyRunInfo.instance.acridHealOverride = ChunkySurvivorBuffs.AcridHealOverride.Value;
                 ChunkyRunInfo.instance.chirrHealOverride = ChunkySurvivorBuffs.ChirrHealOverride.Value;
