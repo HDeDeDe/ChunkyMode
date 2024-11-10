@@ -7,6 +7,7 @@
 - Changed how some values are displayed in options
 - Config options are now clamped
 - Default values are now listed in options.
+- Reduced the number of things being networked.
 ## 0.4.1
 - Forgot to add Interloping Artifact as a dependency
 ## 0.4.0
