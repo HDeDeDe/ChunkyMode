@@ -9,7 +9,7 @@ using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 
 namespace HDeMods { 
-    namespace ChunkyOptionalMods {
+    namespace HurricaneOptionalMods {
         internal static class Hunk {
             public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Hunk");
         }
@@ -28,7 +28,7 @@ namespace HDeMods {
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddLegacyDifficulty() => RiskUIPlugin.DifficultyIconMap["CHUNKYMODEDIFFMOD_NAME"] =
-                ChunkyMode.HurricaneBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
+                Hurricane.HurricaneBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
         }
 
         internal static class Starstorm2 {
@@ -63,8 +63,8 @@ namespace HDeMods {
                 c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
                     (toHeal, cb) => {
                         if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                        if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
-                        return toHeal * ChunkyRunInfo.instance.chirrHealOverride;
+                        if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                        return toHeal * HurricaneRunInfo.instance.chirrHealOverride;
                     });
             }
         }
@@ -105,8 +105,8 @@ namespace HDeMods {
                     (toHeal, es) => {
                         HealthComponent hc = es.healthComponent;
                         if (hc.body.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                        if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
-                        return toHeal * ChunkyRunInfo.instance.aliemHealOverride;
+                        if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                        return toHeal * HurricaneRunInfo.instance.aliemHealOverride;
                     });
             }
         }
@@ -144,8 +144,8 @@ namespace HDeMods {
                 c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float,RoR2.Orbs.Orb, float>>(
                     (toHeal, orb) => {
                         if (orb.target.teamIndex != TeamIndex.Player) return toHeal;
-                        if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
-                        return toHeal * ChunkyRunInfo.instance.ravagerHealOverride;
+                        if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                        return toHeal * HurricaneRunInfo.instance.ravagerHealOverride;
                     });
                 
                 if (!c.TryGotoNext(
@@ -160,8 +160,8 @@ namespace HDeMods {
                 c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float,RoR2.Orbs.Orb, float>>(
                     (toHeal, orb) => {
                         if (orb.target.teamIndex != TeamIndex.Player) return toHeal;
-                        if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
-                        return toHeal * ChunkyRunInfo.instance.ravagerHealOverride;
+                        if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                        return toHeal * HurricaneRunInfo.instance.ravagerHealOverride;
                     });
             }
         }
@@ -202,8 +202,8 @@ namespace HDeMods {
                     CharacterBody, float>>(
                     (toHeal, cb) => {
                         if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
-                        if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
-                        return toHeal * ChunkyRunInfo.instance.submarinerHealOverride;
+                        if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                        return toHeal * HurricaneRunInfo.instance.submarinerHealOverride;
                     });
             }
         }

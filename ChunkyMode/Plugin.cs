@@ -24,7 +24,7 @@ namespace HDeMods {
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 	[SuppressMessage("ReSharper", "StringLiteralTypo")]
-	public class ChunkyModePlugin : BaseUnityPlugin {
+	public class HurricanePlugin : BaseUnityPlugin {
 		public const string PluginGUID = "com." + PluginAuthor + "." + PluginName;
 		public const string PluginAuthor = "HDeDeDe";
 		public const string PluginName = "ChunkyMode";
@@ -40,7 +40,7 @@ namespace HDeMods {
             
 			CM.Log.Init(Logger);
 			instance = this;
-			ChunkyMode.StartUp();
+			Hurricane.StartUp();
 		}
 	}
 

@@ -5,15 +5,15 @@ using Mono.Cecil.Cil;
 using UnityEngine;
 
 namespace HDeMods {
-	internal static class ChunkySimulacrum {
+	internal static class HurricaneSimulacrum {
 		private static bool rngExtracted = false;
 		private static Xoroshiro128Plus rng;
 		
 		public static void OnAllEnemiesDefeatedServer(InfiniteTowerWaveController waveController) {
-			ChunkyMode.waveStarted = false;
+			Hurricane.waveStarted = false;
 		}
 		public static void InfiniteTowerRun_BeginNextWave(On.RoR2.InfiniteTowerRun.orig_BeginNextWave beginNextWave, InfiniteTowerRun self) {
-			ChunkyMode.waveStarted = true;
+			Hurricane.waveStarted = true;
 			beginNextWave(self);
 		}
 		public static void InfiniteTowerWaveController_Initialize(ILContext il) {
@@ -38,7 +38,7 @@ namespace HDeMods {
 			}
 
 			c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<int, int>>(b => {
-				if (!ChunkyRunInfo.instance.doEnemyLimitBoost) return b;
+				if (!HurricaneRunInfo.instance.doEnemyLimitBoost) return b;
 				return (int)(b * 1.5f);
 			});
 		}
@@ -65,13 +65,13 @@ namespace HDeMods {
 
 		public static void CombatDirector_PrepareNewMonsterWave(On.RoR2.CombatDirector.orig_PrepareNewMonsterWave prep,
 			CombatDirector self, DirectorCard card) {
-			if (!ChunkyRunInfo.instance.limitPest || !rngExtracted) {
+			if (!HurricaneRunInfo.instance.limitPest || !rngExtracted) {
 				prep(self, card);
 				return;
 			}
 
-			GameObject blindPest = BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]);
-			GameObject lemurian = BodyCatalog.GetBodyPrefab(ChunkyCachedIndexes.bodyCache[BodyCache.Lemurian]);
+			GameObject blindPest = BodyCatalog.GetBodyPrefab(HurricaneCachedIndexes.bodyCache[BodyCache.FlyingVermin]);
+			GameObject lemurian = BodyCatalog.GetBodyPrefab(HurricaneCachedIndexes.bodyCache[BodyCache.Lemurian]);
 			
 			for (GameObject desiredMonster = card.spawnCard.prefab.GetComponent<CharacterMaster>().bodyPrefab;
 			     desiredMonster == blindPest || desiredMonster == lemurian;
@@ -86,7 +86,7 @@ namespace HDeMods {
 				totalEnemies += TeamComponent.GetTeamMembers(TeamIndex.Lunar).Count;
 				
 				int tenPercent =
-					(int)(totalEnemies * (ChunkyRunInfo.instance.limitPestAmount / 100f));
+					(int)(totalEnemies * (HurricaneRunInfo.instance.limitPestAmount / 100f));
 				
 #if DEBUG
 				CM.Log.Warning("Total enemies: " + totalEnemies);
@@ -95,8 +95,8 @@ namespace HDeMods {
 #endif
 				
 				// Something's wrong
-				if ((ChunkyMode.totalBlindPest > tenPercent && desiredMonster == blindPest) || 
-				    (ChunkyMode.totalLemurians > tenPercent && desiredMonster == lemurian)) {
+				if ((Hurricane.totalBlindPest > tenPercent && desiredMonster == blindPest) || 
+				    (Hurricane.totalLemurians > tenPercent && desiredMonster == lemurian)) {
 					CM.Log.Warning("Too many bastards. Generating new director card.");
 					card = GenerateNewDirectorCard();
 					continue;

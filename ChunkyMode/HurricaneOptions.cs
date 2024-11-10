@@ -5,14 +5,14 @@ using BepInEx.Configuration;
 using RiskOfOptions.OptionConfigs;
 using UnityEngine;
 
-namespace HDeMods { namespace ChunkyOptionalMods {
+namespace HDeMods { namespace HurricaneOptionalMods {
 	internal static class RoO {
 		public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
 
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddCheck(ConfigEntry<bool> option) {
-			ChunkyCheckBoxOption boxOption = new ChunkyCheckBoxOption(option);
-			ModSettingsManager.AddOption(boxOption, ChunkyModePlugin.PluginGUID, ChunkyModePlugin.PluginName);
+			HurricaneCheckBoxOption boxOption = new HurricaneCheckBoxOption(option);
+			ModSettingsManager.AddOption(boxOption, HurricanePlugin.PluginGUID, HurricanePlugin.PluginName);
 #if DEBUG
 			CM.Log.Debug(boxOption.GetNameToken());
 			CM.Log.Debug(boxOption.GetDescriptionToken());
@@ -21,8 +21,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
-			ChunkyIntSliderOption sliderOption = new ChunkyIntSliderOption(option, new IntSliderConfig() {min = minimum, max = maximum});
-			ModSettingsManager.AddOption(sliderOption, ChunkyModePlugin.PluginGUID, ChunkyModePlugin.PluginName);
+			HurricaneIntSliderOption sliderOption = new HurricaneIntSliderOption(option, new IntSliderConfig() {min = minimum, max = maximum});
+			ModSettingsManager.AddOption(sliderOption, HurricanePlugin.PluginGUID, HurricanePlugin.PluginName);
 			
 #if DEBUG
 			CM.Log.Debug(sliderOption.GetNameToken());
@@ -31,8 +31,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 		
 		public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum, string format = "{0:0}%") {
-			ChunkySliderOption sliderOption = new ChunkySliderOption(option, new SliderConfig() {min = minimum, max = maximum, FormatString = format});
-			ModSettingsManager.AddOption(sliderOption, ChunkyModePlugin.PluginGUID, ChunkyModePlugin.PluginName);
+			HurricaneSliderOption sliderOption = new HurricaneSliderOption(option, new SliderConfig() {min = minimum, max = maximum, FormatString = format});
+			ModSettingsManager.AddOption(sliderOption, HurricanePlugin.PluginGUID, HurricanePlugin.PluginName);
 			
 #if DEBUG
 			CM.Log.Debug(sliderOption.GetNameToken());
@@ -43,10 +43,10 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		public static void AddFloatStep(ConfigEntry<float> option, float minimum, float maximum, float step,
 			string format = "{0:0}%") {
-			ChunkyStepSliderOption stepSliderOption = new ChunkyStepSliderOption(option, new StepSliderConfig()
+			HurricaneStepSliderOption stepSliderOption = new HurricaneStepSliderOption(option, new StepSliderConfig()
 				{ min = minimum, max = maximum, FormatString = format, increment = step });
-			ModSettingsManager.AddOption(stepSliderOption, ChunkyModePlugin.PluginGUID,
-				ChunkyModePlugin.PluginName);
+			ModSettingsManager.AddOption(stepSliderOption, HurricanePlugin.PluginGUID,
+				HurricanePlugin.PluginName);
 
 #if DEBUG
                 CM.Log.Debug(stepSliderOption.GetNameToken());
@@ -66,8 +66,8 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 	}
 
 	// Thanks to Bubbet for the suggestion to do this
-	internal class ChunkyCheckBoxOption : CheckBoxOption {
-		public ChunkyCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry) {
+	internal class HurricaneCheckBoxOption : CheckBoxOption {
+		public HurricaneCheckBoxOption(ConfigEntry<bool> configEntry) : base(configEntry) {
 			RoR2.Language.onCurrentLanguageChanged+= ResetDescription;
 		}
 
@@ -80,9 +80,9 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 	}
 	
-	internal class ChunkyIntSliderOption : IntSliderOption {
+	internal class HurricaneIntSliderOption : IntSliderOption {
 
-		public ChunkyIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config) {
+		public HurricaneIntSliderOption(ConfigEntry<int> configEntry, IntSliderConfig config) : base(configEntry, config) {
 			RoR2.Language.onCurrentLanguageChanged+= ResetDescription;
 		}
 
@@ -95,9 +95,9 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 		}
 	}
 	
-	internal class ChunkySliderOption : SliderOption {
+	internal class HurricaneSliderOption : SliderOption {
 
-		public ChunkySliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config) {
+		public HurricaneSliderOption(ConfigEntry<float> configEntry, SliderConfig config) : base(configEntry, config) {
 			RoR2.Language.onCurrentLanguageChanged+= ResetDescription;
 		}
 
@@ -109,9 +109,9 @@ namespace HDeMods { namespace ChunkyOptionalMods {
 			Description = RoR2.Language.GetString(GetDescriptionToken());
 		}
 	}
-	internal class ChunkyStepSliderOption : StepSliderOption {
+	internal class HurricaneStepSliderOption : StepSliderOption {
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-		public ChunkyStepSliderOption(ConfigEntry<float> configEntry, StepSliderConfig config) : base(configEntry,
+		public HurricaneStepSliderOption(ConfigEntry<float> configEntry, StepSliderConfig config) : base(configEntry,
 			config) {
 			RoR2.Language.onCurrentLanguageChanged += ResetDescription;
 		}

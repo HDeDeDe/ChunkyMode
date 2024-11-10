@@ -6,9 +6,9 @@ internal static class Settings {
     public const bool giveMePDBs = true;
     public const bool weave = true;
 
-    public const string pluginName = HDeMods.ChunkyModePlugin.PluginName;
-    public const string pluginAuthor = HDeMods.ChunkyModePlugin.PluginAuthor;
-    public const string pluginVersion = HDeMods.ChunkyModePlugin.PluginVersion;
+    public const string pluginName = HDeMods.HurricanePlugin.PluginName;
+    public const string pluginAuthor = HDeMods.HurricanePlugin.PluginAuthor;
+    public const string pluginVersion = HDeMods.HurricanePlugin.PluginVersion;
     public const string changelog = "../CHANGELOG.md";
     public const string readme = "../README.md";
 

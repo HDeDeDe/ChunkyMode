@@ -15,11 +15,11 @@ namespace HDeMods {
 		Bison,
 		Lemurian
 	}
-	internal static class ChunkyCachedIndexes {
+	internal static class HurricaneCachedIndexes {
 		public static readonly Dictionary<BodyIndex, BodyCache> bodyIndex = new Dictionary<BodyIndex, BodyCache>();
 		public static readonly Dictionary<BodyCache, BodyIndex> bodyCache = new Dictionary<BodyCache, BodyIndex>();
 		public static int injector;
-		internal static RuleChoiceDef legacyChoiceDef;
+		private static RuleChoiceDef legacyChoiceDef;
 		
 		public static void GenerateCache() {
 #if DEBUG
@@ -33,12 +33,12 @@ namespace HDeMods {
 			AddToCollection(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
 			AddToCollection(BodyCatalog.FindBodyIndex("BisonBody"), BodyCache.Bison);
 			AddToCollection(BodyCatalog.FindBodyIndex("LemurianBody"), BodyCache.Lemurian);
-			if (ChunkyOptionalMods.Hunk.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
-			if (ChunkyOptionalMods.Spikestrip.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
+			if (HurricaneOptionalMods.Hunk.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
+			if (HurricaneOptionalMods.Spikestrip.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
 			
 			legacyChoiceDef = RuleCatalog.FindChoiceDef("Difficulty.ChunkyMode");
-			/*legacyChoiceDef.availableInSinglePlayer = false;
-			legacyChoiceDef.availableInMultiPlayer = false;*/
+			legacyChoiceDef.availableInSinglePlayer = true;
+			legacyChoiceDef.availableInMultiPlayer = true;
 		}
 
 		private static void AddToCollection(BodyIndex index, BodyCache cache) {

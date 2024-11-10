@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace HDeMods {
-	public class ChunkyChatEnemyYap: ChatMessageBase {
+	public class HurricaneChatEnemyYap: ChatMessageBase {
 		public string baseToken;
 		public string enemyToken;
 		private int m_eliteLength;
@@ -39,7 +39,7 @@ namespace HDeMods {
 	}
 
 	[SuppressMessage("ReSharper", "StringLiteralTypo")]
-	internal static class ChunkyYap {
+	internal static class HurricaneYap {
 		public static void DoYapping([UnityEngine.Bindings.NotNull]string enemyToken, List<BuffIndex> eliteAffix) {
 #if DEBUG
 			CM.Log.Debug("Speaking now");
@@ -63,7 +63,7 @@ namespace HDeMods {
 				15 => "FALSESONBOSS_DRONEDEATH_2",
 				_ => ""
 			};
-			Chat.SendBroadcastChat(new ChunkyChatEnemyYap() {
+			Chat.SendBroadcastChat(new HurricaneChatEnemyYap() {
 				baseToken = baseToken,
 				enemyToken = enemyToken,
 				eliteAffix = eliteAffix

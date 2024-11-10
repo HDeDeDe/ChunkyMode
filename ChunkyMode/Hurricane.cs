@@ -16,7 +16,7 @@ namespace HDeMods
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
-    public static class ChunkyMode {
+    public static class Hurricane {
         // Difficulty related variables
         public static AssetBundle HurricaneBundle;
         public static DifficultyDef LegacyDifficultyDef;
@@ -67,11 +67,11 @@ namespace HDeMods
             temp.AddComponent<NetworkIdentity>();
             HurricaneInfo = temp.InstantiateClone("ChunkyRunInfo");
             GameObject.Destroy(temp);
-            HurricaneInfo.AddComponent<ChunkyRunInfo>();
+            HurricaneInfo.AddComponent<HurricaneRunInfo>();
             
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ChunkyChatEnemyYap),
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(HurricaneChatEnemyYap),
                 (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(ChunkyChatEnemyYap));
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(HurricaneChatEnemyYap));
         }
 
         private static void AddHooks() {
@@ -79,18 +79,18 @@ namespace HDeMods
             Run.onRunSetRuleBookGlobal += Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
-            RoR2Application.onLoad += ChunkyCachedIndexes.GenerateCache;
-            if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.GenerateHooks();
-            if (ChunkyOptionalMods.AlienHominid.Enabled) ChunkyOptionalMods.AlienHominid.GenerateHooks();
-            if (ChunkyOptionalMods.Ravager.Enabled) ChunkyOptionalMods.Ravager.GenerateHooks();
-            if (ChunkyOptionalMods.Submariner.Enabled) ChunkyOptionalMods.Submariner.GenerateHooks();
+            RoR2Application.onLoad += HurricaneCachedIndexes.GenerateCache;
+            if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.GenerateHooks();
+            if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.GenerateHooks();
+            if (HurricaneOptionalMods.Ravager.Enabled) HurricaneOptionalMods.Ravager.GenerateHooks();
+            if (HurricaneOptionalMods.Submariner.Enabled) HurricaneOptionalMods.Submariner.GenerateHooks();
         }
 
         private static void RemoveHooks() {
             Run.onRunSetRuleBookGlobal -= Run_onRunSetRuleBookGlobal;
             Run.onRunStartGlobal -= Run_onRunStartGlobal;
             Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
-            RoR2Application.onLoad -= ChunkyCachedIndexes.GenerateCache;
+            RoR2Application.onLoad -= HurricaneCachedIndexes.GenerateCache;
         }
 
         private static void VerifyInterloper(On.RoR2.RewiredIntegrationManager.orig_Init init) {
@@ -105,9 +105,9 @@ namespace HDeMods
             AddHurricaneDifficulty();
             AddLegacyDifficulty();
             
-            if (ChunkyOptionalMods.RoO.Enabled) AddOptions();
-            if (ChunkyOptionalMods.Saving.Enabled) ChunkyOptionalMods.Saving.SetUp();
-            if (ChunkyOptionalMods.RiskUI.Enabled) ChunkyOptionalMods.RiskUI.AddLegacyDifficulty();
+            if (HurricaneOptionalMods.RoO.Enabled) AddOptions();
+            if (HurricaneOptionalMods.Saving.Enabled) HurricaneOptionalMods.Saving.SetUp();
+            if (HurricaneOptionalMods.RiskUI.Enabled) HurricaneOptionalMods.RiskUI.AddLegacyDifficulty();
             init();
         }
 
@@ -131,68 +131,68 @@ namespace HDeMods
         }
 
         public static void BindSettings() {
-            doHealingBuffs = ChunkyModePlugin.instance.Config.Bind<bool>(
+            doHealingBuffs = HurricanePlugin.instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Healing Buffs",
                 true,
                 "Enables buffs to some survivor healing skills. Disable if you want a harder challenge.");
-            doEnemyLimitBoost = ChunkyModePlugin.instance.Config.Bind<bool>(
+            doEnemyLimitBoost = HurricanePlugin.instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Enemy Limit Boost",
                 true,
                 "Enables enemy limit increase. If your computer is struggling to run on Chunky Mode, consider disabling this.");
-            doGoldPenalty = ChunkyModePlugin.instance.Config.Bind<bool>(
+            doGoldPenalty = HurricanePlugin.instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Gold Penalty",
                 true,
                 "Enables a -10% gold penalty. Disable to speed up gameplay.");
-            doEnemyNerfs = ChunkyModePlugin.instance.Config.Bind<bool>(
+            doEnemyNerfs = HurricanePlugin.instance.Config.Bind<bool>(
                 "Unlisted Difficulty Modifiers",
                 "Do Enemy Nerfs",
                 true,
                 "Enables enemy nerfs. Disable if you like unreactable Wandering Vagrants.");
-            enemyChanceToYap = ChunkyModePlugin.instance.Config.Bind<float>(
+            enemyChanceToYap = HurricanePlugin.instance.Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Chance",
                 0.03f,
                 "The probability of enemies to yap. Set to 0 to stop the yapping.");
-            enemyYapCooldown = ChunkyModePlugin.instance.Config.Bind<float>(
+            enemyYapCooldown = HurricanePlugin.instance.Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Cooldown",
                 30f,
                 "The amount of time before enemies are allowed to yap again. Set to 0 for turbo yapping.");
-            limitPest = ChunkyModePlugin.instance.Config.Bind<bool>(
+            limitPest = HurricanePlugin.instance.Config.Bind<bool>(
                 "Simulacrum",
                 "Limit Blind Pest",
                 true,
                 "Enable Blind Pest limit in Simulacrum. This also affects Lemurians.");
-            limitPestAmount = ChunkyModePlugin.instance.Config.Bind<float>(
+            limitPestAmount = HurricanePlugin.instance.Config.Bind<float>(
                 "Simulacrum",
                 "Blind Pest Amount",
                 10f,
                 "The percentage of enemies that are allowed to be blind pest. Only affects Simulacrum.");
-            ChunkySurvivorBuffs.RegisterOptions();
+            HurricaneSurvivorBuffs.RegisterOptions();
         }
 
         private static void ClampConfigOptions() {
             enemyChanceToYap.Value = Math.Clamp(enemyChanceToYap.Value, 0f, 100f);
             enemyYapCooldown.Value = Math.Clamp(enemyYapCooldown.Value, 0f, 600f);
             limitPestAmount.Value = Math.Clamp(limitPestAmount.Value, 0f, 100f);
-            ChunkySurvivorBuffs.ClampValues();
+            HurricaneSurvivorBuffs.ClampValues();
         }
 
         private static void AddOptions() {
-            ChunkyOptionalMods.RoO.AddCheck(doHealingBuffs);
-            ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
-            ChunkyOptionalMods.RoO.AddCheck(doGoldPenalty);
-            ChunkyOptionalMods.RoO.AddCheck(doEnemyNerfs);
-            ChunkyOptionalMods.RoO.AddFloatStep(enemyChanceToYap, 0f, 100f, 0.01f,"{0}%");
-            ChunkyOptionalMods.RoO.AddFloatStep(enemyYapCooldown, 0f, 600f, 1, "{0}");
-            ChunkyOptionalMods.RoO.AddCheck(limitPest);
-            ChunkyOptionalMods.RoO.AddFloatStep(limitPestAmount, 0f, 100f, 1f);
-            ChunkySurvivorBuffs.RegisterRiskOfOptions();
-            ChunkyOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
-            ChunkyOptionalMods.RoO.SetDescriptionToken("HURRICANE_RISK_OF_OPTIONS_DESCRIPTION");
+            HurricaneOptionalMods.RoO.AddCheck(doHealingBuffs);
+            HurricaneOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
+            HurricaneOptionalMods.RoO.AddCheck(doGoldPenalty);
+            HurricaneOptionalMods.RoO.AddCheck(doEnemyNerfs);
+            HurricaneOptionalMods.RoO.AddFloatStep(enemyChanceToYap, 0f, 100f, 0.01f,"{0}%");
+            HurricaneOptionalMods.RoO.AddFloatStep(enemyYapCooldown, 0f, 600f, 1, "{0}");
+            HurricaneOptionalMods.RoO.AddCheck(limitPest);
+            HurricaneOptionalMods.RoO.AddFloatStep(limitPestAmount, 0f, 100f, 1f);
+            HurricaneSurvivorBuffs.RegisterRiskOfOptions();
+            HurricaneOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
+            HurricaneOptionalMods.RoO.SetDescriptionToken("HURRICANE_RISK_OF_OPTIONS_DESCRIPTION");
         }
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
@@ -219,63 +219,63 @@ namespace HDeMods
             m_hurricaneInfo = GameObject.Instantiate(HurricaneInfo);
             NetworkServer.Spawn(m_hurricaneInfo);
 
-            if (!ChunkyRunInfo.preSet) {
-                ChunkyModePlugin.instance.Config.Reload();
+            if (!HurricaneRunInfo.preSet) {
+                HurricanePlugin.instance.Config.Reload();
                 ClampConfigOptions();
-                ChunkyRunInfo.instance.doEnemyLimitBoost = doEnemyLimitBoost.Value;
-                ChunkyRunInfo.instance.doHealingBuffs = doHealingBuffs.Value;
-                ChunkyRunInfo.instance.doGoldPenalty = doGoldPenalty.Value;
-                ChunkyRunInfo.instance.doEnemyNerfs = doEnemyNerfs.Value;
-                ChunkyRunInfo.instance.enemyChanceToYap = enemyChanceToYap.Value;
-                ChunkyRunInfo.instance.enemyYapCooldown = enemyYapCooldown.Value;
-                ChunkyRunInfo.instance.limitPest = limitPest.Value;
-                ChunkyRunInfo.instance.limitPestAmount = limitPestAmount.Value;
-                ChunkyRunInfo.instance.rexHealOverride = ChunkySurvivorBuffs.RexHealOverride.Value;
-                ChunkyRunInfo.instance.acridHealOverride = ChunkySurvivorBuffs.AcridHealOverride.Value;
-                ChunkyRunInfo.instance.chirrHealOverride = ChunkySurvivorBuffs.ChirrHealOverride.Value;
-                ChunkyRunInfo.instance.aliemHealOverride = ChunkySurvivorBuffs.AliemHealOverride.Value;
-                ChunkyRunInfo.instance.submarinerHealOverride = ChunkySurvivorBuffs.SubmarinerHealOverride.Value;
-                ChunkyRunInfo.instance.ravagerHealOverride = ChunkySurvivorBuffs.RavagerHealOverride.Value;
+                HurricaneRunInfo.instance.doEnemyLimitBoost = doEnemyLimitBoost.Value;
+                HurricaneRunInfo.instance.doHealingBuffs = doHealingBuffs.Value;
+                HurricaneRunInfo.instance.doGoldPenalty = doGoldPenalty.Value;
+                HurricaneRunInfo.instance.doEnemyNerfs = doEnemyNerfs.Value;
+                HurricaneRunInfo.instance.enemyChanceToYap = enemyChanceToYap.Value;
+                HurricaneRunInfo.instance.enemyYapCooldown = enemyYapCooldown.Value;
+                HurricaneRunInfo.instance.limitPest = limitPest.Value;
+                HurricaneRunInfo.instance.limitPestAmount = limitPestAmount.Value;
+                HurricaneRunInfo.instance.rexHealOverride = HurricaneSurvivorBuffs.RexHealOverride.Value;
+                HurricaneRunInfo.instance.acridHealOverride = HurricaneSurvivorBuffs.AcridHealOverride.Value;
+                HurricaneRunInfo.instance.chirrHealOverride = HurricaneSurvivorBuffs.ChirrHealOverride.Value;
+                HurricaneRunInfo.instance.aliemHealOverride = HurricaneSurvivorBuffs.AliemHealOverride.Value;
+                HurricaneRunInfo.instance.submarinerHealOverride = HurricaneSurvivorBuffs.SubmarinerHealOverride.Value;
+                HurricaneRunInfo.instance.ravagerHealOverride = HurricaneSurvivorBuffs.RavagerHealOverride.Value;
             }
 
-            if (ChunkyRunInfo.instance.doEnemyLimitBoost) {
+            if (HurricaneRunInfo.instance.doEnemyLimitBoost) {
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Lunar)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
             }
 
-            HealthComponentAPI.GetHealthStats += ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
-            if (ChunkyRunInfo.instance.doHealingBuffs) {
-                IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += ChunkyILHooks.REXHealPulse;
+            HealthComponentAPI.GetHealthStats += HurricaneILHooks.ShieldRechargeAndBarrierDecayRate;
+            if (HurricaneRunInfo.instance.doHealingBuffs) {
+                IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse += HurricaneILHooks.REXHealPulse;
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer +=
-                    ChunkyILHooks.REXPrimaryAttack;
-                IL.RoR2.CharacterBody.RecalculateStats += ChunkyILHooks.AcridRegenBuff;
-                if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.SetHooks();
-                if (ChunkyOptionalMods.AlienHominid.Enabled) ChunkyOptionalMods.AlienHominid.SetHooks();
-                if (ChunkyOptionalMods.Ravager.Enabled) ChunkyOptionalMods.Ravager.SetHooks();
-                if (ChunkyOptionalMods.Submariner.Enabled) ChunkyOptionalMods.Submariner.SetHooks();
+                    HurricaneILHooks.REXPrimaryAttack;
+                IL.RoR2.CharacterBody.RecalculateStats += HurricaneILHooks.AcridRegenBuff;
+                if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.SetHooks();
+                if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.SetHooks();
+                if (HurricaneOptionalMods.Ravager.Enabled) HurricaneOptionalMods.Ravager.SetHooks();
+                if (HurricaneOptionalMods.Submariner.Enabled) HurricaneOptionalMods.Submariner.SetHooks();
             }
 
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
-            HealthComponentAPI.GetHealStats += ChunkyILHooks.HealingOverride;
+            HealthComponentAPI.GetHealStats += HurricaneILHooks.HealingOverride;
             On.RoR2.Run.BeginStage += Run_BeginStage;
 
             if (!isSimulacrumRun) return;
             waveStarted = false;
 
-            if (ChunkyRunInfo.instance.limitPest) {
+            if (HurricaneRunInfo.instance.limitPest) {
                 CharacterBody.onBodyStartGlobal += TrackShittersAdd;
                 CharacterBody.onBodyDestroyGlobal += TrackShittersRemove;
             }
 
-            InfiniteTowerRun.onAllEnemiesDefeatedServer += ChunkySimulacrum.OnAllEnemiesDefeatedServer;
-            On.RoR2.InfiniteTowerRun.BeginNextWave += ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
-            IL.RoR2.InfiniteTowerWaveController.Initialize += ChunkySimulacrum.InfiniteTowerWaveController_Initialize;
-            IL.RoR2.InfiniteTowerWaveController.FixedUpdate += ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
-            IL.RoR2.CombatDirector.AttemptSpawnOnTarget += ChunkySimulacrum.ExtractRNGFromCombatDirector;
-            On.RoR2.CombatDirector.PrepareNewMonsterWave += ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
+            InfiniteTowerRun.onAllEnemiesDefeatedServer += HurricaneSimulacrum.OnAllEnemiesDefeatedServer;
+            On.RoR2.InfiniteTowerRun.BeginNextWave += HurricaneSimulacrum.InfiniteTowerRun_BeginNextWave;
+            IL.RoR2.InfiniteTowerWaveController.Initialize += HurricaneSimulacrum.InfiniteTowerWaveController_Initialize;
+            IL.RoR2.InfiniteTowerWaveController.FixedUpdate += HurricaneSimulacrum.InfiniteTowerWaveController_FixedUpdate;
+            IL.RoR2.CombatDirector.AttemptSpawnOnTarget += HurricaneSimulacrum.ExtractRNGFromCombatDirector;
+            On.RoR2.CombatDirector.PrepareNewMonsterWave += HurricaneSimulacrum.CombatDirector_PrepareNewMonsterWave;
         }
 
         internal static void Run_onRunDestroyGlobal(Run run) {
@@ -283,7 +283,7 @@ namespace HDeMods
             CM.Log.Info("Chunky Mode Run ended");
             shouldRun = false;
             isSimulacrumRun = false;
-            ChunkyRunInfo.preSet = false;
+            HurricaneRunInfo.preSet = false;
             Run.ambientLevelCap = ogRunLevelCap;
             GameObject.Destroy(m_hurricaneInfo);
 
@@ -291,18 +291,18 @@ namespace HDeMods
             TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = ogMonsterCap;
             TeamCatalog.GetTeamDef(TeamIndex.Lunar)!.softCharacterLimit = ogMonsterCap;
 
-            HealthComponentAPI.GetHealthStats -= ChunkyILHooks.ShieldRechargeAndBarrierDecayRate;
-            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= ChunkyILHooks.REXHealPulse;
+            HealthComponentAPI.GetHealthStats -= HurricaneILHooks.ShieldRechargeAndBarrierDecayRate;
+            IL.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.HealPulse -= HurricaneILHooks.REXHealPulse;
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -=
-                ChunkyILHooks.REXPrimaryAttack;
-            IL.RoR2.CharacterBody.RecalculateStats -= ChunkyILHooks.AcridRegenBuff;
-            if (ChunkyOptionalMods.Starstorm2.Enabled) ChunkyOptionalMods.Starstorm2.RemoveHooks();
-            if (ChunkyOptionalMods.AlienHominid.Enabled) ChunkyOptionalMods.AlienHominid.RemoveHooks();
-            if (ChunkyOptionalMods.Ravager.Enabled) ChunkyOptionalMods.Ravager.RemoveHooks();
-            if (ChunkyOptionalMods.Submariner.Enabled) ChunkyOptionalMods.Submariner.RemoveHooks();
+                HurricaneILHooks.REXPrimaryAttack;
+            IL.RoR2.CharacterBody.RecalculateStats -= HurricaneILHooks.AcridRegenBuff;
+            if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.RemoveHooks();
+            if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.RemoveHooks();
+            if (HurricaneOptionalMods.Ravager.Enabled) HurricaneOptionalMods.Ravager.RemoveHooks();
+            if (HurricaneOptionalMods.Submariner.Enabled) HurricaneOptionalMods.Submariner.RemoveHooks();
 
             RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
-            HealthComponentAPI.GetHealStats -= ChunkyILHooks.HealingOverride;
+            HealthComponentAPI.GetHealStats -= HurricaneILHooks.HealingOverride;
             On.RoR2.CombatDirector.Awake -= CombatDirector_Awake;
             SceneDirector.onPrePopulateSceneServer -= SceneDirector_onPrePopulateSceneServer;
 
@@ -310,25 +310,25 @@ namespace HDeMods
             CharacterBody.onBodyStartGlobal -= TrackShittersAdd;
             CharacterBody.onBodyDestroyGlobal -= TrackShittersRemove;
 
-            InfiniteTowerRun.onAllEnemiesDefeatedServer -= ChunkySimulacrum.OnAllEnemiesDefeatedServer;
-            On.RoR2.InfiniteTowerRun.BeginNextWave -= ChunkySimulacrum.InfiniteTowerRun_BeginNextWave;
+            InfiniteTowerRun.onAllEnemiesDefeatedServer -= HurricaneSimulacrum.OnAllEnemiesDefeatedServer;
+            On.RoR2.InfiniteTowerRun.BeginNextWave -= HurricaneSimulacrum.InfiniteTowerRun_BeginNextWave;
             IL.RoR2.InfiniteTowerWaveController.Initialize -=
-                ChunkySimulacrum.InfiniteTowerWaveController_Initialize;
+                HurricaneSimulacrum.InfiniteTowerWaveController_Initialize;
             IL.RoR2.InfiniteTowerWaveController.FixedUpdate -=
-                ChunkySimulacrum.InfiniteTowerWaveController_FixedUpdate;
+                HurricaneSimulacrum.InfiniteTowerWaveController_FixedUpdate;
             IL.RoR2.CombatDirector.AttemptSpawnOnTarget -=
-                ChunkySimulacrum.ExtractRNGFromCombatDirector;
-            On.RoR2.CombatDirector.PrepareNewMonsterWave -= ChunkySimulacrum.CombatDirector_PrepareNewMonsterWave;
+                HurricaneSimulacrum.ExtractRNGFromCombatDirector;
+            On.RoR2.CombatDirector.PrepareNewMonsterWave -= HurricaneSimulacrum.CombatDirector_PrepareNewMonsterWave;
         }
 
         internal static void TrackShittersAdd(CharacterBody body) {
-            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest++;
-            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.Lemurian]) totalLemurians++;
+            if (body.bodyIndex == HurricaneCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest++;
+            if (body.bodyIndex == HurricaneCachedIndexes.bodyCache[BodyCache.Lemurian]) totalLemurians++;
         }
 
         internal static void TrackShittersRemove(CharacterBody body) {
-            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest--;
-            if (body.bodyIndex == ChunkyCachedIndexes.bodyCache[BodyCache.Lemurian]) totalLemurians--;
+            if (body.bodyIndex == HurricaneCachedIndexes.bodyCache[BodyCache.FlyingVermin]) totalBlindPest--;
+            if (body.bodyIndex == HurricaneCachedIndexes.bodyCache[BodyCache.Lemurian]) totalLemurians--;
         }
 
         //This handles the +40% Enemy Speed, -50% Enemy Cooldowns, and other stats
@@ -344,26 +344,26 @@ namespace HDeMods
             if (!NetworkServer.active) goto ENEMYSTATS;
             
             float funko = UnityEngine.Random.Range(0f,1f);
-            float yap = ChunkyRunInfo.instance.enemyChanceToYap / 100f;
+            float yap = HurricaneRunInfo.instance.enemyChanceToYap / 100f;
             if (InterRunInfo.instance.loiterPenaltyActive) yap *= 2;
 
-            if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYap > 0 &&
+            if (funko < yap && HurricaneRunInfo.instance.enemyChanceToYap > 0 &&
                 enemyYapTimer < Run.instance.NetworkfixedTime) {
-                enemyYapTimer = Run.instance.NetworkfixedTime + ChunkyRunInfo.instance.enemyYapCooldown;
+                enemyYapTimer = Run.instance.NetworkfixedTime + HurricaneRunInfo.instance.enemyYapCooldown;
                 List<BuffIndex> eliteAffix = new List<BuffIndex>();
                 if (sender.isElite) eliteAffix.AddRange(BuffCatalog.eliteBuffIndices.Where(sender.HasBuff));
-                ChunkyYap.DoYapping(sender.baseNameToken, eliteAffix);
+                HurricaneYap.DoYapping(sender.baseNameToken, eliteAffix);
             }
 
             ENEMYSTATS:
-            if (!ChunkyRunInfo.instance.doEnemyNerfs) {
+            if (!HurricaneRunInfo.instance.doEnemyNerfs) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
                 args.cooldownReductionAdd += 0.5f;
                 return;
             }
 
-            ChunkyCachedIndexes.bodyIndex.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
+            HurricaneCachedIndexes.bodyIndex.TryGetValue(sender.bodyIndex, out BodyCache bodyIndex);
 #if DEBUG
             if (!isSimulacrumRun) {
                 CM.Log.Debug(sender.name + ", " + sender.bodyIndex);
@@ -416,7 +416,7 @@ namespace HDeMods
         internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
             self.creditMultiplier *= 1.1f;
-            if (ChunkyRunInfo.instance.doGoldPenalty && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
+            if (HurricaneRunInfo.instance.doGoldPenalty && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 

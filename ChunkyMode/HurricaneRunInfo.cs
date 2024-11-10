@@ -4,12 +4,12 @@ using RoR2;
 using UnityEngine.Serialization;
 
 namespace HDeMods {
-	internal class ChunkyRunInfo : NetworkBehaviour {
+	internal class HurricaneRunInfo : NetworkBehaviour {
 		// This is the instance of RunInfo
-		public static ChunkyRunInfo instance;
+		public static HurricaneRunInfo instance;
 		// This should only be true if ProperSave is present and added settings
 		public static bool preSet;
-		public static ChunkySaveData saveData;
+		public static HurricaneSaveData saveData;
 		
 		// These are to prevent changing settings mid run
 		[FormerlySerializedAs("doNerfsThisRun")] [SyncVar]
@@ -51,7 +51,7 @@ namespace HDeMods {
 		}
 	}
 
-	public struct ChunkySaveData {
+	public struct HurricaneSaveData {
 		[DataMember(Name = "validCheck")]
 		public bool isValidSave;
 		[DataMember(Name = "gold")]
