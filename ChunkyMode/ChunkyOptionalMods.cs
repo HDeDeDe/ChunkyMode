@@ -199,9 +199,9 @@ namespace HDeMods {
                 }
                 c.Emit(OpCodes.Ldarg_2);
                 c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float,
-                    SubmarinerMod.SubmarinerCharacter.Components.SubmarinerController, float>>(
-                    (toHeal, sbc) => {
-                        if (sbc.convictedVictimBody.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    CharacterBody, float>>(
+                    (toHeal, cb) => {
+                        if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
                         if (ChunkyMode.isSimulacrumRun && !ChunkyMode.waveStarted) return toHeal;
                         return toHeal * ChunkyRunInfo.instance.submarinerHealOverride;
                     });
