@@ -119,7 +119,7 @@ namespace HDeMods
             LegacyDifficultyDef = new DifficultyDef(4f,
                 "CHUNKYMODEDIFFMOD_NAME",
                 "CHUNKYMODEDIFFMOD_ICON",
-                "CHUNKYMODEDIFFMOD_DESCRIPTION",
+                "HURRICANE_DIFF_DESCRIPTION",
                 new Color32(61, 25, 255, 255),
                 "cm",
                 true
@@ -154,7 +154,7 @@ namespace HDeMods
             enemyChanceToYap = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Yapping",
                 "Enemy Yap Chance",
-                0.0003f,
+                0.03f,
                 "The probability of enemies to yap. Set to 0 to stop the yapping.");
             enemyYapCooldown = ChunkyModePlugin.instance.Config.Bind<float>(
                 "Yapping",
@@ -175,7 +175,7 @@ namespace HDeMods
         }
 
         private static void ClampConfigOptions() {
-            enemyChanceToYap.Value = Math.Clamp(enemyChanceToYap.Value, 0f, 1f);
+            enemyChanceToYap.Value = Math.Clamp(enemyChanceToYap.Value, 0f, 100f);
             enemyYapCooldown.Value = Math.Clamp(enemyYapCooldown.Value, 0f, 600f);
             limitPestAmount.Value = Math.Clamp(limitPestAmount.Value, 0f, 100f);
             ChunkySurvivorBuffs.ClampValues();
@@ -186,13 +186,13 @@ namespace HDeMods
             ChunkyOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
             ChunkyOptionalMods.RoO.AddCheck(doGoldPenalty);
             ChunkyOptionalMods.RoO.AddCheck(doEnemyNerfs);
-            ChunkyOptionalMods.RoO.AddFloat(enemyChanceToYap, 0f, 1f, "{0}%");
+            ChunkyOptionalMods.RoO.AddFloatStep(enemyChanceToYap, 0f, 100f, 0.01f,"{0}%");
             ChunkyOptionalMods.RoO.AddFloatStep(enemyYapCooldown, 0f, 600f, 1, "{0}");
             ChunkyOptionalMods.RoO.AddCheck(limitPest);
             ChunkyOptionalMods.RoO.AddFloatStep(limitPestAmount, 0f, 100f, 1f);
             ChunkySurvivorBuffs.RegisterRiskOfOptions();
             ChunkyOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
-            ChunkyOptionalMods.RoO.SetDescriptionToken("CHUNKYMODEDIFFMOD_RISK_OF_OPTIONS_DESCRIPTION");
+            ChunkyOptionalMods.RoO.SetDescriptionToken("HURRICANE_RISK_OF_OPTIONS_DESCRIPTION");
         }
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
@@ -344,7 +344,7 @@ namespace HDeMods
             if (!NetworkServer.active) goto ENEMYSTATS;
             
             float funko = UnityEngine.Random.Range(0f,1f);
-            float yap = ChunkyRunInfo.instance.enemyChanceToYap;
+            float yap = ChunkyRunInfo.instance.enemyChanceToYap / 100f;
             if (InterRunInfo.instance.loiterPenaltyActive) yap *= 2;
 
             if (funko < yap && ChunkyRunInfo.instance.enemyChanceToYap > 0 &&

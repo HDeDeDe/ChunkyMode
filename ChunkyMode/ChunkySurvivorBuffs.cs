@@ -53,12 +53,13 @@ namespace HDeMods {
         }
         
         public static void RegisterRiskOfOptions() {
-            ChunkyOptionalMods.RoO.AddFloatStep(RexHealOverride, 0.5f, 2f, 0.025f, "{0}x");
-            ChunkyOptionalMods.RoO.AddFloatStep(AcridHealOverride, 0.5f, 2f, 0.025f, "{0}x");
-            ChunkyOptionalMods.RoO.AddFloatStep(ChirrHealOverride, 0.5f, 2f, 0.025f, "{0}x");
-            ChunkyOptionalMods.RoO.AddFloatStep(AliemHealOverride, 0.5f, 2f, 0.025f, "{0}x");
-            ChunkyOptionalMods.RoO.AddFloatStep(SubmarinerHealOverride, 0.5f, 2f, 0.025f, "{0}x");
-            ChunkyOptionalMods.RoO.AddFloatStep(RavagerHealOverride, 0.5f, 2f, 0.025f, "{0}x");
+            string format = "{0}x";
+            ChunkyOptionalMods.RoO.AddFloatStep(RexHealOverride, 0.5f, 2f, 0.025f, format);
+            ChunkyOptionalMods.RoO.AddFloatStep(AcridHealOverride, 0.5f, 2f, 0.025f, format);
+            ChunkyOptionalMods.RoO.AddFloatStep(ChirrHealOverride, 0.5f, 2f, 0.025f, format);
+            ChunkyOptionalMods.RoO.AddFloatStep(AliemHealOverride, 0.5f, 2f, 0.025f, format);
+            ChunkyOptionalMods.RoO.AddFloatStep(SubmarinerHealOverride, 0.5f, 2f, 0.025f, format);
+            ChunkyOptionalMods.RoO.AddFloatStep(RavagerHealOverride, 0.5f, 2f, 0.025f, format);
         }
     }
 }

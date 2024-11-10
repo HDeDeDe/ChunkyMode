@@ -15,7 +15,7 @@ namespace HDeMods {
 			foreach (BuffIndex buffIndex in eliteAffix) {
 				enemyName = Language.GetStringFormatted(BuffCatalog.GetBuffDef(buffIndex).eliteDef.modifierToken, enemyName);
 			}
-			return Language.GetStringFormatted("CHUNKYMODEDIFFMOD_YAP_FORMAT", Language.GetStringFormatted(enemyName), Language.GetString(baseToken));
+			return Language.GetStringFormatted("HURRICANE_YAP_FORMAT", Language.GetStringFormatted(enemyName), Language.GetString(baseToken));
 		}
 		
 		public override void Serialize(NetworkWriter writer) {
