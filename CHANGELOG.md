@@ -1,3 +1,7 @@
+## 0.4.3
+- Changed minimum version of HealthComponentAPI
+- Due to the HealthComponentAPI update, Barrier Decay rate has been indirectly buffed to actually be -50%
+- Added "reset to default" buttons on every page
 ## 0.4.2
 - Buffed Alien Hominid's Chomp
 - Buffed Ravager's consume
