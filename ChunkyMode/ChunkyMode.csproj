@@ -20,7 +20,7 @@
 
 		<PackageReference Include="BepInEx.Core" Version="5.4.21" />
 
-		<PackageReference Include="HDeDeDe.Mods.RiskOfRain2.HealthComponentAPI" Version="1.0.0" />
+		<PackageReference Include="HDeDeDe.Mods.RiskOfRain2.HealthComponentAPI" Version="1.1.0" />
 
 		<PackageReference Include="R2API.Difficulty" Version="1.1.2" />
 
