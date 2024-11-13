@@ -6,7 +6,7 @@ namespace HDeMods {
 	internal static class HurricaneILHooks {
         // These are the override values
         private const float shieldRechargeOverride = -0.5f;
-        private const float barrierDecayOverride = -0.5f;
+        private const float barrierDecayOverride = -0.75f;
 
         // This handles the -50% Ally Healing stat
         public static void HealingOverride(HealthComponent sender, HealthComponentAPI.HealEventArgs args) {

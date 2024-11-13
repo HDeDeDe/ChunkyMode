@@ -26,7 +26,7 @@ They yap at you
   - Acrid's Regenerative is unaffected
   - Chirr's Soothing Venom buff is unaffected
 - Ally Shield Recharge Rate -50%
-- Ally Barrier Decay Rate +50%
+- Ally Barrier Decay Rate +75%
 - Gold generation -10%
 - Director interactable credits +20%
   - This is applied after credits are generated so it may not be exactly 20%
