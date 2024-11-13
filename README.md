@@ -15,6 +15,7 @@ A difficulty aimed at bringing Eclipse level challenges while maintaining somewh
 ![Enemies will shred you](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-34-46%20AM.gif?raw=true)
 
 They yap at you
+
 ![Yapping pest](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-08-36%20PM.gif?raw=true)
 
 ## Changes
