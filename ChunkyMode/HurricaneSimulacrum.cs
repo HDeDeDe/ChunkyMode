@@ -90,8 +90,8 @@ namespace HDeMods {
 				
 #if DEBUG
 				CM.Log.Warning("Total enemies: " + totalEnemies);
-				CM.Log.Warning("Too many Pest? " + (ChunkyMode.totalBlindPest > tenPercent));
-				CM.Log.Warning("Too many Lemurians? " + (ChunkyMode.totalLemurians > totalEnemies * tenPercent));
+				CM.Log.Warning("Too many Pest? " + (Hurricane.totalBlindPest > tenPercent));
+				CM.Log.Warning("Too many Lemurians? " + (Hurricane.totalLemurians > totalEnemies * tenPercent));
 #endif
 				
 				// Something's wrong
