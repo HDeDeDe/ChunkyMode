@@ -186,13 +186,33 @@ namespace HDeMods
             HurricaneOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
             HurricaneOptionalMods.RoO.AddCheck(doGoldPenalty);
             HurricaneOptionalMods.RoO.AddCheck(doEnemyNerfs);
+            HurricaneOptionalMods.RoO.AddButton("Reset to default", "Unlisted Difficulty Modifiers", ResetUnlistedModifiers);
             HurricaneOptionalMods.RoO.AddFloatStep(enemyChanceToYap, 0f, 100f, 0.01f,"{0}%");
             HurricaneOptionalMods.RoO.AddFloatStep(enemyYapCooldown, 0f, 600f, 1, "{0}");
+            HurricaneOptionalMods.RoO.AddButton("Reset to default", "Yapping", ResetYapping);
             HurricaneOptionalMods.RoO.AddCheck(limitPest);
             HurricaneOptionalMods.RoO.AddFloatStep(limitPestAmount, 0f, 100f, 1f);
+            HurricaneOptionalMods.RoO.AddButton("Reset to default", "Simulacrum", ResetSimulacrum);
             HurricaneSurvivorBuffs.RegisterRiskOfOptions();
             HurricaneOptionalMods.RoO.SetSprite(HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"));
             HurricaneOptionalMods.RoO.SetDescriptionToken("HURRICANE_RISK_OF_OPTIONS_DESCRIPTION");
+        }
+        
+        private static void ResetUnlistedModifiers() {
+            doHealingBuffs.Value = (bool)doHealingBuffs.DefaultValue;
+            doEnemyLimitBoost.Value = (bool)doEnemyLimitBoost.DefaultValue;
+            doGoldPenalty.Value = (bool)doGoldPenalty.DefaultValue;
+            doEnemyNerfs.Value = (bool)doEnemyNerfs.DefaultValue;
+        }
+        
+        private static void ResetYapping() {
+            enemyChanceToYap.Value = (float)enemyChanceToYap.DefaultValue;
+            enemyYapCooldown.Value = (float)enemyYapCooldown.DefaultValue;
+        }
+        
+        private static void ResetSimulacrum() {
+            limitPest.Value = (bool)limitPest.DefaultValue;
+            limitPestAmount.Value = (float)limitPestAmount.DefaultValue;
         }
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
