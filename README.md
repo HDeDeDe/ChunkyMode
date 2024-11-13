@@ -3,6 +3,11 @@
 
 A difficulty aimed at bringing Eclipse level challenges while maintaining somewhat vanilla gameplay.
 
+[![Thunderstore Version](https://img.shields.io/thunderstore/v/HDeDeDe/ChunkyMode?style=for-the-badge&logo=thunderstore&color=blue)](https://thunderstore.io/package/HDeDeDe/ChunkyMode/)
+[![Thunderstore Downloads](https://img.shields.io/thunderstore/dt/HDeDeDe/ChunkyMode?style=for-the-badge&logo=thunderstore&color=blue)](https://thunderstore.io/package/HDeDeDe/ChunkyMode/)
+[![GitHub Release](https://img.shields.io/github/v/release/HDeDeDe/ChunkyMode?style=for-the-badge&logo=github&color=green)](https://github.com/HDeDeDe/ChunkyMode/releases)
+
+
 ![difficulty](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/DifficultyPreview.png?raw=true)
 
 ![Death from nowhere](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-08-05%2012-24-11%20AM.gif?raw=true)
