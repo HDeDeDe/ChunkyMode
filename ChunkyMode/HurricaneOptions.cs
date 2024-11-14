@@ -126,6 +126,8 @@ namespace HDeMods { namespace HurricaneOptionalMods {
                 ModOptionPanelController options =
                     // I'm too lazy to find a proper way of doing this
                     GameObject.Find("SettingsPanelTitle(Clone)").GetComponent<ModOptionPanelController>();
+                if (options == null) options = 
+                    GameObject.Find("SettingsPanel(Clone)").GetComponent<ModOptionPanelController>();
                 foreach (ModSetting setting in options._modSettings) {
                     if (setting.GetType() == typeof(GenericButtonController)) continue;
                     AccessTools.Method(setting.GetType(), "ResetToDefault")?.Invoke(setting, null);
