@@ -62,16 +62,7 @@ namespace HDeMods {
             HurricaneOptionalMods.RoO.AddFloatStep(AliemHealOverride, 0.5f, 2f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddFloatStep(SubmarinerHealOverride, 0.5f, 2f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddFloatStep(RavagerHealOverride, 0.5f, 2f, 0.025f, format);
-            HurricaneOptionalMods.RoO.AddButton("Reset to default", "Healing Buffs", ResetToDefault);
-        }
-
-        public static void ResetToDefault() {
-            RexHealOverride.Value = (float)RexHealOverride.DefaultValue;
-            AcridHealOverride.Value = (float)AcridHealOverride.DefaultValue;
-            ChirrHealOverride.Value = (float)ChirrHealOverride.DefaultValue;
-            AliemHealOverride.Value = (float)AliemHealOverride.DefaultValue;
-            SubmarinerHealOverride.Value = (float)SubmarinerHealOverride.DefaultValue;
-            RavagerHealOverride.Value =(float)RavagerHealOverride.DefaultValue;
+            HurricaneOptionalMods.RoO.AddButton("Reset to default", "Healing Buffs", HurricaneOptionalMods.RoO.ResetToDefault);
         }
     }
 }

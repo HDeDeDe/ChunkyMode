@@ -1,7 +1,10 @@
+using HarmonyLib;
 using RiskOfOptions;
 using RiskOfOptions.Options;
 using System.Runtime.CompilerServices;
 using BepInEx.Configuration;
+using RiskOfOptions.Components.Options;
+using RiskOfOptions.Components.Panel;
 using RiskOfOptions.OptionConfigs;
 using UnityEngine;
 using UnityEngine.Events;
@@ -82,6 +85,17 @@ namespace HDeMods { namespace HurricaneOptionalMods {
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void SetDescriptionToken(string description) => 
                 ModSettingsManager.SetModDescriptionToken(description);
+            
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            public static void ResetToDefault() {
+                ModOptionPanelController options =
+                    // I'm too lazy to find a proper way of doing this
+                    GameObject.Find("SettingsPanelTitle(Clone)").GetComponent<ModOptionPanelController>();
+                foreach (ModSetting setting in options._modSettings) {
+                    if (setting.GetType() == typeof(GenericButtonController)) continue;
+                    AccessTools.Method(setting.GetType(), "ResetToDefault")?.Invoke(setting, null);
+                }
+            }
         }
     }
 
