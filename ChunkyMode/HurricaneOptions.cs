@@ -119,6 +119,7 @@ namespace HDeMods { namespace HurricaneOptionalMods {
             public static void SetDescriptionToken(string description) => 
                 ModSettingsManager.SetModDescriptionToken(description);
             
+            // Thanks to Bubbet for the suggestion and .score for helping me get it working
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void ResetToDefault() {
                 if (!initialized) return;
