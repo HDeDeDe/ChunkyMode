@@ -182,7 +182,7 @@ namespace HDeMods
         }
 
         private static void AddOptions() {
-            HurricaneOptionalMods.RoO.Init(HurricanePlugin.PluginGUID, HurricanePlugin.PluginName,CM.Log.Debug);
+            HurricaneOptionalMods.RoO.Init(HurricanePlugin.PluginGUID, HurricanePlugin.PluginName, CM.Log.Error, CM.Log.Debug);
             HurricaneOptionalMods.RoO.AddCheck(doHealingBuffs);
             HurricaneOptionalMods.RoO.AddCheck(doEnemyLimitBoost);
             HurricaneOptionalMods.RoO.AddCheck(doGoldPenalty);

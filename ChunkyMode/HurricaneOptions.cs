@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using RiskOfOptions;
@@ -16,83 +17,96 @@ namespace HDeMods { namespace HurricaneOptionalMods {
     internal static class RoO {
             public static bool Enabled =>
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
-
+            public delegate void LogFunc(object data);
+            
             private static string modGUID;
             private static string modNAME;
-            public delegate void LogDebugFunc(object data);
-            private static LogDebugFunc logMe;
-
-            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void Init(string modGuid, string modName,LogDebugFunc debugFunc) {
-                logMe = debugFunc;
+            private static LogFunc logDebug;
+            private static LogFunc logError;
+            private static bool initialized;
+        
+            public static void Init(string modGuid, string modName, LogFunc errorFunc, LogFunc debugFunc = null) {
+#if DEBUG
+                logDebug = debugFunc;
+#endif
+                logError = errorFunc;
                 modGUID = modGuid;
                 modNAME = modName;
+                if (!Enabled) {
+                    logError("Risk of Options is not present, the author of " + modNAME + " did not check for this! Mod GUID: " + modGUID);
+                    return;
+                }
+                initialized = true;
             }
-            
-
         
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddCheck(ConfigEntry<bool> option, bool requireRestart = false) {
+                if (!initialized) return;
                 LocalizedCheckBoxOption boxOption = new LocalizedCheckBoxOption(option, requireRestart);
                 ModSettingsManager.AddOption(boxOption, modGUID,
                     modNAME);
 #if DEBUG
-                logMe(boxOption.GetNameToken());
-                logMe(boxOption.GetDescriptionToken());
+                if (logDebug == null) return;
+                logDebug(boxOption.GetNameToken());
+                logDebug(boxOption.GetDescriptionToken());
 #endif
             }
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
+                if (!initialized) return;
                 LocalizedIntSliderOption sliderOption =
                     new LocalizedIntSliderOption(option, new IntSliderConfig() { min = minimum, max = maximum });
                 ModSettingsManager.AddOption(sliderOption, modGUID,
                     modNAME);
-
 #if DEBUG
-                logMe(sliderOption.GetNameToken());
-                logMe(sliderOption.GetDescriptionToken());
+                if (logDebug == null) return;
+                logDebug(sliderOption.GetNameToken());
+                logDebug(sliderOption.GetDescriptionToken());
 #endif
             }
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddFloat(ConfigEntry<float> option, float minimum, float maximum,
                 string format = "{0:0}%") {
+                if (!initialized) return;
                 LocalizedSliderOption sliderOption = new LocalizedSliderOption(option,
                     new SliderConfig() { min = minimum, max = maximum, FormatString = format });
                 ModSettingsManager.AddOption(sliderOption, modGUID,
                     modNAME);
-
 #if DEBUG
-                logMe(sliderOption.GetNameToken());
-                logMe(sliderOption.GetDescriptionToken());
+                if (logDebug == null) return;
+                logDebug(sliderOption.GetNameToken());
+                logDebug(sliderOption.GetDescriptionToken());
 #endif
             }
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddFloatStep(ConfigEntry<float> option, float minimum, float maximum, float step,
                 string format = "{0:0}%") {
+                if (!initialized) return;
                 LocalizedSliderStepOption stepSliderOption = new LocalizedSliderStepOption(option, new StepSliderConfig()
                     { min = minimum, max = maximum, FormatString = format, increment = step });
                 ModSettingsManager.AddOption(stepSliderOption, modGUID,
                     modNAME);
-
 #if DEBUG
-                logMe(stepSliderOption.GetNameToken());
-                logMe(stepSliderOption.GetDescriptionToken());
+                if (logDebug == null) return;
+                logDebug(stepSliderOption.GetNameToken());
+                logDebug(stepSliderOption.GetDescriptionToken());
 #endif
             }
             
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddButton(string name, string category, UnityAction onButtonPressed) {
+                if (!initialized) return;
                 LocalizedButtonOption buttonOption = new LocalizedButtonOption(name, category, "", "", onButtonPressed);
                 ModSettingsManager.AddOption(buttonOption, modGUID,
                     modNAME);
-
 #if DEBUG
-                logMe(buttonOption.GetNameToken());
-                logMe(buttonOption.GetDescriptionToken());
-                logMe(buttonOption.GetButtonLabelToken());
+                if (logDebug == null) return;
+                logDebug(buttonOption.GetNameToken());
+                logDebug(buttonOption.GetDescriptionToken());
+                logDebug(buttonOption.GetButtonLabelToken());
 #endif
             }
 
@@ -105,6 +119,7 @@ namespace HDeMods { namespace HurricaneOptionalMods {
             
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void ResetToDefault() {
+                if (!initialized) return;
                 ModOptionPanelController options =
                     // I'm too lazy to find a proper way of doing this
                     GameObject.Find("SettingsPanelTitle(Clone)").GetComponent<ModOptionPanelController>();
