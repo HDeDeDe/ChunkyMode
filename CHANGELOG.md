@@ -1,6 +1,6 @@
 ## 0.4.3
 - Changed minimum version of HealthComponentAPI
-- Due to the HealthComponentAPI update, Barrier Decay rate has been nerfed to +75% to bring it more in line with what it was before.
+- Due to the HealthComponentAPI update, Barrier Decay rate has been nerfed to +100% to bring it more in line with what it was before.
 - Added "reset to default" buttons on every page
 ## 0.4.2
 - Buffed Alien Hominid's Chomp
