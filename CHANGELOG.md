@@ -1,3 +1,5 @@
+## 0.4.4
+- Fixed a bug that caused resetting options to only work on the title screen
 ## 0.4.3
 - Changed minimum version of HealthComponentAPI
 - Due to the HealthComponentAPI update, Barrier Decay rate has been nerfed to +100% to bring it more in line with what it was before.
