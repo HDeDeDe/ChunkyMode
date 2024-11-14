@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using RiskOfOptions;
 using RiskOfOptions.Options;
@@ -10,18 +11,34 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace HDeMods { namespace HurricaneOptionalMods {
-	internal static class RoO {
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "StringLiteralTypo")]
+    internal static class RoO {
             public static bool Enabled =>
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
 
+            private static string modGUID;
+            private static string modNAME;
+            public delegate void LogDebugFunc(object data);
+            private static LogDebugFunc logMe;
+
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            public static void Init(string modGuid, string modName,LogDebugFunc debugFunc) {
+                logMe = debugFunc;
+                modGUID = modGuid;
+                modNAME = modName;
+            }
+            
+
+        
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddCheck(ConfigEntry<bool> option, bool requireRestart = false) {
                 LocalizedCheckBoxOption boxOption = new LocalizedCheckBoxOption(option, requireRestart);
-                ModSettingsManager.AddOption(boxOption, HurricanePlugin.PluginGUID,
-                    HurricanePlugin.PluginName);
+                ModSettingsManager.AddOption(boxOption, modGUID,
+                    modNAME);
 #if DEBUG
-                CM.Log.Debug(boxOption.GetNameToken());
-                CM.Log.Debug(boxOption.GetDescriptionToken());
+                logMe(boxOption.GetNameToken());
+                logMe(boxOption.GetDescriptionToken());
 #endif
             }
 
@@ -29,12 +46,12 @@ namespace HDeMods { namespace HurricaneOptionalMods {
             public static void AddInt(ConfigEntry<int> option, int minimum, int maximum) {
                 LocalizedIntSliderOption sliderOption =
                     new LocalizedIntSliderOption(option, new IntSliderConfig() { min = minimum, max = maximum });
-                ModSettingsManager.AddOption(sliderOption, HurricanePlugin.PluginGUID,
-                    HurricanePlugin.PluginName);
+                ModSettingsManager.AddOption(sliderOption, modGUID,
+                    modNAME);
 
 #if DEBUG
-                CM.Log.Debug(sliderOption.GetNameToken());
-                CM.Log.Debug(sliderOption.GetDescriptionToken());
+                logMe(sliderOption.GetNameToken());
+                logMe(sliderOption.GetDescriptionToken());
 #endif
             }
 
@@ -43,12 +60,12 @@ namespace HDeMods { namespace HurricaneOptionalMods {
                 string format = "{0:0}%") {
                 LocalizedSliderOption sliderOption = new LocalizedSliderOption(option,
                     new SliderConfig() { min = minimum, max = maximum, FormatString = format });
-                ModSettingsManager.AddOption(sliderOption, HurricanePlugin.PluginGUID,
-                    HurricanePlugin.PluginName);
+                ModSettingsManager.AddOption(sliderOption, modGUID,
+                    modNAME);
 
 #if DEBUG
-                CM.Log.Debug(sliderOption.GetNameToken());
-                CM.Log.Debug(sliderOption.GetDescriptionToken());
+                logMe(sliderOption.GetNameToken());
+                logMe(sliderOption.GetDescriptionToken());
 #endif
             }
 
@@ -57,25 +74,25 @@ namespace HDeMods { namespace HurricaneOptionalMods {
                 string format = "{0:0}%") {
                 LocalizedSliderStepOption stepSliderOption = new LocalizedSliderStepOption(option, new StepSliderConfig()
                     { min = minimum, max = maximum, FormatString = format, increment = step });
-                ModSettingsManager.AddOption(stepSliderOption, HurricanePlugin.PluginGUID,
-                    HurricanePlugin.PluginName);
+                ModSettingsManager.AddOption(stepSliderOption, modGUID,
+                    modNAME);
 
 #if DEBUG
-                CM.Log.Debug(stepSliderOption.GetNameToken());
-                CM.Log.Debug(stepSliderOption.GetDescriptionToken());
+                logMe(stepSliderOption.GetNameToken());
+                logMe(stepSliderOption.GetDescriptionToken());
 #endif
             }
             
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static void AddButton(string name, string category, UnityAction onButtonPressed) {
                 LocalizedButtonOption buttonOption = new LocalizedButtonOption(name, category, "", "", onButtonPressed);
-                ModSettingsManager.AddOption(buttonOption, HurricanePlugin.PluginGUID,
-                    HurricanePlugin.PluginName);
+                ModSettingsManager.AddOption(buttonOption, modGUID,
+                    modNAME);
 
 #if DEBUG
-                CM.Log.Debug(buttonOption.GetNameToken());
-                CM.Log.Debug(buttonOption.GetDescriptionToken());
-                CM.Log.Debug(buttonOption.GetButtonLabelToken());
+                logMe(buttonOption.GetNameToken());
+                logMe(buttonOption.GetDescriptionToken());
+                logMe(buttonOption.GetButtonLabelToken());
 #endif
             }
 
