@@ -21,9 +21,11 @@ namespace HDeMods { namespace HurricaneOptionalMods {
             
             private static string modGUID;
             private static string modNAME;
-            private static LogFunc logDebug;
             private static LogFunc logError;
             private static bool initialized;
+#if DEBUG
+            private static LogFunc logDebug;
+#endif
         
             public static void Init(string modGuid, string modName, LogFunc errorFunc, LogFunc debugFunc = null) {
 #if DEBUG
