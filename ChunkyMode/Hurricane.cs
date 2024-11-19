@@ -236,6 +236,11 @@ namespace HDeMods
                 HurricaneRunInfo.instance.limitPestAmount = limitPestAmount.Value;
                 HurricaneRunInfo.instance.rexHealOverride = HurricaneSurvivorBuffs.RexHealOverride.Value;
                 HurricaneRunInfo.instance.acridHealOverride = HurricaneSurvivorBuffs.AcridHealOverride.Value;
+                HurricaneRunInfo.instance.captainHealOverride = HurricaneSurvivorBuffs.CaptainHealOverride.Value;
+                HurricaneRunInfo.instance.voidFiendHealOverride = HurricaneSurvivorBuffs.VoidFiendHealOverride.Value;
+                HurricaneRunInfo.instance.seekerHealOverride = HurricaneSurvivorBuffs.SeekerHealOverride.Value;
+                HurricaneRunInfo.instance.falseSonHealOverride = HurricaneSurvivorBuffs.FalseSonHealOverride.Value;
+                HurricaneRunInfo.instance.chefSotSHealOverride = HurricaneSurvivorBuffs.ChefSotSHealOverride.Value;
                 HurricaneRunInfo.instance.chirrHealOverride = HurricaneSurvivorBuffs.ChirrHealOverride.Value;
                 HurricaneRunInfo.instance.aliemHealOverride = HurricaneSurvivorBuffs.AliemHealOverride.Value;
                 HurricaneRunInfo.instance.submarinerHealOverride = HurricaneSurvivorBuffs.SubmarinerHealOverride.Value;
@@ -255,6 +260,13 @@ namespace HDeMods
                 IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer +=
                     HurricaneILHooks.REXPrimaryAttack;
                 IL.RoR2.CharacterBody.RecalculateStats += HurricaneILHooks.AcridRegenBuff;
+                IL.RoR2.HealingWard.HealOccupants += HurricaneILHooks.CaptainWardBuff;
+                IL.EntityStates.VoidSurvivor.Weapon.CrushBase.OnEnter += HurricaneILHooks.VoidFiendSuppressBuff;
+                IL.RoR2.Projectile.UnseenHandHealingProjectile.OnDamageInflictedServer +=
+                    HurricaneILHooks.SeekerUnseenHandBuff;
+                IL.EntityStates.Seeker.MeditationUI.Update += HurricaneILHooks.SeekerMeditateBuff;
+                IL.RoR2.CharacterBody.RecalculateStats += HurricaneILHooks.FalseSonLunarTamperingBuff;
+                IL.RoR2.GlobalEventManager.OnCharacterDeath += HurricaneILHooks.ChefSotSChefsKissBuff;
                 if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.SetHooks();
                 if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.SetHooks();
                 if (HurricaneOptionalMods.Ravager.Enabled) HurricaneOptionalMods.Ravager.SetHooks();
@@ -300,6 +312,13 @@ namespace HDeMods
             IL.RoR2.Projectile.ProjectileHealOwnerOnDamageInflicted.OnDamageInflictedServer -=
                 HurricaneILHooks.REXPrimaryAttack;
             IL.RoR2.CharacterBody.RecalculateStats -= HurricaneILHooks.AcridRegenBuff;
+            IL.RoR2.HealingWard.HealOccupants -= HurricaneILHooks.CaptainWardBuff;
+            IL.EntityStates.VoidSurvivor.Weapon.CrushBase.OnEnter -= HurricaneILHooks.VoidFiendSuppressBuff;
+            IL.RoR2.Projectile.UnseenHandHealingProjectile.OnDamageInflictedServer -=
+                HurricaneILHooks.SeekerUnseenHandBuff;
+            IL.EntityStates.Seeker.MeditationUI.Update -= HurricaneILHooks.SeekerMeditateBuff;
+            IL.RoR2.CharacterBody.RecalculateStats -= HurricaneILHooks.FalseSonLunarTamperingBuff;
+            IL.RoR2.GlobalEventManager.OnCharacterDeath -= HurricaneILHooks.ChefSotSChefsKissBuff;
             if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.RemoveHooks();
             if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.RemoveHooks();
             if (HurricaneOptionalMods.Ravager.Enabled) HurricaneOptionalMods.Ravager.RemoveHooks();

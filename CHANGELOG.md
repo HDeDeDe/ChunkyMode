@@ -1,3 +1,8 @@
+## 0.4.5
+- Seeker's Unseen Hand and Meditate have been buffed to -25% healing
+- Chef's Chef's Kiss has been buffed to -0% healing (dear lord he needs it)
+- Ravager's consume has been nerfed to -25% healing
+- Added options to control all base game survivor healing.
 ## 0.4.4
 - Fixed a bug that caused resetting options to only work on the title screen
 ## 0.4.3

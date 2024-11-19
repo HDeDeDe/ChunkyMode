@@ -24,6 +24,11 @@ namespace HDeMods {
 		[FormerlySerializedAs("limitPestsAmountThisRun")] public float limitPestAmount;
 		public float rexHealOverride;
 		public float acridHealOverride;
+		public float captainHealOverride;
+		public float voidFiendHealOverride;
+		public float seekerHealOverride;
+		public float falseSonHealOverride;
+		public float chefSotSHealOverride;
 		public float chirrHealOverride;
 		public float aliemHealOverride;
 		public float submarinerHealOverride;
@@ -44,6 +49,13 @@ namespace HDeMods {
             limitPestAmount = saveData.limitPestAmount;
             rexHealOverride = saveData.rexHealOverride;
             acridHealOverride = saveData.acridHealOverride;
+            
+            acridHealOverride = saveData.acridHealOverride;
+            acridHealOverride = saveData.acridHealOverride;
+            acridHealOverride = saveData.acridHealOverride;
+            acridHealOverride = saveData.acridHealOverride;
+            acridHealOverride = saveData.acridHealOverride;
+            
             chirrHealOverride = saveData.chirrHealOverride;
             aliemHealOverride = saveData.aliemHealOverride;
             submarinerHealOverride = saveData.submarinerHealOverride;
@@ -74,6 +86,16 @@ namespace HDeMods {
 		public float rexHealOverride;
 		[DataMember(Name = "acridHeal")]
 		public float acridHealOverride;
+		[DataMember(Name = "captainHeal")]
+		public float captainHealOverride;
+		[DataMember(Name = "voidFiendHeal")]
+		public float voidFiendHealOverride;
+		[DataMember(Name = "seekerHeal")]
+		public float seekerHealOverride;
+		[DataMember(Name = "falseSonHeal")]
+		public float falseSonHealOverride;
+		[DataMember(Name = "chefSotSHeal")]
+		public float chefSotSHealOverride;
 		[DataMember(Name = "chirrHeal")]
 		public float chirrHealOverride;
 		[DataMember(Name = "aliemHeal")]

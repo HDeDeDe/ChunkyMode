@@ -103,5 +103,133 @@ namespace HDeMods {
                     return toHeal * HurricaneRunInfo.instance.acridHealOverride;
                 });
         }
+
+        public static void CaptainWardBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(
+                    moveType: MoveType.After,
+                    x => x.MatchLdfld<HealingWard>("healFraction")
+                )) {
+                CM.Log.Error("Failed to hook HealingWard!");
+                return;
+            }
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, HealingWard, float>>(
+                (toHeal, hw) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (hw.teamFilter.teamIndex != TeamIndex.Player) return toHeal;
+                    if (hw.name != "CaptainHealingWard(Clone)") return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.captainHealOverride;
+                });
+        }
+        
+        public static void VoidFiendSuppressBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(
+                    moveType: MoveType.Before,
+                    x => x.MatchLdloc(0),
+                    x => x.MatchCallvirt<HealthComponent>("HealFraction")
+                )) {
+                CM.Log.Error("Failed to hook Suppress!");
+                return;
+            }
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, EntityStates.EntityState, float>>(
+                (toHeal, es) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (es.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.voidFiendHealOverride;
+                });
+        }
+        
+        public static void SeekerUnseenHandBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(
+                    moveType: MoveType.After,
+                    x => x.MatchLdfld<DamageReport>("damageDealt")
+                )) {
+                CM.Log.Error("Failed to hook Unseen Hand Healing!");
+                return;
+            }
+            c.Emit(OpCodes.Ldloc_1);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
+                (toHeal, cb) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.seekerHealOverride;
+                });
+        }
+        
+        public static void SeekerMeditateBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(
+                    moveType: MoveType.After,
+                    x => x.MatchLdfld<EntityStates.Seeker.MeditationUI>("healingExplosionAmount")
+                )) {
+                CM.Log.Error("Failed to hook Meditate!");
+                return;
+            }
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, EntityStates.EntityState, float>>(
+                (toHeal, es) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (es.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.seekerHealOverride;
+                });
+        }
+        
+        public static void FalseSonLunarTamperingBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(
+                    moveType: MoveType.After,
+                    x => x.MatchLdfld<CharacterBody>("tamperedHeartRegenBonus")
+                )) {
+                CM.Log.Error("Failed to hook Tampered Heart Regen!");
+                return;
+            }
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, CharacterBody, float>>(
+                (toHeal, cb) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.falseSonHealOverride;
+                });
+        }
+        
+        public static void ChefSotSChefsKissBuff(ILContext il) {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(
+                    moveType: MoveType.After,
+                    x => x.MatchLdloc(68),
+                    x => x.MatchLdloc(44)
+                )) {
+                CM.Log.Error("Failed to hook Chef's Kiss!");
+                return;
+            }
+            c.Emit(OpCodes.Ldarg_1);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, DamageReport, float>>(
+                (toHeal, dr) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (dr.attackerBody.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.chefSotSHealOverride;
+                });
+            
+            if (!c.TryGotoNext(
+                    moveType: MoveType.After,
+                    x => x.MatchLdloc(68),
+                    x => x.MatchLdloc(45)
+                )) {
+                CM.Log.Error("Failed to hook Chef's Kiss!");
+                IL.RoR2.GlobalEventManager.OnCharacterDeath -= ChefSotSChefsKissBuff;
+                return;
+            }
+            c.Emit(OpCodes.Ldarg_1);
+            c.EmitDelegate<RuntimeILReferenceBag.FastDelegateInvokers.Func<float, DamageReport, float>>(
+                (toHeal, dr) => {
+                    if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
+                    if (dr.attackerBody.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    return toHeal * HurricaneRunInfo.instance.chefSotSHealOverride;
+                });
+        }
 	}
 }

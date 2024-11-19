@@ -19,19 +19,23 @@ They yap at you
 ![Yapping pest](https://github.com/HDeDeDe/ChunkyMode/blob/main/Resources/Risk%20of%20Rain%202%20-%202024-10-18%2012-08-36%20PM.gif?raw=true)
 
 ## Changes
-### Player / Ally changes
 
+### Player / Ally changes
 - Ally Healing -50%
   - REX only gets -25% to DIRECTIVE: Inject and Tangling Growth
   - Acrid's Regenerative is unaffected
-  - Chirr's Soothing Venom buff is unaffected
+  - Seeker only gets -25% to Unseen Hand and Meditate
+  - Chef's Chef's Kiss is unaffected
+  - Chirr's Soothing Venom is unaffected
+  - Alien Hominid's Chomp is unaffected
+  - Submariner's N'kuhanna's Restoration is unaffected
+  - Ravager only gets -25% to Consume
 - Ally Shield Recharge Rate -50%
 - Ally Barrier Decay Rate +100%
 - Gold generation -10%
 - Director interactable credits +20%
-  - This is applied after credits are generated so it may not be exactly 20%
-### Enemy changes
 
+### Enemy changes
 - Director combat credits +10%
 - Enemy level cap +9900
 - Enemy soft spawn cap +50%
