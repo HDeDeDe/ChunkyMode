@@ -27,8 +27,12 @@ namespace HDeMods {
             public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("bubbet.riskui");
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void AddLegacyDifficulty() => RiskUIPlugin.DifficultyIconMap["CHUNKYMODEDIFFMOD_NAME"] =
-                Hurricane.HurricaneBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
+            public static void AddLegacyDifficulty() {
+                RiskUIPlugin.DifficultyIconMap["CHUNKYMODEDIFFMOD_NAME"] =
+                    Hurricane.HurricaneBundle.LoadAsset<Sprite>("texChunkyModeRiskUI");
+                RiskUIPlugin.DifficultyIconMap["SADOMASOCHISMWISH_DIFF_NAME"] =
+                    Hurricane.HurricaneBundle.LoadAsset<Sprite>("texSadomasochismWishRiskUI");
+            }
         }
 
         internal static class Starstorm2 {

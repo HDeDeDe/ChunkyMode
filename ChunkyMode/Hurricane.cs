@@ -23,11 +23,14 @@ namespace HDeMods
         public static DifficultyIndex LegacyDifficultyIndex;
         public static DifficultyDef HurricaneDifficultyDef;
         public static DifficultyIndex HurricaneDifficultyIndex;
+        public static DifficultyDef SadomasochismWishDef;
+        public static DifficultyIndex SadomasochismWishIndex;
         public static GameObject HurricaneInfo;
         private static GameObject m_hurricaneInfo;
 
         // Run start checks
         private static bool shouldRun;
+        private static bool sadomasochismWish;
         private static int ogMonsterCap;
         private static int ogRunLevelCap;
         internal static bool isSimulacrumRun;
@@ -110,6 +113,7 @@ namespace HDeMods
             BindSettings();
             AddHurricaneDifficulty();
             AddLegacyDifficulty();
+            AddSadomasochismWish();
             
             if (HurricaneOptionalMods.RoO.Enabled) AddOptions();
             if (HurricaneOptionalMods.Saving.Enabled) HurricaneOptionalMods.Saving.SetUp();
@@ -145,6 +149,21 @@ namespace HDeMods
                 foundIconSprite = true
             };
             LegacyDifficultyIndex = DifficultyAPI.AddDifficulty(LegacyDifficultyDef);
+        }
+        
+        private static void AddSadomasochismWish() {
+            SadomasochismWishDef = new DifficultyDef(4f,
+                "SADOMASOCHISMWISH_DIFF_NAME",
+                "SADOMASOCHISMWISH_ICON",
+                "SADOMASOCHISMWISH_DIFF_DESCRIPTION",
+                new Color32(255, 204, 0, 255),
+                "smw",
+                true
+            ) {
+                iconSprite = HurricaneBundle.LoadAsset<Sprite>("texSadomasochismWishDiffIcon"),
+                foundIconSprite = true
+            };
+            SadomasochismWishIndex = DifficultyAPI.AddDifficulty(SadomasochismWishDef);
         }
 
         public static void BindSettings() {
@@ -270,7 +289,7 @@ namespace HDeMods
                 HurricaneRunInfo.instance.paladinBarrierOverride = HurricaneSurvivorBuffs.PaladinBarrierOverride.Value / 100f;
             }
 
-            if (HurricaneRunInfo.instance.doEnemyLimitBoost) {
+            if (HurricaneRunInfo.instance.doEnemyLimitBoost && !sadomasochismWish) {
                 //Thanks Starstorm 2 :)
                 TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
                 TeamCatalog.GetTeamDef(TeamIndex.Void)!.softCharacterLimit = (int)(ogMonsterCap * 1.5);
@@ -402,7 +421,7 @@ namespace HDeMods
             }
 
             ENEMYSTATS:
-            if (!HurricaneRunInfo.instance.doEnemyNerfs) {
+            if (!HurricaneRunInfo.instance.doEnemyNerfs || sadomasochismWish) {
                 args.attackSpeedMultAdd += 0.5f;
                 args.moveSpeedMultAdd += 0.4f;
                 args.cooldownReductionAdd += 0.5f;
@@ -462,13 +481,14 @@ namespace HDeMods
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
         internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
-            self.creditMultiplier *= 1.1f;
+            if (!sadomasochismWish) self.creditMultiplier *= 1.1f;
             if (HurricaneRunInfo.instance.doGoldPenalty && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
 
         // This handles the +20% Loot Spawn Rate stat
         internal static void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
+            if (sadomasochismWish) return;
             self.interactableCredit = (int)(self.interactableCredit * 1.2);
             CM.Log.Info("Updated Credits: " + self.interactableCredit);
         }
