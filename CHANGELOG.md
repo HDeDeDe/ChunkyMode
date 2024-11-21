@@ -1,3 +1,5 @@
+## 0.4.6
+- Update minimum version of Interlopting Artifact
 ## 0.4.5
 - Seeker's Unseen Hand and Meditate have been buffed to -25% healing
 - Chef's Chef's Kiss has been buffed to -0% healing (dear lord he needs it)
