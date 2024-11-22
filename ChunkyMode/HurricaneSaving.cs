@@ -34,7 +34,8 @@ namespace HDeMods { namespace HurricaneOptionalMods {
 		}
 		[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
 		private static void SaveRunInfo(Dictionary<string, object> save) {
-			if (Run.instance.selectedDifficulty != Hurricane.LegacyDifficultyIndex) return;
+			if (Run.instance.selectedDifficulty != Hurricane.LegacyDifficultyIndex
+			    || Run.instance.selectedDifficulty != SadomasochismWish.diffIndex) return;
 			HurricaneSaveData tempRun = new HurricaneSaveData {
 				isValidSave = true,
 				doEnemyLimitBoost = HurricaneRunInfo.instance.doEnemyLimitBoost,

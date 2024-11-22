@@ -20,6 +20,7 @@ namespace HDeMods {
 		public static readonly Dictionary<BodyCache, BodyIndex> bodyCache = new Dictionary<BodyCache, BodyIndex>();
 		public static int injector;
 		private static RuleChoiceDef legacyChoiceDef;
+		private static RuleChoiceDef smWishDef;
 		
 		public static void GenerateCache() {
 #if DEBUG
@@ -39,6 +40,11 @@ namespace HDeMods {
 			legacyChoiceDef = RuleCatalog.FindChoiceDef("Difficulty.ChunkyMode");
 			legacyChoiceDef.availableInSinglePlayer = true;
 			legacyChoiceDef.availableInMultiPlayer = true;
+
+			smWishDef = RuleCatalog.FindChoiceDef("Difficulty.FunkyMode");
+			if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
+			smWishDef.availableInSinglePlayer = false;
+			smWishDef.availableInMultiPlayer = false;
 		}
 
 		private static void AddToCollection(BodyIndex index, BodyCache cache) {
