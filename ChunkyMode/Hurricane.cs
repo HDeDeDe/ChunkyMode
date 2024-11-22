@@ -241,8 +241,7 @@ namespace HDeMods
             if (!IsHurricane(run.selectedDifficulty)) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            if (!SadomasochismWish.Enabled 
-                && !HurricaneOptionalMods.DownpourMod.ReworkEnabled) Run.ambientLevelCap += 9900;
+            Run.ambientLevelCap += 9900;
 
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             if (!NetworkServer.active) return;
@@ -330,7 +329,7 @@ namespace HDeMods
             shouldRun = false;
             isSimulacrumRun = false;
             HurricaneRunInfo.preSet = false;
-            if (!SadomasochismWish.Enabled) Run.ambientLevelCap = ogRunLevelCap;
+            Run.ambientLevelCap = ogRunLevelCap;
             SadomasochismWish.Enabled = false;
             GameObject.Destroy(m_hurricaneInfo);
             if (HurricaneOptionalMods.InfernoDownpour.Enabled) SadomasochismWish.RunEnd();
@@ -471,7 +470,7 @@ namespace HDeMods
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
         internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
-            if (!SadomasochismWish.Enabled) self.creditMultiplier *= 1.1f;
+            self.creditMultiplier *= 1.1f;
             if (HurricaneRunInfo.instance.doGoldPenalty && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
