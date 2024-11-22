@@ -10,6 +10,18 @@ using MonoMod.RuntimeDetour;
 
 namespace HDeMods { 
     namespace HurricaneOptionalMods {
+        internal static class DownpourMod {
+            public static bool Enabled =>
+                BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(Downpour.DownpourPlugin.PluginGUID);
+
+            public static bool ReworkEnabled => GetReworkStatus();
+
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            private static bool GetReworkStatus() {
+                if (!Enabled) return false;
+                return Downpour.DownpourPlugin.EnableRework.Value;
+            }
+        }
         internal static class Hunk {
             public static bool Enabled => BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Hunk");
         }

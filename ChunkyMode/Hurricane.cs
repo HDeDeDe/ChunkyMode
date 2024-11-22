@@ -203,7 +203,7 @@ namespace HDeMods
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
             SadomasochismWish.Enabled = arg1.selectedDifficulty == SadomasochismWish.diffIndex;
-            if (arg1.selectedDifficulty != LegacyDifficultyIndex || arg1.selectedDifficulty != SadomasochismWish.diffIndex) return;
+            if (arg1.selectedDifficulty != LegacyDifficultyIndex && arg1.selectedDifficulty != SadomasochismWish.diffIndex) return;
             if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
             InterlopingArtifact.HurricaneRun = true;
         }
@@ -218,7 +218,8 @@ namespace HDeMods
             if (!InterlopingArtifact.HurricaneRun) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            if (!SadomasochismWish.Enabled) Run.ambientLevelCap += 9900;
+            if (!SadomasochismWish.Enabled 
+                && !HurricaneOptionalMods.DownpourMod.ReworkEnabled) Run.ambientLevelCap += 9900;
 
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             if (!NetworkServer.active) return;
