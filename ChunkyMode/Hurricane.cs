@@ -426,6 +426,7 @@ namespace HDeMods
                     args.moveSpeedMultAdd += 0.4f;
                     args.cooldownReductionAdd += 0.5f;
                     break;
+                case BodyCache.Lemurian:
                 case BodyCache.None:
                 default:
                     args.attackSpeedMultAdd += 0.5f;
