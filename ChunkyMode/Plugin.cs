@@ -21,6 +21,8 @@ namespace HDeMods {
 	[BepInDependency("com.kenko.Submariner", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("com.rob.Ravager", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("com.HDeDeDe.Hurricane", BepInDependency.DependencyFlags.SoftDependency)]
+	[BepInDependency(Inferno.Main.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
+	[BepInDependency(Downpour.DownpourPlugin.PluginGUID, BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]

@@ -39,6 +39,12 @@
 	  <Reference Include="AliemMod">
 	    <HintPath>..\Resources\libs\AliemMod.dll</HintPath>
 	  </Reference>
+	  <Reference Include="Downpour">
+	    <HintPath>..\Resources\libs\Downpour.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Inferno">
+	    <HintPath>..\Resources\libs\Inferno.dll</HintPath>
+	  </Reference>
 	  <Reference Include="ProperSave">
 	    <HintPath>..\Resources\libs\ProperSave.dll</HintPath>
 	  </Reference>
