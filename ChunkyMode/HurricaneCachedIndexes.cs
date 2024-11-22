@@ -22,6 +22,7 @@ namespace HDeMods {
 		public static int injector;
 		private static RuleChoiceDef legacyChoiceDef;
 		private static RuleChoiceDef hurricaneChoiceDef;
+		private static RuleChoiceDef smWishDef;
 		
 		public static void GenerateCache() {
 #if DEBUG
@@ -49,6 +50,11 @@ namespace HDeMods {
 			legacyChoiceDef.tooltipNameToken = "CHUNKYMODEDIFFMOD_NAME";
 			
 			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
+
+			smWishDef = RuleCatalog.FindChoiceDef("Difficulty.FunkyMode");
+			if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
+			smWishDef.availableInSinglePlayer = false;
+			smWishDef.availableInMultiPlayer = false;
 		}
 
 		private static void AddToCollection(BodyIndex index, BodyCache cache) {
