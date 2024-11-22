@@ -241,7 +241,8 @@ namespace HDeMods
             if (!IsHurricane(run.selectedDifficulty)) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            if (!SadomasochismWish.Enabled) Run.ambientLevelCap += 9900;
+            if (!SadomasochismWish.Enabled 
+                && !HurricaneOptionalMods.DownpourMod.ReworkEnabled) Run.ambientLevelCap += 9900;
 
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             if (!NetworkServer.active) return;

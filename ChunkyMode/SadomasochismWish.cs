@@ -12,7 +12,7 @@ namespace HDeMods {
         internal static class InfernoDownpour {
             public static bool Enabled =>
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(Inferno.Main.PluginGUID)
-                && BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(Downpour.DownpourPlugin.PluginGUID);
+                && DownpourMod.Enabled;
 
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             public static bool DiffsEnabled() {
@@ -30,12 +30,10 @@ namespace HDeMods {
                 MethodInfo isInfernoMethod = AccessTools.Method(typeof(Inferno.Main), "IsInferno",
                     [typeof(DifficultyIndex)]);
                 infernoHook = new Hook(isInfernoMethod, I_IsInferno);
-                infernoHook.Undo();
                 
                 MethodInfo getStageScaleMethod = AccessTools.Method(typeof(Downpour.Hooks), "GetStageScale",
                     [typeof(DifficultyDef), typeof(int), typeof(int), typeof(bool)]);
                 downpourHook = new Hook(getStageScaleMethod, D_GetStageScale);
-                downpourHook.Undo();
                 
                 MethodInfo getDescriptionMethod = AccessTools.Method(typeof(Downpour.Token), "GetDescription",
                     [typeof(string), typeof(DifficultyDef)]);
@@ -64,20 +62,7 @@ namespace HDeMods {
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             private static bool I_IsInferno(Func<DifficultyIndex, bool> orig, DifficultyIndex difficultyIndex) {
                 if (difficultyIndex == SadomasochismWish.diffIndex) return true;
-                CM.Log.Error("SadomasochismWish hooks were applied, but we aren't playing on FunkyMode!??!?!");
                 return orig(difficultyIndex);
-            }
-            
-            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void InstallHooks() {
-                infernoHook.Apply();
-                downpourHook.Apply();
-            }
-            
-            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-            public static void UninstallHooks() {
-                infernoHook.Undo();
-                downpourHook.Undo();
             }
         }
     }
@@ -107,14 +92,10 @@ namespace HDeMods {
 
         public static void RunStart() {
             InterlopingArtifact.StagesUntilWaveringBegins = 1;
-            
-            HurricaneOptionalMods.InfernoDownpour.InstallHooks();
         }
         
         public static void RunEnd() {
             InterlopingArtifact.StagesUntilWaveringBegins = 5;
-            
-            HurricaneOptionalMods.InfernoDownpour.UninstallHooks();
         }
     }
 }
