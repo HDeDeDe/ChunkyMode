@@ -48,6 +48,8 @@ namespace HDeMods {
 		public static void HideSmWish() {
 			smWishDef.availableInSinglePlayer = false;
 			smWishDef.availableInMultiPlayer = false;
+			
+			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
 		}
 
 		private static void AddToCollection(BodyIndex index, BodyCache cache) {

@@ -119,7 +119,7 @@ namespace HDeMods
 
         private static void AddLegacyDifficulty() {
             LegacyDifficultyDef = new DifficultyDef(4f,
-                "CHUNKYMODEDIFFMOD_NAME",
+                "CHUNKYMODEDIFFMOD_INTERNAL_NAME",
                 "CHUNKYMODEDIFFMOD_ICON",
                 "HURRICANE_DIFF_DESCRIPTION",
                 new Color32(61, 25, 255, 255),
