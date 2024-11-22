@@ -13,13 +13,14 @@ namespace HDeMods {
             public static bool Enabled =>
                 BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(Inferno.Main.PluginGUID)
                 && DownpourMod.Enabled;
-
-            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            
             public static bool DiffsEnabled() {
                 if (!Enabled) return false;
-                if (!Downpour.DownpourPlugin.EnableBrimstone.Value) return false;
-                return true;
+                return GetBrimstoneStatus();
             }
+
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            private static bool GetBrimstoneStatus() => Downpour.DownpourPlugin.EnableBrimstone.Value;
 
             private static Hook infernoHook;
             private static Hook downpourDescriptionHook;
@@ -85,7 +86,10 @@ namespace HDeMods {
                 foundIconSprite = true
             };
             diffIndex = DifficultyAPI.AddDifficulty(diffDef);
-            if (!HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
+            if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) AppendDiff();
+        }
+
+        private static void AppendDiff() {
             Downpour.DownpourPlugin.DownpourList.Add(diffDef);
             Downpour.DownpourPlugin.BrimstoneList.Add(diffDef);
         }
