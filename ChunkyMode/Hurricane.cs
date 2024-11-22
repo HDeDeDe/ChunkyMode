@@ -202,6 +202,12 @@ namespace HDeMods
         }
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
+            shouldRun = false;
+            totalBlindPest = 0;
+            totalLemurians = 0;
+            ogRunLevelCap = Run.ambientLevelCap;
+            ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
+            
             SadomasochismWish.Enabled = arg1.selectedDifficulty == SadomasochismWish.diffIndex;
             if (arg1.selectedDifficulty != LegacyDifficultyIndex && arg1.selectedDifficulty != SadomasochismWish.diffIndex) return;
             if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
@@ -209,17 +215,10 @@ namespace HDeMods
         }
 
         internal static void Run_onRunStartGlobal(Run run) {
-            shouldRun = false;
-            totalBlindPest = 0;
-            totalLemurians = 0;
-            ogRunLevelCap = Run.ambientLevelCap;
-            ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
-
             if (!InterlopingArtifact.HurricaneRun) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
-            if (!SadomasochismWish.Enabled 
-                && !HurricaneOptionalMods.DownpourMod.ReworkEnabled) Run.ambientLevelCap += 9900;
+            Run.ambientLevelCap += 9900;
 
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             if (!NetworkServer.active) return;
@@ -306,7 +305,7 @@ namespace HDeMods
             shouldRun = false;
             isSimulacrumRun = false;
             HurricaneRunInfo.preSet = false;
-            if (!SadomasochismWish.Enabled) Run.ambientLevelCap = ogRunLevelCap;
+            Run.ambientLevelCap = ogRunLevelCap;
             SadomasochismWish.Enabled = false;
             GameObject.Destroy(m_hurricaneInfo);
             if (HurricaneOptionalMods.InfernoDownpour.Enabled) SadomasochismWish.RunEnd();
@@ -446,7 +445,7 @@ namespace HDeMods
         // This handles the +10% Enemy Spawn Rate stat and the hidden -10% Gold gain stat
         internal static void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake origAwake, CombatDirector self) {
             //Got this from Starstorm 2 :)
-            if (!SadomasochismWish.Enabled) self.creditMultiplier *= 1.1f;
+            self.creditMultiplier *= 1.1f;
             if (HurricaneRunInfo.instance.doGoldPenalty && !isSimulacrumRun) self.goldRewardCoefficient *= 0.9f;
             origAwake(self);
         }
