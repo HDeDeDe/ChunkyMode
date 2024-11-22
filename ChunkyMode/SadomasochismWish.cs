@@ -7,6 +7,7 @@ using R2API;
 using RoR2;
 using RoR2.UI;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace HDeMods {
     namespace HurricaneOptionalMods {
@@ -76,7 +77,7 @@ namespace HDeMods {
         
         internal static void AddSadomasochismWish() {
             diffDef = new DifficultyDef(5f,
-                "SADOMASOCHISMWISH_DIFF_NAME",
+                "SADOMASOCHISMWISH_DIFF_INTERNAL_NAME",
                 "SADOMASOCHISMWISH_ICON",
                 "SADOMASOCHISMWISH_DIFF_DESCRIPTION",
                 new Color32(255, 204, 0, 255),
@@ -102,6 +103,16 @@ namespace HDeMods {
             DialogBoxManager.DialogBox( new SimpleDialogBox.TokenParamsPair("I will find you", []), 
                 new SimpleDialogBox.TokenParamsPair("You tried to start a FunkyMode run without Brimstone enabled >:(",
                     []), CommonLanguageTokens.ok);
+        }
+
+        internal static void DisconnectIfBrimstoneOff(NetworkConnection conn) {
+            if (NetworkServer.active) return;
+            if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
+            // Return if rule is not present in lobby
+            RoR2.Networking.NetworkManagerSystem.singleton.Disconnect();
+            DialogBoxManager.DialogBox( new SimpleDialogBox.TokenParamsPair("DISCONNECTED", []), 
+                new SimpleDialogBox.TokenParamsPair("SADOMASOCHISMWISH_BRIMSTONE_MISSING_MSG", []), 
+                CommonLanguageTokens.ok);
         }
 
         private static void AppendDiff() {

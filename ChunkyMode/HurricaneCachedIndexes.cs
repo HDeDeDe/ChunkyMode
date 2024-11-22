@@ -53,13 +53,14 @@ namespace HDeMods {
 
 			smWishDef = RuleCatalog.FindChoiceDef("Difficulty.FunkyMode");
 			if (!HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) HideSmWish();
+
+			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
+			SadomasochismWish.diffDef.nameToken = "SADOMASOCHISMWISH_DIFF_NAME";
 		}
 
 		public static void HideSmWish() {
 			smWishDef.availableInSinglePlayer = false;
 			smWishDef.availableInMultiPlayer = false;
-			
-			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
 		}
 
 		private static void AddToCollection(BodyIndex index, BodyCache cache) {
