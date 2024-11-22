@@ -478,7 +478,6 @@ namespace HDeMods
 
         // This handles the +20% Loot Spawn Rate stat
         internal static void SceneDirector_onPrePopulateSceneServer(SceneDirector self) {
-            if (SadomasochismWish.Enabled) return;
             self.interactableCredit = (int)(self.interactableCredit * 1.2);
             CM.Log.Info("Updated Credits: " + self.interactableCredit);
         }
