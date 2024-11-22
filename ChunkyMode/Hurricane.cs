@@ -80,6 +80,7 @@ namespace HDeMods
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             RoR2Application.onLoad += HurricaneCachedIndexes.GenerateCache;
+            //RoR2.Networking.NetworkManagerSystem.onClientConnectGlobal += SadomasochismWish.DisconnectIfBrimstoneOff;
             if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.GenerateHooks();
             if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.GenerateHooks();
             if (HurricaneOptionalMods.Ravager.Enabled) HurricaneOptionalMods.Ravager.GenerateHooks();
