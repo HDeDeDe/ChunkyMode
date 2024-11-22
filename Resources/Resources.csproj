@@ -24,6 +24,8 @@
     <Content Include="cursePreview.gif" />
     <Content Include="icon.png" />
     <Content Include="libs\AliemMod.dll" />
+    <Content Include="libs\Downpour.dll" />
+    <Content Include="libs\Inferno.dll" />
     <Content Include="libs\ProperSave.dll" />
     <Content Include="libs\RedGuyMod-nstrip.dll" />
     <Content Include="libs\RiskUI.dll" />
