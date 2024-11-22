@@ -45,6 +45,10 @@ namespace HDeMods {
 			instance = this;
 			Hurricane.StartUp();
 		}
+
+		private void FixedUpdate() {
+			SadomasochismWish.CheckIfRunIsValid();
+		}
 	}
 
 	namespace CM

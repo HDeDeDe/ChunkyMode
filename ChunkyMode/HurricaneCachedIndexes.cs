@@ -52,7 +52,10 @@ namespace HDeMods {
 			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
 
 			smWishDef = RuleCatalog.FindChoiceDef("Difficulty.FunkyMode");
-			if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
+			if (!HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) HideSmWish();
+		}
+
+		public static void HideSmWish() {
 			smWishDef.availableInSinglePlayer = false;
 			smWishDef.availableInMultiPlayer = false;
 		}

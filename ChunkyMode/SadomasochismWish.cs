@@ -5,6 +5,7 @@ using HarmonyLib;
 using MonoMod.RuntimeDetour;
 using R2API;
 using RoR2;
+using RoR2.UI;
 using UnityEngine;
 
 namespace HDeMods {
@@ -87,6 +88,20 @@ namespace HDeMods {
             };
             diffIndex = DifficultyAPI.AddDifficulty(diffDef);
             if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) AppendDiff();
+        }
+
+        internal static void CheckIfRunIsValid() {
+            if (Run.instance?.NetworkfixedTime < 15f || Run.instance?.NetworkfixedTime > 16f ) return;
+            if (!Enabled) return;
+            if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
+            CM.Log.Fatal("You tried to start a FunkyMode run without Brimstone enabled. >:(");
+            CM.Log.Fatal("I will find you.");
+            HurricaneCachedIndexes.HideSmWish();
+            Enabled = false;
+            RoR2.Networking.NetworkManagerSystem.singleton.Disconnect();
+            DialogBoxManager.DialogBox( new SimpleDialogBox.TokenParamsPair("I will find you", []), 
+                new SimpleDialogBox.TokenParamsPair("You tried to start a FunkyMode run without Brimstone enabled >:(",
+                    []), CommonLanguageTokens.ok);
         }
 
         private static void AppendDiff() {
