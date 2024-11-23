@@ -32,6 +32,7 @@ They yap at you
   - Ravager only gets -25% to Consume
 - Ally Shield Recharge Rate -50%
 - Ally Barrier Decay Rate +100%
+  - Paladin only gets +29%
 - Gold generation -10%
 - Director interactable credits +20%
 
