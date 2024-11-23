@@ -19,7 +19,10 @@ namespace HDeMods {
         public static void ShieldRechargeAndBarrierDecayRate(HealthComponent sender,
             HealthComponentAPI.UpdateHealthEventArgs args) {
             if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
-            args.barrierDecayRateMultAdd += barrierDecayOverride;
+            float barrierToOverride = barrierDecayOverride;
+            if (sender.body.bodyIndex == HurricaneCachedIndexes.bodyCache[BodyCache.RobPaladin]) 
+                barrierToOverride -= HurricaneSurvivorBuffs.PaladinBarrierOverride.Value;
+            args.barrierDecayRateMultAdd += barrierToOverride;
             if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return;
             args.shieldRechargeRateMultAdd += shieldRechargeOverride;
         }

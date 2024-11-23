@@ -13,7 +13,8 @@ namespace HDeMods {
 		SigmaConstruct,
 		FlyingVermin,
 		Bison,
-		Lemurian
+		Lemurian,
+		RobPaladin
 	}
 	internal static class HurricaneCachedIndexes {
 		public static readonly Dictionary<BodyIndex, BodyCache> bodyIndex = new Dictionary<BodyIndex, BodyCache>();
@@ -33,6 +34,7 @@ namespace HDeMods {
 			AddToCollection(BodyCatalog.FindBodyIndex("FlyingVerminBody"), BodyCache.FlyingVermin);
 			AddToCollection(BodyCatalog.FindBodyIndex("BisonBody"), BodyCache.Bison);
 			AddToCollection(BodyCatalog.FindBodyIndex("LemurianBody"), BodyCache.Lemurian);
+			AddToCollection(BodyCatalog.FindBodyIndex("RobPaladinBody"), BodyCache.RobPaladin);
 			if (HurricaneOptionalMods.Hunk.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
 			if (HurricaneOptionalMods.Spikestrip.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
 			

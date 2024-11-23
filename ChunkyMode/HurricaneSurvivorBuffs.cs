@@ -16,6 +16,7 @@ namespace HDeMods {
         public static ConfigEntry<float> AliemHealOverride { get; set; }
         public static ConfigEntry<float> SubmarinerHealOverride { get; set; }
         public static ConfigEntry<float> RavagerHealOverride { get; set; }
+        public static ConfigEntry<float> PaladinBarrierOverride { get; set; }
         
         public static void ClampValues() {
             RexHealOverride.Value = Math.Clamp(RexHealOverride.Value, 0.5f, 2f);
@@ -29,6 +30,7 @@ namespace HDeMods {
             AliemHealOverride.Value = Math.Clamp(AliemHealOverride.Value, 0.5f, 2f);
             SubmarinerHealOverride.Value = Math.Clamp(SubmarinerHealOverride.Value, 0.5f, 2f);
             RavagerHealOverride.Value = Math.Clamp(RavagerHealOverride.Value, 0.5f, 2f);
+            PaladinBarrierOverride.Value = Math.Clamp(PaladinBarrierOverride.Value, 0f, 1f);
         }
         
         public static void RegisterOptions() {
@@ -87,6 +89,11 @@ namespace HDeMods {
                 "Ravager Override",
                 1.5f,
                 "The amount to multiply Consume healing by.");
+            PaladinBarrierOverride = HurricanePlugin.instance.Config.Bind<float>(
+                "Healing Buffs",
+                "Paladin Override",
+                1f,
+                "The amount to subtract from barrier decay rate multiplier.");
         }
         
         public static void RegisterRiskOfOptions() {
@@ -102,6 +109,7 @@ namespace HDeMods {
             HurricaneOptionalMods.RoO.AddFloatStep(AliemHealOverride, 0.5f, 2f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddFloatStep(SubmarinerHealOverride, 0.5f, 2f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddFloatStep(RavagerHealOverride, 0.5f, 2f, 0.025f, format);
+            HurricaneOptionalMods.RoO.AddFloatStep(PaladinBarrierOverride, 0f, 1f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddButton("Reset to default", "Healing Buffs", HurricaneOptionalMods.RoO.ResetToDefault);
         }
     }

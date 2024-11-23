@@ -56,6 +56,7 @@ namespace HDeMods { namespace HurricaneOptionalMods {
 				aliemHealOverride = HurricaneRunInfo.instance.aliemHealOverride,
 				submarinerHealOverride = HurricaneRunInfo.instance.submarinerHealOverride,
 				ravagerHealOverride = HurricaneRunInfo.instance.ravagerHealOverride,
+				paladinBarrierOverride = HurricaneRunInfo.instance.paladinBarrierOverride,
 			};
 
 			save.Add("CHUNKYMODE_RunInfo",tempRun);

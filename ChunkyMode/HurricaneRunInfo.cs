@@ -33,6 +33,7 @@ namespace HDeMods {
 		public float aliemHealOverride;
 		public float submarinerHealOverride;
 		public float ravagerHealOverride;
+		public float paladinBarrierOverride;
 		
 
 		public void Awake() {
@@ -60,6 +61,7 @@ namespace HDeMods {
             aliemHealOverride = saveData.aliemHealOverride;
             submarinerHealOverride = saveData.submarinerHealOverride;
             ravagerHealOverride = saveData.ravagerHealOverride;
+            paladinBarrierOverride = saveData.paladinBarrierOverride;
 		}
 	}
 
@@ -104,6 +106,8 @@ namespace HDeMods {
 		public float submarinerHealOverride;
 		[DataMember(Name = "ravagerHeal")]
 		public float ravagerHealOverride;
+		[DataMember(Name = "paladinBarrier")]
+		public float paladinBarrierOverride;
 	}
 	
 }
