@@ -50,11 +50,11 @@ namespace HDeMods {
             rexHealOverride = saveData.rexHealOverride;
             acridHealOverride = saveData.acridHealOverride;
             
-            acridHealOverride = saveData.acridHealOverride;
-            acridHealOverride = saveData.acridHealOverride;
-            acridHealOverride = saveData.acridHealOverride;
-            acridHealOverride = saveData.acridHealOverride;
-            acridHealOverride = saveData.acridHealOverride;
+            captainHealOverride = saveData.captainHealOverride;
+            voidFiendHealOverride = saveData.voidFiendHealOverride;
+            seekerHealOverride = saveData.seekerHealOverride;
+            falseSonHealOverride = saveData.falseSonHealOverride;
+            chefSotSHealOverride = saveData.chefSotSHealOverride;
             
             chirrHealOverride = saveData.chirrHealOverride;
             aliemHealOverride = saveData.aliemHealOverride;
