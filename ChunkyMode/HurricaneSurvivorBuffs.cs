@@ -30,7 +30,7 @@ namespace HDeMods {
             AliemHealOverride.Value = Math.Clamp(AliemHealOverride.Value, 0.5f, 2f);
             SubmarinerHealOverride.Value = Math.Clamp(SubmarinerHealOverride.Value, 0.5f, 2f);
             RavagerHealOverride.Value = Math.Clamp(RavagerHealOverride.Value, 0.5f, 2f);
-            PaladinBarrierOverride.Value = Math.Clamp(PaladinBarrierOverride.Value, 0f, 1f);
+            PaladinBarrierOverride.Value = Math.Clamp(PaladinBarrierOverride.Value, 0f, 100f);
         }
         
         public static void RegisterOptions() {
