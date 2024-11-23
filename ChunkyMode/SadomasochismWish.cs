@@ -108,7 +108,7 @@ namespace HDeMods {
         internal static void DisconnectIfBrimstoneOff(NetworkConnection conn) {
             if (NetworkServer.active) return;
             if (HurricaneOptionalMods.InfernoDownpour.DiffsEnabled()) return;
-            // Return if rule is not present in lobby
+            // Return if rule is present in lobby
             RoR2.Networking.NetworkManagerSystem.singleton.Disconnect();
             DialogBoxManager.DialogBox( new SimpleDialogBox.TokenParamsPair("DISCONNECTED", []), 
                 new SimpleDialogBox.TokenParamsPair("SADOMASOCHISMWISH_BRIMSTONE_MISSING_MSG", []), 
