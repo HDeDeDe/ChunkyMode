@@ -21,7 +21,7 @@ namespace HDeMods {
             if (sender.body.teamComponent.teamIndex != TeamIndex.Player) return;
             float barrierToOverride = barrierDecayOverride;
             if (sender.body.bodyIndex == HurricaneCachedIndexes.bodyCache[BodyCache.RobPaladin]) 
-                barrierToOverride -= HurricaneSurvivorBuffs.PaladinBarrierOverride.Value;
+                barrierToOverride -= HurricaneRunInfo.instance.paladinBarrierOverride;
             args.barrierDecayRateMultAdd += barrierToOverride;
             if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return;
             args.shieldRechargeRateMultAdd += shieldRechargeOverride;
