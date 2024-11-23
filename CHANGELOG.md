@@ -1,3 +1,8 @@
+## 0.4.7
+- Fixed a bug where vanilla survivors after Acrid were not loading their stored buffs when using ProperSaves
+- Buffed Paladin to no longer be affected by barrier decay rate (If you were below the threshold for Bulwark's Blessing, Sacred Sunlight would cause audio spam due to not applying barrier fast enough)
+- Added an option to control how much to subtract from barrier decay rate when playing as Paladin
+- The space has returned to Chunky Mode! Enjoy seeing Chunky Mode instead of ChunkyMode once again! This time without broken logbooks!
 ## 0.4.6
 - Update minimum version of Interloping Artifact
 ## 0.4.5
