@@ -245,7 +245,7 @@ namespace HDeMods
                 HurricaneRunInfo.instance.aliemHealOverride = HurricaneSurvivorBuffs.AliemHealOverride.Value;
                 HurricaneRunInfo.instance.submarinerHealOverride = HurricaneSurvivorBuffs.SubmarinerHealOverride.Value;
                 HurricaneRunInfo.instance.ravagerHealOverride = HurricaneSurvivorBuffs.RavagerHealOverride.Value;
-                HurricaneRunInfo.instance.paladinBarrierOverride = HurricaneSurvivorBuffs.PaladinBarrierOverride.Value;
+                HurricaneRunInfo.instance.paladinBarrierOverride = HurricaneSurvivorBuffs.PaladinBarrierOverride.Value / 100f;
             }
 
             if (HurricaneRunInfo.instance.doEnemyLimitBoost) {

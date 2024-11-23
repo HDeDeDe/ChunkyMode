@@ -92,7 +92,7 @@ namespace HDeMods {
             PaladinBarrierOverride = HurricanePlugin.instance.Config.Bind<float>(
                 "Healing Buffs",
                 "Paladin Override",
-                0.81f,
+                81f,
                 "The amount to subtract from barrier decay rate multiplier.");
         }
         
@@ -109,7 +109,7 @@ namespace HDeMods {
             HurricaneOptionalMods.RoO.AddFloatStep(AliemHealOverride, 0.5f, 2f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddFloatStep(SubmarinerHealOverride, 0.5f, 2f, 0.025f, format);
             HurricaneOptionalMods.RoO.AddFloatStep(RavagerHealOverride, 0.5f, 2f, 0.025f, format);
-            HurricaneOptionalMods.RoO.AddFloatStep(PaladinBarrierOverride, 0f, 1f, 0.01f, "{0}%");
+            HurricaneOptionalMods.RoO.AddFloatStep(PaladinBarrierOverride, 0f, 100f, 1f, "{0}%");
             HurricaneOptionalMods.RoO.AddButton("Reset to default", "Healing Buffs", HurricaneOptionalMods.RoO.ResetToDefault);
         }
     }
