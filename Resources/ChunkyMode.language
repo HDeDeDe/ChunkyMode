@@ -9,7 +9,6 @@
     "SADOMASOCHISMWISH_DIFF_DESCRIPTION" : "<color=#FF0000>We call this a difficulty tweak.</color>",
     "HURRICANE_RISK_OF_OPTIONS_DESCRIPTION" : "Options for Chunky Mode. These options can not be changed during a run.",
     "HURRICANE_YAP_FORMAT" : "<color=#c6d5ff><size=120%>{0}: {1}</color></size>",
-    "SADOMASOCHISMWISH_BRIMSTONE_MISSING_MSG" : "You must have Brimstone enabled to join this lobby.",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_HEALING_BUFFS.CHECKBOX.NAME" : "Do Healing Buffs",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_HEALING_BUFFS.CHECKBOX.DESCRIPTION" : "Enables buffs to some survivor healing skills. Disable if you want a harder challenge (Or leave it on and reduce the Healing Buffs below <style=cIsHealing>1</style> >:)).",
     "RISK_OF_OPTIONS.COM.HDEDEDE.CHUNKYMODE.UNLISTED_DIFFICULTY_MODIFIERS.DO_ENEMY_LIMIT_BOOST.CHECKBOX.NAME" : "Do Enemy Limit Boost",
