@@ -48,7 +48,9 @@ namespace HDeMods {
                 (toHeal, tbf) => {
                     if (!tbf.owner) return toHeal;
                     if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
-                    if (tbf.owner.GetComponent<CharacterBody>().teamComponent.teamIndex != TeamIndex.Player) return toHeal;
+                    CharacterBody cb = tbf.owner.GetComponent<CharacterBody>();
+                    if (!cb) return toHeal;
+                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
                     return toHeal * HurricaneRunInfo.instance.rexHealOverride;
                 });
         }
@@ -75,8 +77,9 @@ namespace HDeMods {
                 (toHeal,self) => {
                     if (Hurricane.isSimulacrumRun && !Hurricane.waveStarted) return toHeal;
                     if (self.projectileController.catalogIndex != HurricaneCachedIndexes.injector) return toHeal;
-                    if (self.projectileController.owner.GetComponent<CharacterBody>().teamComponent.teamIndex !=
-                        TeamIndex.Player) return toHeal;
+                    CharacterBody cb = self.projectileController.owner.GetComponent<CharacterBody>();
+                    if (!cb) return toHeal;
+                    if (cb.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
                     return toHeal * HurricaneRunInfo.instance.rexHealOverride;
                 });
         }
@@ -234,5 +237,5 @@ namespace HDeMods {
                     return toHeal * HurricaneRunInfo.instance.chefSotSHealOverride;
                 });
         }
-	}
+    }
 }
