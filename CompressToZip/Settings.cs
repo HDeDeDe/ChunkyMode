@@ -34,8 +34,8 @@ internal static class Settings {
                                                "\t\t\"RiskofThunder-R2API_Language-1.0.1\",\n" +
                                                "\t\t\"RiskofThunder-R2API_Difficulty-1.1.2\",\n" +
                                                "\t\t\"RiskofThunder-R2API_RecalculateStats-1.4.0\",\n" +
-                                               "\t\t\"RiskofThunder-R2API_Networking-1.0.2\",\n" +
-                                               "\t\t\"RiskofThunder-R2API_Director-2.3.1\",\n" +
+                                               "\t\t\"RiskofThunder-R2API_Networking-1.0.3\",\n" +
+                                               "\t\t\"RiskofThunder-R2API_Director-2.3.2\",\n" +
                                                "\t\t\"HDeDeDe-HealthComponentAPI-1.1.0\",\n" +
                                                "\t\t\"HDeDeDe-InterlopingArtifact-0.3.0\",\n" +
                                                "\t\t\"KingEnderBrine-ScrollableLobbyUI-1.9.1\"\n" +

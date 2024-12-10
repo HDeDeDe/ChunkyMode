@@ -1,3 +1,7 @@
+## 0.4.8
+- Fixed Chef's Kiss buffs being broken by the new update
+- Updated minimum version for a few dependencies
+- Modded survivor buffs will likely be broken for now while those mods are being updated.
 ## 0.4.7
 - Fixed a bug where vanilla survivors after Acrid were not loading their stored buffs when using ProperSaves
 - Buffed Paladin to only receive +29% Barrier Decay Rate (If you were below the threshold for Bulwark's Blessing, Sacred Sunlight would cause audio spam due to not applying barrier fast enough)
