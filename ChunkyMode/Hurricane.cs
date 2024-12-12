@@ -50,6 +50,10 @@ namespace HDeMods
         public static ConfigEntry<float> limitPestAmount { get; set; }
 
         internal static void StartUp() {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.HDeDeDe.Hurricane")) {
+                CM.Log.Error("Hurricane is present! Aborting launch to prevent overlap.");
+                return;
+            }
             if (!File.Exists(Assembly.GetExecutingAssembly().Location
                     .Replace("ChunkyMode.dll", "chunkydifficon"))) {
                 CM.Log.Fatal("Could not load asset bundle, aborting!");

@@ -20,6 +20,7 @@ namespace HDeMods {
 	[BepInDependency("com.TheTimeSweeper.Aliem", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("com.kenko.Submariner", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInDependency("com.rob.Ravager", BepInDependency.DependencyFlags.SoftDependency)]
+	[BepInDependency("com.HDeDeDe.Hurricane", BepInDependency.DependencyFlags.SoftDependency)]
 	[BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
