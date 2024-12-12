@@ -41,6 +41,7 @@ namespace HDeMods {
 			legacyChoiceDef = RuleCatalog.FindChoiceDef("Difficulty.ChunkyMode");
 			legacyChoiceDef.availableInSinglePlayer = true;
 			legacyChoiceDef.availableInMultiPlayer = true;
+			legacyChoiceDef.tooltipNameToken = "CHUNKYMODEDIFFMOD_NAME";
 			
 			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
 		}
