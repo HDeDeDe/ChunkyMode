@@ -21,6 +21,8 @@ namespace HDeMods
         public static AssetBundle HurricaneBundle;
         public static DifficultyDef LegacyDifficultyDef;
         public static DifficultyIndex LegacyDifficultyIndex;
+        public static DifficultyDef HurricaneDifficultyDef;
+        public static DifficultyIndex HurricaneDifficultyIndex;
         public static GameObject HurricaneInfo;
         private static GameObject m_hurricaneInfo;
 
@@ -116,12 +118,23 @@ namespace HDeMods
         }
 
         private static void AddHurricaneDifficulty() {
-            return;
+            HurricaneDifficultyDef = new DifficultyDef(4f,
+                "HURRICANE_DIFF_NAME",
+                "HURRICANE_DIFF_ICON",
+                "HURRICANE_DIFF_DESCRIPTION",
+                new Color32(117, 59, 217, 255),
+                "hc",
+                true
+            ) /*{
+                iconSprite = HurricaneBundle.LoadAsset<Sprite>("texChunkyModeDiffIcon"),
+                foundIconSprite = true
+            }*/;
+            HurricaneDifficultyIndex = DifficultyAPI.AddDifficulty(HurricaneDifficultyDef);
         }
 
         private static void AddLegacyDifficulty() {
             LegacyDifficultyDef = new DifficultyDef(4f,
-                "CHUNKYMODEDIFFMOD_INTERNAL_NAME",
+                "ChunkyMode",
                 "CHUNKYMODEDIFFMOD_ICON",
                 "HURRICANE_DIFF_DESCRIPTION",
                 new Color32(61, 25, 255, 255),
@@ -203,8 +216,13 @@ namespace HDeMods
             HurricaneOptionalMods.RoO.SetDescriptionToken("HURRICANE_RISK_OF_OPTIONS_DESCRIPTION");
         }
 
+        internal static bool IsHurricane(DifficultyIndex difficulty) {
+            if (difficulty == LegacyDifficultyIndex || difficulty == HurricaneDifficultyIndex) return true;
+            return false;
+        }
+
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
-            if (arg1.selectedDifficulty != LegacyDifficultyIndex) return;
+            if (!IsHurricane(arg1.selectedDifficulty)) return;
             if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
             InterlopingArtifact.HurricaneRun = true;
         }
@@ -216,7 +234,7 @@ namespace HDeMods
             ogRunLevelCap = Run.ambientLevelCap;
             ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
 
-            if (run.selectedDifficulty != LegacyDifficultyIndex) return;
+            if (!IsHurricane(run.selectedDifficulty)) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
             Run.ambientLevelCap += 9900;
