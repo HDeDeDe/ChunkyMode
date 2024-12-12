@@ -1,3 +1,6 @@
+## 0.4.9
+- Fixed the space not appearing in Chunky Mode on the character select page.
+- Changed the key ProperSaves uses to load run info, older saves should not be affected.
 ## 0.4.8
 - Fixed Chef's Kiss buffs being broken by the new update
 - Updated minimum version for a few dependencies
