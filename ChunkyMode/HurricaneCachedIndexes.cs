@@ -21,6 +21,7 @@ namespace HDeMods {
 		public static readonly Dictionary<BodyCache, BodyIndex> bodyCache = new Dictionary<BodyCache, BodyIndex>();
 		public static int injector;
 		private static RuleChoiceDef legacyChoiceDef;
+		private static RuleChoiceDef hurricaneChoiceDef;
 		
 		public static void GenerateCache() {
 #if DEBUG
@@ -37,6 +38,10 @@ namespace HDeMods {
 			AddToCollection(BodyCatalog.FindBodyIndex("RobPaladinBody"), BodyCache.RobPaladin);
 			if (HurricaneOptionalMods.Hunk.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("RobNemesisPlayerBody"), BodyCache.RobNemesis);
 			if (HurricaneOptionalMods.Spikestrip.Enabled) AddToCollection(BodyCatalog.FindBodyIndex("SigmaConstructBody"), BodyCache.SigmaConstruct);
+			
+			hurricaneChoiceDef = RuleCatalog.FindChoiceDef("Difficulty.Hurricane");
+			hurricaneChoiceDef.availableInSinglePlayer = false;
+			hurricaneChoiceDef.availableInMultiPlayer = false;
 			
 			legacyChoiceDef = RuleCatalog.FindChoiceDef("Difficulty.ChunkyMode");
 			legacyChoiceDef.availableInSinglePlayer = true;
