@@ -23,8 +23,6 @@ namespace HDeMods
         public static DifficultyIndex LegacyDifficultyIndex;
         public static DifficultyDef HurricaneDifficultyDef;
         public static DifficultyIndex HurricaneDifficultyIndex;
-        public static DifficultyDef SadomasochismWishDef;
-        public static DifficultyIndex SadomasochismWishIndex;
         public static GameObject HurricaneInfo;
         private static GameObject m_hurricaneInfo;
 
@@ -222,22 +220,25 @@ namespace HDeMods
 
         internal static bool IsHurricane(DifficultyIndex difficulty) {
             if (difficulty == LegacyDifficultyIndex || difficulty == HurricaneDifficultyIndex) return true;
+            if (difficulty == SadomasochismWish.diffIndex) {
+                SadomasochismWish.Enabled = true;
+                return true;
+            }
             return false;
         }
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
+            shouldRun = false;
+            totalBlindPest = 0;
+            totalLemurians = 0;
+            ogRunLevelCap = Run.ambientLevelCap;
+            ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
             if (!IsHurricane(arg1.selectedDifficulty)) return;
             if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
             InterlopingArtifact.HurricaneRun = true;
         }
 
         internal static void Run_onRunStartGlobal(Run run) {
-            shouldRun = false;
-            totalBlindPest = 0;
-            totalLemurians = 0;
-            ogRunLevelCap = Run.ambientLevelCap;
-            ogMonsterCap = TeamCatalog.GetTeamDef(TeamIndex.Monster)!.softCharacterLimit;
-
             if (!IsHurricane(run.selectedDifficulty)) return;
             CM.Log.Info("Chunky Mode Run started");
             shouldRun = true;
