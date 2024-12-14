@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
+using MonoMod.Cil;
 using MonoMod.RuntimeDetour;
 using R2API;
 using RoR2;
