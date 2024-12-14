@@ -1,11 +1,11 @@
 ## 0.5.0
 - Added FunkyMode. FunkyMode is completely unfair. To play FunkyMode, you must have Inferno and Downpour installed, then make sure Brimstone is enabled in Downpour's settings.
 - Changes FunkyMode makes:
-  - Enemy Nerfs are not applied. All enemies will get +50% attack speed, +40% move speed, and -50% cooldown.
-  - Enemy spawn cap is not increased by 50%
-  - Loiter timer begins to waver after 1 stage instead of 5.
-  - Downpour settings are inherited from Brimstone, except for initial scaling, which is locked to +150%
-  - Inferno settings are inherited from inferno.
+    - Enemy Nerfs are not applied. All enemies will get +50% attack speed, +40% move speed, and -50% cooldown.
+    - Enemy spawn cap is not increased by 50%
+    - Loiter timer begins to waver after 1 stage instead of 5.
+    - Downpour settings are inherited from Brimstone, except for initial scaling, which is locked to +150%
+    - Inferno settings are inherited from inferno.
 ## 0.4.9
 - Fixed the space not appearing in Chunky Mode on the character select page.
 - Changed the key ProperSaves uses to load run info, older saves should not be affected.
