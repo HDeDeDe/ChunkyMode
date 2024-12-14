@@ -48,8 +48,6 @@ namespace HDeMods {
 			legacyChoiceDef.availableInSinglePlayer = true;
 			legacyChoiceDef.availableInMultiPlayer = true;
 			legacyChoiceDef.tooltipNameToken = "CHUNKYMODEDIFFMOD_NAME";
-			
-			Hurricane.LegacyDifficultyDef.nameToken = "CHUNKYMODEDIFFMOD_NAME";
 
 			smWishDef = RuleCatalog.FindChoiceDef("Difficulty.FunkyMode");
 			smWishDef.tooltipNameToken = "SADOMASOCHISMWISH_DIFF_NAME";
