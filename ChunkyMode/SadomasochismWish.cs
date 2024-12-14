@@ -77,7 +77,7 @@ namespace HDeMods {
         
         internal static void AddSadomasochismWish() {
             diffDef = new DifficultyDef(5f,
-                "SADOMASOCHISMWISH_DIFF_INTERNAL_NAME",
+                "FunkyMode",
                 "SADOMASOCHISMWISH_ICON",
                 "SADOMASOCHISMWISH_DIFF_DESCRIPTION",
                 new Color32(255, 204, 0, 255),

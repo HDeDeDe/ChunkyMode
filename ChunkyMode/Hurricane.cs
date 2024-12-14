@@ -228,12 +228,6 @@ namespace HDeMods
         }
 
         internal static void Run_onRunSetRuleBookGlobal(Run arg1, RuleBook arg2) {
-            if (arg1.selectedDifficulty != LegacyDifficultyIndex) return;
-            if (arg1.GetType() == typeof(InfiniteTowerRun)) isSimulacrumRun = true;
-            InterlopingArtifact.HurricaneRun = true;
-        }
-
-        internal static void Run_onRunStartGlobal(Run run) {
             shouldRun = false;
             totalBlindPest = 0;
             totalLemurians = 0;
