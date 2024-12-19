@@ -136,7 +136,7 @@ namespace HDeMods
             LegacyDifficultyDef = new DifficultyDef(4f,
                 "ChunkyMode",
                 "CHUNKYMODEDIFFMOD_ICON",
-                "HURRICANE_DIFF_DESCRIPTION",
+                "CHUNKYMODEDIFFMOD_DIFF_DESCRIPTION",
                 new Color32(61, 25, 255, 255),
                 "cm",
                 true

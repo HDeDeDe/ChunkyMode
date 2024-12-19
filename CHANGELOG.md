@@ -1,3 +1,5 @@
+## 0.4.10
+- Fixed a bug that prevented the game from starting when Downpour is installed
 ## 0.4.9
 - Fixed the space not appearing in Chunky Mode on the character select page.
 - Changed the key ProperSaves uses to load run info, older saves should not be affected.
