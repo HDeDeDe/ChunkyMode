@@ -1,3 +1,5 @@
+## 0.4.11
+- Fixed Chef's Kiss not being hooked due to the latest update.
 ## 0.4.10
 - Fixed a bug that prevented the game from starting when Downpour is installed
 ## 0.4.9

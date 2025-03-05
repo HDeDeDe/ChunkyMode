@@ -206,7 +206,7 @@ namespace HDeMods {
             ILCursor c = new ILCursor(il);
             if (!c.TryGotoNext(
                     moveType: MoveType.After,
-                    x => x.MatchLdloc(69),
+                    x => x.MatchLdloc(68),
                     x => x.MatchLdloc(44)
                 )) {
                 CM.Log.Error("Failed to hook Chef's Kiss! (Flat Healing)");
@@ -222,7 +222,7 @@ namespace HDeMods {
             
             if (!c.TryGotoNext(
                     moveType: MoveType.After,
-                    x => x.MatchLdloc(69),
+                    x => x.MatchLdloc(68),
                     x => x.MatchLdloc(45)
                 )) {
                 CM.Log.Error("Failed to hook Chef's Kiss! (Fractional Healing)");

@@ -29,7 +29,7 @@ namespace HDeMods {
 		public const string PluginGUID = "com." + PluginAuthor + "." + PluginName;
 		public const string PluginAuthor = "HDeDeDe";
 		public const string PluginName = "ChunkyMode";
-		public const string PluginVersion = "0.4.10";
+		public const string PluginVersion = "0.4.11";
 		public static HurricanePlugin instance;
 
 		private void Awake() {
