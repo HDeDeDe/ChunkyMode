@@ -287,8 +287,8 @@ namespace HDeMods
                 IL.EntityStates.VoidSurvivor.Weapon.CrushBase.OnEnter += HurricaneILHooks.VoidFiendSuppressBuff;
                 IL.RoR2.Projectile.UnseenHandHealingProjectile.OnDamageInflictedServer +=
                     HurricaneILHooks.SeekerUnseenHandBuff;
-                IL.EntityStates.Seeker.MeditationUI.Update += HurricaneILHooks.SeekerMeditateBuff;
-                IL.RoR2.CharacterBody.RecalculateStats += HurricaneILHooks.FalseSonLunarTamperingBuff;
+                //[IL.EntityStates.Seeker.MeditationUI.Update += HurricaneILHooks.SeekerMeditateBuff;
+                //IL.RoR2.CharacterBody.RecalculateStats += HurricaneILHooks.FalseSonLunarTamperingBuff;
                 IL.RoR2.GlobalEventManager.OnCharacterDeath += HurricaneILHooks.ChefSotSChefsKissBuff;
                 if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.SetHooks();
                 if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.SetHooks();
@@ -339,8 +339,8 @@ namespace HDeMods
             IL.EntityStates.VoidSurvivor.Weapon.CrushBase.OnEnter -= HurricaneILHooks.VoidFiendSuppressBuff;
             IL.RoR2.Projectile.UnseenHandHealingProjectile.OnDamageInflictedServer -=
                 HurricaneILHooks.SeekerUnseenHandBuff;
-            IL.EntityStates.Seeker.MeditationUI.Update -= HurricaneILHooks.SeekerMeditateBuff;
-            IL.RoR2.CharacterBody.RecalculateStats -= HurricaneILHooks.FalseSonLunarTamperingBuff;
+            //IL.EntityStates.Seeker.MeditationUI.Update -= HurricaneILHooks.SeekerMeditateBuff;
+            //IL.RoR2.CharacterBody.RecalculateStats -= HurricaneILHooks.FalseSonLunarTamperingBuff;
             IL.RoR2.GlobalEventManager.OnCharacterDeath -= HurricaneILHooks.ChefSotSChefsKissBuff;
             if (HurricaneOptionalMods.Starstorm2.Enabled) HurricaneOptionalMods.Starstorm2.RemoveHooks();
             if (HurricaneOptionalMods.AlienHominid.Enabled) HurricaneOptionalMods.AlienHominid.RemoveHooks();

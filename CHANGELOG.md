@@ -1,3 +1,6 @@
+## 0.4.12
+- Updated for Seeker's 2.0 part 3.
+- Temporarily blocked Seeker's Meditation and False Son's Lunar Tampering from being buffed.
 ## 0.4.11
 - Fixed Chef's Kiss not being hooked due to the latest update.
 ## 0.4.10

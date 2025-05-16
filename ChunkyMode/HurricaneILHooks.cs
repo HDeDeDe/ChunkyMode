@@ -166,7 +166,7 @@ namespace HDeMods {
                 });
         }
         
-        public static void SeekerMeditateBuff(ILContext il) {
+        /*public static void SeekerMeditateBuff(ILContext il) {
             ILCursor c = new ILCursor(il);
             if (!c.TryGotoNext(
                     moveType: MoveType.After,
@@ -182,7 +182,7 @@ namespace HDeMods {
                     if (es.teamComponent.teamIndex != TeamIndex.Player) return toHeal;
                     return toHeal * HurricaneRunInfo.instance.seekerHealOverride;
                 });
-        }
+        }*/
         
         public static void FalseSonLunarTamperingBuff(ILContext il) {
             ILCursor c = new ILCursor(il);
